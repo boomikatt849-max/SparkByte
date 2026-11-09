@@ -1,0 +1,459 @@
+
+<!DOCTYPE html>
+<html lang="en">
+<head>
+<meta charset="UTF-8">
+<meta name="viewport" content="width=device-width, initial-scale=1.0">
+<title>SparkByte | Coding World</title>
+<style>
+*{margin:0;padding:0;box-sizing:border-box}
+body{font-family:Arial,sans-serif;background:#f3f5f7;color:#26333d}
+header{background:#172a3a;color:white;padding:26px 7%;display:flex;justify-content:space-between;align-items:center;gap:15px;flex-wrap:wrap}
+header h1{font-size:25px;letter-spacing:1px}
+header p{color:#b9cbd8;font-size:13px;margin-top:6px}
+.back{color:white;text-decoration:none;border:1px solid #71899a;padding:10px 15px;border-radius:7px}
+.hero{padding:42px 7% 28px}
+.hero small{color:#36759a;font-weight:bold;letter-spacing:2px}
+.hero h2{font-size:34px;margin:12px 0}
+.hero p{color:#687781;line-height:1.7;max-width:700px}
+.stats{display:flex;gap:12px;flex-wrap:wrap;margin-top:23px}
+.stat{background:white;border:1px solid #e0e5e8;padding:14px 20px;border-radius:9px;min-width:130px}
+.stat strong{display:block;color:#276a91;font-size:22px}
+.stat span{font-size:12px;color:#79858c}
+.section{padding:20px 7%}
+.section h2{font-size:23px;margin-bottom:7px}
+.section p{font-size:14px;color:#77828a}
+.modules{padding:15px 7% 35px;display:grid;grid-template-columns:repeat(auto-fit,minmax(225px,1fr));gap:17px}
+.card{background:white;border:1px solid #e0e5e8;border-radius:12px;padding:21px;min-height:220px;display:flex;flex-direction:column;transition:.2s}
+.card:hover{transform:translateY(-3px);box-shadow:0 7px 20px #0000000b}
+.num{font-size:12px;color:#6e8798;font-weight:bold}
+.symbol{font-size:30px;margin:13px 0}
+.card h3{font-size:18px;margin-bottom:9px}
+.card p{font-size:13px;line-height:1.6;color:#71808a;flex:1}
+button{border:0;border-radius:7px;padding:11px 15px;font-weight:bold;cursor:pointer}
+.primary{background:#286487;color:white;margin-top:14px}
+.primary:hover{background:#174762}
+.workspace{display:none;background:white;border:1px solid #e0e5e8;border-radius:13px;margin:0 7% 35px;padding:24px}
+.workspace.active{display:block}
+.workspace h2{margin-bottom:8px}
+.desc{font-size:14px;color:#74818a;line-height:1.6;margin-bottom:18px}
+.close{float:right;background:#edf1f3;color:#40515b}
+label{font-size:13px;font-weight:bold;display:block;margin:13px 0 7px}
+select,input,textarea{padding:10px;border:1px solid #d7dfe4;border-radius:7px;font:inherit;max-width:100%}
+textarea{width:100%;min-height:100px;resize:vertical}
+select{width:100%}
+.row{display:flex;gap:12px;align-items:center;flex-wrap:wrap}
+.info{background:#eef4f7;padding:14px;border-radius:8px;color:#506977;line-height:1.6;font-size:13px;margin-top:14px}
+.question{background:#f6f8f9;padding:17px;border-radius:9px;margin:15px 0}
+.options{display:grid;gap:9px;margin-top:13px}
+.options button{text-align:left;background:white;border:1px solid #dce3e7;color:#344651}
+.options button:hover{background:#edf4f8}
+.result{margin-top:13px;font-weight:bold;color:#286487}
+.code{background:#172633;color:#d8e7ef;padding:17px;border-radius:9px;overflow-x:auto;font-family:Consolas,monospace;line-height:1.7;margin:12px 0;white-space:pre-wrap}
+.output{background:#edf3f5;padding:12px;border-radius:7px;margin-top:12px;color:#34566a}
+.project{border:1px solid #e0e5e8;padding:16px;border-radius:9px;margin:12px 0}
+.project h3{margin-bottom:8px}
+.project p{font-size:13px;color:#74808a;line-height:1.6}
+footer{text-align:center;padding:25px;color:#87929a;font-size:13px}
+@media(max-width:600px){.hero h2{font-size:27px}.workspace{margin:0 3% 25px;padding:16px}}
+
+@media (max-width: 768px) {
+    .container {
+        width: 94%;
+        padding: 12px;
+    }
+
+    .grid,
+    .cards,
+    .world-grid {
+        grid-template-columns: repeat(2, minmax(0, 1fr));
+        gap: 12px;
+    }
+
+    h1 {
+        font-size: 28px;
+    }
+
+    button {
+        max-width: 100%;
+    }
+
+    pre, code {
+        white-space: pre-wrap;
+        overflow-wrap: anywhere;
+    }
+}
+
+@media (max-width: 480px) {
+    .grid,
+    .cards,
+    .world-grid {
+        grid-template-columns: 1fr;
+    }
+
+    body {
+        font-size: 14px;
+    }
+
+    h1 {
+        font-size: 24px;
+    }
+
+    input,
+    textarea,
+    select {
+        max-width: 100%;
+        box-sizing: border-box;
+    }
+}
+</style>
+</head>
+<body>
+
+<header>
+ <div>
+  <h1>SPARKBYTE / CODING WORLD</h1>
+  <p>Programming · Logic · Algorithms · Applied Computing</p>
+ </div>
+ <a href="index.html" class="back">← Dashboard</a>
+</header>
+
+<section class="hero">
+ <small>TECHNICAL LEARNING ENVIRONMENT</small>
+ <h2>Think. Code. Solve.</h2>
+ <p>Develop programming knowledge through interactive coding exercises, debugging tasks, algorithm challenges and practical project planning.</p>
+ <div class="stats">
+  <div class="stat"><strong>04</strong><span>Learning Modules</span></div>
+  <div class="stat"><strong id="score">0</strong><span>Total Points</span></div>
+  <div class="stat"><strong id="explored">0</strong><span>Modules Explored</span></div>
+ </div>
+</section>
+
+<section class="section">
+ <h2>Programming Learning Modules</h2>
+ <p>Choose a module and begin your coding practice.</p>
+</section>
+
+<section class="modules">
+ <article class="card">
+  <span class="num">MODULE 01</span><div class="symbol">⌨️</div>
+  <h3>Python Programming Lab</h3>
+  <p>Learn Python syntax, variables, data types, loops, conditions and functions.</p>
+  <button class="primary" onclick="openModule('python')">Enter Lab →</button>
+ </article>
+ <article class="card">
+  <span class="num">MODULE 02</span><div class="symbol">🔍</div>
+  <h3>Code Prediction & Debugging</h3>
+  <p>Predict program outputs and identify common programming errors.</p>
+  <button class="primary" onclick="openModule('debug')">Start Debugging →</button>
+ </article>
+ <article class="card">
+  <span class="num">MODULE 03</span><div class="symbol">⚙️</div>
+  <h3>Data Structures & Algorithms</h3>
+  <p>Explore arrays, stacks, queues, searching, sorting and algorithm concepts.</p>
+  <button class="primary" onclick="openModule('algorithms')">Explore Algorithms →</button>
+ </article>
+ <article class="card">
+  <span class="num">MODULE 04</span><div class="symbol">🧠</div>
+  <h3>Programming Problem Solving</h3>
+  <p>Solve practical programming problems using logic and structured thinking.</p>
+  <button class="primary" onclick="openModule('problems')">Solve Problems →</button>
+ </article>
+</section>
+
+<!-- PYTHON -->
+<section class="workspace" id="python">
+ <button class="close" onclick="closeModules()">Close ✕</button>
+ <h2>Python Programming Lab</h2>
+ <p class="desc">Test your Python fundamentals through interactive questions.</p>
+ <label>Difficulty level</label>
+ <select id="pyLevel" onchange="startPython()">
+  <option value="beginner">Beginner</option>
+  <option value="intermediate">Intermediate</option>
+  <option value="advanced">Advanced</option>
+ </select>
+ <div class="question">
+  <p id="pyCount"></p>
+  <h3 id="pyQuestion"></h3>
+  <div class="options" id="pyOptions"></div>
+  <p class="result" id="pyResult"></p>
+ </div>
+ <button class="primary" onclick="nextPython()">Next Question →</button>
+</section>
+
+<!-- DEBUGGING -->
+<section class="workspace" id="debug">
+ <button class="close" onclick="closeModules()">Close ✕</button>
+ <h2>Code Prediction & Debugging</h2>
+ <p class="desc">Read the code carefully and predict its output or identify the error.</p>
+ <label>Challenge category</label>
+ <select id="debugType" onchange="startDebug()">
+  <option value="output">Predict the Output</option>
+  <option value="error">Find the Error</option>
+ </select>
+ <div class="question">
+  <p id="debugCount"></p>
+  <pre class="code" id="debugCode"></pre>
+  <div class="options" id="debugOptions"></div>
+  <p class="result" id="debugResult"></p>
+ </div>
+ <button class="primary" onclick="nextDebug()">Next Challenge →</button>
+</section>
+
+<!-- ALGORITHMS -->
+<section class="workspace" id="algorithms">
+ <button class="close" onclick="closeModules()">Close ✕</button>
+ <h2>Data Structures & Algorithms</h2>
+ <p class="desc">Understand fundamental computer science concepts through short challenges.</p>
+ <label>Choose topic</label>
+ <select id="algoTopic" onchange="startAlgo()">
+  <option value="data">Data Structures</option>
+  <option value="search">Searching Algorithms</option>
+  <option value="sort">Sorting Algorithms</option>
+ </select>
+ <div class="question">
+  <p id="algoCount"></p>
+  <h3 id="algoQuestion"></h3>
+  <div class="options" id="algoOptions"></div>
+  <p class="result" id="algoResult"></p>
+  <div class="info" id="algoExplanation"></div>
+ </div>
+ <button class="primary" onclick="nextAlgo()">Next Concept →</button>
+</section>
+
+<!-- PROBLEMS -->
+<section class="workspace" id="problems">
+ <button class="close" onclick="closeModules()">Close ✕</button>
+ <h2>Programming Problem Solving</h2>
+ <p class="desc">Read the problem statement and write a solution in Python. Your answer is checked against a simple expected-output test.</p>
+ <label>Difficulty</label>
+ <select id="problemLevel" onchange="startProblem()">
+  <option value="beginner">Beginner</option>
+  <option value="intermediate">Intermediate</option>
+  <option value="advanced">Advanced</option>
+ </select>
+ <div class="question">
+  <p id="problemCount"></p>
+  <h3 id="problemTitle"></h3>
+  <p id="problemDescription" style="margin-top:10px;line-height:1.6;color:#687781"></p>
+  <pre class="code" id="problemExample"></pre>
+  <label>Your Python solution</label>
+  <textarea id="solution" placeholder="Write your Python code here..."></textarea>
+  <button class="primary" onclick="checkProblem()">Check Solution</button>
+  <p class="result" id="problemResult"></p>
+ </div>
+ <button class="primary" onclick="nextProblem()">Next Problem →</button>
+ <div class="info">Note: This learning page checks your submitted code against expected answer patterns. It does not execute Python. Test your programs in a Python environment for full verification.</div>
+</section>
+
+<footer>SPARKBYTE · Coding World · Learn by Building</footer>
+
+<script>
+let totalScore=0;
+let explored=new Set();
+function addPoints(n){
+ totalScore+=n;
+ document.getElementById("score").textContent=totalScore;
+}
+function openModule(id){
+ closeModules();
+ document.getElementById(id).classList.add("active");
+ document.getElementById(id).scrollIntoView({behavior:"smooth"});
+ explored.add(id);
+ document.getElementById("explored").textContent=explored.size;
+}
+function closeModules(){
+ document.querySelectorAll(".workspace").forEach(x=>x.classList.remove("active"));
+}
+function shuffleQuestion(list,index){
+ return list[index%list.length];
+}
+
+// PYTHON QUESTIONS
+const pythonData={
+ beginner:[
+  {q:"Which keyword is used to define a function in Python?",a:["function","def","func","define"],c:1,e:"The def keyword is used to define a function."},
+  {q:"Which data type stores True or False?",a:["int","str","bool","float"],c:2,e:"bool stores Boolean values: True and False."},
+  {q:"Which symbol is used for a comment in Python?",a:["//","#","/*","--"],c:1,e:"The # symbol starts a single-line Python comment."},
+  {q:"What is the output of print(5 + 3)?",a:["53","8","2","Error"],c:1,e:"The + operator adds two numbers."},
+  {q:"Which collection stores ordered, changeable items?",a:["tuple","list","set","None"],c:1,e:"A list is ordered and mutable."}
+ ],
+ intermediate:[
+  {q:"What does len([2,4,6]) return?",a:["2","3","6","4"],c:1,e:"There are three elements in the list."},
+  {q:"What is the output of 10 // 3?",a:["3.33","3","1","4"],c:1,e:"// performs floor division."},
+  {q:"Which method adds an item to a list?",a:["push()","append()","insertEnd()","addLast()"],c:1,e:"append() adds an item at the end."},
+  {q:"What does range(2,5) produce?",a:["2,3,4,5","2,3,4","1,2,3,4","3,4,5"],c:1,e:"The stop value 5 is excluded."},
+  {q:"Which block handles exceptions?",a:["catch","error","except","final"],c:2,e:"except handles exceptions in Python."}
+ ],
+ advanced:[
+  {q:"What is the output of bool([])?",a:["True","False","None","Error"],c:1,e:"An empty list is falsy."},
+  {q:"Which structure is commonly used for key-value pairs?",a:["List","Tuple","Dictionary","String"],c:2,e:"Dictionaries store key-value pairs."},
+  {q:"What does a lambda expression create?",a:["A class","An anonymous function","A loop","A module"],c:1,e:"lambda creates a small anonymous function."},
+  {q:"What is the purpose of __init__?",a:["Destroy object","Initialize object","Import module","Start loop"],c:1,e:"__init__ initializes a new object instance."},
+  {q:"Which keyword creates a generator value?",a:["return","yield","send","break"],c:1,e:"yield produces values from a generator."}
+ ]
+};
+let pyIndex=0,pyDone=false,pySet=[];
+function startPython(){pyIndex=0;pySet=pythonData[document.getElementById("pyLevel").value];showPython()}
+function showPython(){
+ pyDone=false;
+ let q=pySet[pyIndex%pySet.length];
+ document.getElementById("pyCount").textContent="Question "+(pyIndex+1)+" / 5";
+ document.getElementById("pyQuestion").textContent=q.q;
+ document.getElementById("pyResult").textContent="";
+ const area=document.getElementById("pyOptions");area.innerHTML="";
+ q.a.forEach((v,i)=>{
+  const b=document.createElement("button");b.textContent=v;
+  b.onclick=()=>{
+   if(pyDone)return;pyDone=true;
+   if(i===q.c){document.getElementById("pyResult").textContent="Correct! +10 points. "+q.e;addPoints(10)}
+   else document.getElementById("pyResult").textContent="Not quite. "+q.e;
+  };
+  area.appendChild(b);
+ });
+}
+function nextPython(){pyIndex++;showPython()}
+startPython();
+
+// DEBUGGING QUESTIONS
+const debugData={
+ output:[
+  {code:"x = 4\nx = x * 2\nprint(x)",a:["4","6","8","2"],c:2,e:"x becomes 8 after multiplication."},
+  {code:"for i in range(3):\n    print(i)",a:["1 2 3","0 1 2","0 1 2 3","3"],c:1,e:"range(3) produces 0, 1 and 2."},
+  {code:"name = 'AI'\nprint(len(name))",a:["1","2","3","Error"],c:1,e:"The string AI contains two characters."},
+  {code:"a = [2, 4]\na.append(6)\nprint(a)",a:["[2,4]","[2,4,6]","[6,2,4]","Error"],c:1,e:"append adds 6 to the end."},
+  {code:"print(9 % 4)",a:["2","1","4","2.25"],c:0,e:"9 divided by 4 leaves remainder 1? Actually 9 % 4 is 1."}
+ ],
+ error:[
+  {code:"if x > 5\n    print(x)",a:["Missing colon","Wrong variable type","Missing brackets","No error"],c:0,e:"An if statement must end with a colon."},
+  {code:"for i in range(5)\n    print(i)",a:["Missing colon","Missing print","Wrong range","No error"],c:0,e:"The for statement needs a colon."},
+  {code:"print('Hello)",a:["Missing closing quote","Missing colon","Wrong function","No error"],c:0,e:"The string needs a matching closing quote."},
+  {code:"numbers = [1, 2, 3]\nprint(numbers[3])",a:["Syntax error","Index out of range","Indentation error","No error"],c:1,e:"Valid indices are 0, 1 and 2."},
+  {code:"def greet():\nprint('Hi')",a:["Missing indentation","Missing variable","Missing colon","No error"],c:0,e:"The function body must be indented."}
+ ]
+};
+let debugIndex=0,debugDone=false,debugSet=[];
+function startDebug(){debugIndex=0;debugSet=debugData[document.getElementById("debugType").value];showDebug()}
+function showDebug(){
+ debugDone=false;
+ const q=debugSet[debugIndex%debugSet.length];
+ document.getElementById("debugCount").textContent="Challenge "+(debugIndex+1)+" / 5";
+ document.getElementById("debugCode").textContent=q.code;
+ document.getElementById("debugResult").textContent="";
+ const area=document.getElementById("debugOptions");area.innerHTML="";
+ q.a.forEach((v,i)=>{
+  const b=document.createElement("button");b.textContent=v;
+  b.onclick=()=>{
+   if(debugDone)return;debugDone=true;
+   if(i===q.c){document.getElementById("debugResult").textContent="Correct! +10 points. "+q.e;addPoints(10)}
+   else document.getElementById("debugResult").textContent="Review: "+q.e;
+  };
+  area.appendChild(b);
+ });
+}
+function nextDebug(){debugIndex++;showDebug()}
+startDebug();
+
+// ALGORITHMS
+const algoData={
+ data:[
+  {q:"Which data structure follows LIFO?",a:["Queue","Stack","Array","Tree"],c:1,e:"Stack follows Last In, First Out."},
+  {q:"Which data structure follows FIFO?",a:["Stack","Queue","Graph","Tree"],c:1,e:"Queue follows First In, First Out."},
+  {q:"Which structure stores elements using indexes?",a:["Array","Stack only","Queue only","Graph"],c:0,e:"Array elements can be accessed using indexes."},
+  {q:"Which structure uses nodes and links?",a:["Linked List","Integer","String","Boolean"],c:0,e:"Linked lists connect nodes using references."},
+  {q:"Which data structure represents hierarchical relationships?",a:["Stack","Queue","Tree","Array"],c:2,e:"Trees represent hierarchical relationships."}
+ ],
+ search:[
+  {q:"Which searching algorithm checks items one by one?",a:["Binary search","Linear search","Merge sort","Quick sort"],c:1,e:"Linear search examines each element sequentially."},
+  {q:"Binary search requires what?",a:["Unsorted data","Sorted data","Only strings","A stack"],c:1,e:"Binary search works on sorted data."},
+  {q:"Binary search repeatedly divides the search range into how many parts?",a:["2","3","4","5"],c:0,e:"It divides the search range into two halves."},
+  {q:"Which search method is simple for a small unsorted list?",a:["Linear search","Binary search","Merge sort","DFS only"],c:0,e:"Linear search does not require sorted data."},
+  {q:"What is the average time complexity of binary search?",a:["O(n)","O(log n)","O(n²)","O(1) always"],c:1,e:"Binary search halves the search range each step."}
+ ],
+ sort:[
+  {q:"Which sorting method repeatedly compares adjacent elements?",a:["Bubble sort","Binary search","Linear search","DFS"],c:0,e:"Bubble sort compares adjacent elements."},
+  {q:"Which algorithm uses divide and conquer?",a:["Merge sort","Linear search","Bubble sort only","Queue"],c:0,e:"Merge sort divides data and merges sorted parts."},
+  {q:"Which sorting algorithm selects a pivot?",a:["Insertion sort","Quick sort","Bubble sort","Linear search"],c:1,e:"Quick sort partitions around a pivot."},
+  {q:"What is the purpose of sorting?",a:["Arrange data in order","Delete all data","Encrypt files","Create variables"],c:0,e:"Sorting arranges items in a specified order."},
+  {q:"Which method builds a sorted portion one item at a time?",a:["Insertion sort","Binary search","BFS","Queue"],c:0,e:"Insertion sort inserts each item into its correct position."}
+ ]
+};
+let algoIndex=0,algoDone=false,algoSet=[];
+function startAlgo(){algoIndex=0;algoSet=algoData[document.getElementById("algoTopic").value];showAlgo()}
+function showAlgo(){
+ algoDone=false;
+ const q=algoSet[algoIndex%algoSet.length];
+ document.getElementById("algoCount").textContent="Concept "+(algoIndex+1)+" / 5";
+ document.getElementById("algoQuestion").textContent=q.q;
+ document.getElementById("algoExplanation").textContent="Choose an answer to see the explanation.";
+ document.getElementById("algoResult").textContent="";
+ const area=document.getElementById("algoOptions");area.innerHTML="";
+ q.a.forEach((v,i)=>{
+  const b=document.createElement("button");b.textContent=v;
+  b.onclick=()=>{
+   if(algoDone)return;algoDone=true;
+   if(i===q.c){document.getElementById("algoResult").textContent="Correct! +10 points";addPoints(10)}
+   else document.getElementById("algoResult").textContent="Incorrect. Correct answer: "+q.a[q.c];
+   document.getElementById("algoExplanation").textContent=q.e;
+  };
+  area.appendChild(b);
+ });
+}
+function nextAlgo(){algoIndex++;showAlgo()}
+startAlgo();
+
+// PROBLEM SOLVING
+const problemData={
+ beginner:[
+  {title:"Add Two Numbers",desc:"Write a Python program that adds two numbers: 5 and 7.",example:"Expected output: 12",answer:"print(5 + 7)",patterns:[/print\s*\(\s*5\s*\+\s*7\s*\)/]},
+  {title:"Even or Odd",desc:"Write a program that checks whether 8 is even or odd.",example:"Expected output: Even",answer:"if 8 % 2 == 0:\n    print('Even')",patterns:[/8\s*%\s*2\s*==\s*0/,/print\s*\(\s*['\"]Even['\"]\s*\)/]},
+  {title:"Find the Largest",desc:"Write a program to display the largest number among 4, 9 and 6.",example:"Expected output: 9",answer:"print(max(4, 9, 6))",patterns:[/max\s*\(\s*4\s*,\s*9\s*,\s*6\s*\)/]},
+  {title:"Count Characters",desc:"Write a program to find the length of the word 'Python'.",example:"Expected output: 6",answer:"print(len('Python'))",patterns:[/len\s*\(\s*['\"]Python['\"]\s*\)/]},
+  {title:"Sum a List",desc:"Write a program to find the sum of [2, 3, 5].",example:"Expected output: 10",answer:"print(sum([2, 3, 5]))",patterns:[/sum\s*\(\s*\[\s*2\s*,\s*3\s*,\s*5\s*\]\s*\)/]}
+ ],
+ intermediate:[
+  {title:"Reverse a String",desc:"Write a program to reverse the word 'hello'.",example:"Expected output: olleh",answer:"print('hello'[::-1])",patterns:[/['\"]hello['\"]\s*\[\s*::\s*-1\s*\]/,/reversed\s*\(\s*['\"]hello['\"]\s*\)/]},
+  {title:"Count List Items",desc:"Find the number of elements in [10, 20, 30, 40].",example:"Expected output: 4",answer:"print(len([10,20,30,40]))",patterns:[/len\s*\(\s*\[\s*10\s*,\s*20\s*,\s*30\s*,\s*40\s*\]\s*\)/]},
+  {title:"Filter Even Numbers",desc:"Display even numbers from [1, 2, 3, 4, 5, 6].",example:"Expected output: 2, 4, 6",answer:"print([x for x in [1,2,3,4,5,6] if x % 2 == 0])",patterns:[/for\s+\w+\s+in\s+\[\s*1\s*,\s*2\s*,\s*3\s*,\s*4\s*,\s*5\s*,\s*6\s*\]/,/if\s+\w+\s*%\s*2\s*==\s*0/]},
+  {title:"Dictionary Access",desc:"Create a dictionary with name='Ana' and print the name value.",example:"Expected output: Ana",answer:"student = {'name':'Ana'}\nprint(student['name'])",patterns:[/['\"]name['\"]\s*:\s*['\"]Ana['\"]/,/print\s*\(\s*\w+\s*\[\s*['\"]name['\"]\s*\]\s*\)/]},
+  {title:"Factorial",desc:"Calculate the factorial of 4 using a loop or math.factorial.",example:"Expected output: 24",answer:"import math\nprint(math.factorial(4))",patterns:[/factorial\s*\(\s*4\s*\)/,/range\s*\(\s*1\s*,\s*5\s*\)/]}
+ ],
+ advanced:[
+  {title:"List Comprehension",desc:"Create a list of squares for numbers 1, 2 and 3.",example:"Expected output: [1, 4, 9]",answer:"print([x*x for x in [1,2,3]])",patterns:[/for\s+\w+\s+in\s+\[\s*1\s*,\s*2\s*,\s*3\s*\]/,/print\s*\(/,/(\*\s*2|\*\s*\w+)/]},
+  {title:"Remove Duplicates",desc:"Create a unique collection from [1, 1, 2, 3, 3].",example:"Expected unique values: 1, 2, 3",answer:"print(set([1,1,2,3,3]))",patterns:[/set\s*\(\s*\[\s*1\s*,\s*1\s*,\s*2\s*,\s*3\s*,\s*3\s*\]\s*\)/]},
+  {title:"Sort a List",desc:"Sort [5, 2, 8, 1] in ascending order.",example:"Expected output: [1, 2, 5, 8]",answer:"print(sorted([5,2,8,1]))",patterns:[/sorted\s*\(\s*\[\s*5\s*,\s*2\s*,\s*8\s*,\s*1\s*\]\s*\)/]},
+  {title:"Count a Character",desc:"Count how many times 'a' appears in 'banana'.",example:"Expected output: 3",answer:"print('banana'.count('a'))",patterns:[/['\"]banana['\"]\.count\s*\(\s*['\"]a['\"]\s*\)/]},
+  {title:"Find Maximum",desc:"Find the maximum value in [12, 45, 23, 67, 9].",example:"Expected output: 67",answer:"print(max([12,45,23,67,9]))",patterns:[/max\s*\(\s*\[\s*12\s*,\s*45\s*,\s*23\s*,\s*67\s*,\s*9\s*\]\s*\)/]}
+ ]
+};
+let problemIndex=0,problemSet=[];
+function startProblem(){
+ problemIndex=0;problemSet=problemData[document.getElementById("problemLevel").value];showProblem();
+}
+function showProblem(){
+ const p=problemSet[problemIndex%problemSet.length];
+ document.getElementById("problemCount").textContent="Problem "+(problemIndex+1)+" / 5";
+ document.getElementById("problemTitle").textContent=p.title;
+ document.getElementById("problemDescription").textContent=p.desc;
+ document.getElementById("problemExample").textContent=p.example;
+ document.getElementById("solution").value="";
+ document.getElementById("problemResult").textContent="";
+}
+function checkProblem(){
+ const p=problemSet[problemIndex%problemSet.length];
+ const code=document.getElementById("solution").value.trim();
+ if(!code){document.getElementById("problemResult").textContent="Write your solution first.";return}
+ const ok=p.patterns.every(rx=>rx.test(code));
+ if(ok){
+  document.getElementById("problemResult").textContent="Your solution matches the expected pattern! +15 points";
+  addPoints(15);
+ }else{
+  document.getElementById("problemResult").textContent="Not matched yet. Review the problem and try again. Hint: "+p.answer;
+ }
+}
+function nextProblem(){problemIndex++;showProblem()}
+startProblem();
+</script>
+</body>
+</html>
+

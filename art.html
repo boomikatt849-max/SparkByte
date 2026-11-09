@@ -1,0 +1,507 @@
+
+<!DOCTYPE html>
+<html lang="en">
+<head>
+<meta charset="UTF-8">
+<meta name="viewport" content="width=device-width, initial-scale=1.0">
+<title>SparkByte | Interactive Art World</title>
+<style>
+*{box-sizing:border-box;margin:0;padding:0}
+body{font-family:Arial,sans-serif;background:#f5f4f0;color:#26342d}
+header{background:#20362b;color:white;padding:25px 7%;display:flex;justify-content:space-between;align-items:center;gap:15px;flex-wrap:wrap}
+header h1{font-size:25px;letter-spacing:1px}
+header p{font-size:13px;color:#c7d6cb;margin-top:6px}
+a.back{color:white;text-decoration:none;border:1px solid #91a395;padding:10px 15px;border-radius:7px}
+.hero{padding:38px 7% 25px}
+.hero small{color:#66866e;font-weight:bold;letter-spacing:2px}
+.hero h2{font-size:34px;margin:12px 0}
+.hero p{color:#6b776f;line-height:1.7;max-width:700px}
+.stats{display:flex;gap:12px;flex-wrap:wrap;margin-top:20px}
+.stat{background:white;padding:14px 20px;border:1px solid #e4e7e0;border-radius:9px;min-width:125px}
+.stat strong{display:block;color:#426b4e;font-size:22px}
+.stat span{font-size:12px;color:#78827b}
+.section{padding:20px 7%}
+.section h2{font-size:23px;margin-bottom:7px}
+.section>p{color:#7a837c;font-size:14px}
+.games{display:grid;grid-template-columns:repeat(auto-fit,minmax(220px,1fr));gap:17px;padding:15px 7% 35px}
+.card{background:white;border:1px solid #e2e6df;border-radius:12px;padding:20px;min-height:210px;display:flex;flex-direction:column}
+.card .num{font-size:12px;color:#829386;font-weight:bold}
+.card .symbol{font-size:34px;margin:13px 0}
+.card h3{font-size:18px;margin-bottom:9px}
+.card p{font-size:13px;color:#758078;line-height:1.6;flex:1}
+button{cursor:pointer;border:0;border-radius:7px;padding:11px 15px;font-weight:bold}
+.primary{background:#365d43;color:white;margin-top:14px}
+.primary:hover{background:#254431}
+.workspace{display:none;background:white;border:1px solid #e1e6df;border-radius:13px;margin:0 7% 35px;padding:24px}
+.workspace.active{display:block}
+.workspace h2{margin-bottom:8px}
+.desc{color:#758078;line-height:1.6;font-size:14px;margin-bottom:18px}
+.close{float:right;background:#edf0eb;color:#526255}
+label{font-weight:bold;font-size:13px;display:block;margin:12px 0 7px}
+select,input,textarea{padding:10px;border:1px solid #d7ded7;border-radius:7px;font:inherit}
+input[type=color]{width:55px;height:42px;padding:3px}
+textarea{width:100%;min-height:85px}
+canvas{display:block;max-width:100%;border:1px solid #dce1db;border-radius:8px;background:white;touch-action:none;margin-top:13px}
+.row{display:flex;gap:12px;align-items:center;flex-wrap:wrap}
+.info{background:#f0f4ef;padding:13px;border-radius:8px;margin-top:13px;color:#586b5d;font-size:13px;line-height:1.6}
+.result{margin-top:12px;color:#376b46;font-weight:bold;font-size:14px}
+.options{display:flex;gap:10px;flex-wrap:wrap;margin:15px 0}
+.options button{border:1px solid #dce2da;background:#f7f8f5;color:#34483a}
+.options button:hover{background:#e7efe7}
+.animal{width:100%;max-width:390px;border:1px solid #e4e8e2;border-radius:10px;background:#f8f8f4;padding:12px}
+.animal svg{width:100%;height:auto;display:block}
+.shades{display:grid;grid-template-columns:repeat(5,minmax(40px,1fr));gap:8px;margin:15px 0}
+.shade{height:55px;border:2px solid #fff;outline:1px solid #ddd;border-radius:8px;cursor:pointer}
+.shade:focus{outline:3px solid #333}
+footer{text-align:center;padding:25px;color:#89928a;font-size:13px}
+@media(max-width:600px){.hero h2{font-size:27px}.workspace{margin:0 3% 25px;padding:16px}.games{padding-left:4%;padding-right:4%}}
+
+@media (max-width: 768px) {
+    .container {
+        width: 94%;
+        padding: 12px;
+    }
+
+    .grid,
+    .cards,
+    .modules {
+        grid-template-columns: repeat(2, minmax(0, 1fr));
+        gap: 12px;
+    }
+
+    h1 {
+        font-size: 28px;
+    }
+
+    canvas,
+    svg {
+        max-width: 100%;
+        height: auto;
+    }
+
+    button {
+        max-width: 100%;
+    }
+}
+
+@media (max-width: 480px) {
+    .grid,
+    .cards,
+    .modules {
+        grid-template-columns: 1fr;
+    }
+
+    body {
+        font-size: 14px;
+    }
+
+    h1 {
+        font-size: 24px;
+    }
+
+    input,
+    select {
+        max-width: 100%;
+        box-sizing: border-box;
+    }
+}
+</style>
+</head>
+<body>
+
+<header>
+ <div>
+  <h1>SPARKBYTE / ART WORLD</h1>
+  <p>Interactive Art · Colour · Drawing · Creative Games</p>
+ </div>
+ <a class="back" href="index.html">← Dashboard</a>
+</header>
+
+<section class="hero">
+ <small>INTERACTIVE CREATIVE STUDIO</small>
+ <h2>Play. Draw. Create.</h2>
+ <p>Explore animal drawing, digital colouring, shade recognition, colour matching and creative art games. Learn through hands-on visual challenges.</p>
+ <div class="stats">
+  <div class="stat"><strong>05</strong><span>Art Games</span></div>
+  <div class="stat"><strong id="score">0</strong><span>Total Points</span></div>
+  <div class="stat"><strong id="played">0</strong><span>Games Explored</span></div>
+ </div>
+</section>
+
+<section class="section">
+ <h2>Creative Game Collection</h2>
+ <p>Select a game to enter its interactive workspace.</p>
+</section>
+
+<section class="games">
+ <article class="card">
+  <span class="num">GAME 01</span><div class="symbol">✏️</div>
+  <h3>Animal Drawing Studio</h3>
+  <p>Observe panda and lion references. Draw them using your own digital canvas.</p>
+  <button class="primary" onclick="openGame('drawing')">Start Drawing →</button>
+ </article>
+ <article class="card">
+  <span class="num">GAME 02</span><div class="symbol">🎨</div>
+  <h3>Colour the Picture</h3>
+  <p>Fill different areas of animal pictures with colours. Complete the artwork.</p>
+  <button class="primary" onclick="openGame('colouring')">Start Colouring →</button>
+ </article>
+ <article class="card">
+  <span class="num">GAME 03</span><div class="symbol">🟩</div>
+  <h3>Shade Detective</h3>
+  <p>Identify the exact shade from a group of similar colours. Test your observation.</p>
+  <button class="primary" onclick="openGame('shade')">Find the Shade →</button>
+ </article>
+ <article class="card">
+  <span class="num">GAME 04</span><div class="symbol">🌈</div>
+  <h3>Colour Master</h3>
+  <p>Match colours, understand colour combinations and solve visual palette challenges.</p>
+  <button class="primary" onclick="openGame('master')">Play Challenge →</button>
+ </article>
+ <article class="card">
+  <span class="num">GAME 05</span><div class="symbol">🧩</div>
+  <h3>Creative Art Games</h3>
+  <p>Play colour memory, pixel patterns and missing-colour puzzles.</p>
+  <button class="primary" onclick="openGame('creative')">Play Art Games →</button>
+ </article>
+</section>
+
+<!-- DRAWING GAME -->
+<section class="workspace" id="drawing">
+ <button class="close" onclick="closeGames()">Close ✕</button>
+ <h2>Animal Drawing Studio</h2>
+ <p class="desc">Choose an animal reference. Observe its shapes and draw your own version on the canvas.</p>
+ <label>Choose reference</label>
+ <select id="animalChoice" onchange="showAnimal()">
+  <option value="panda">Panda</option>
+  <option value="lion">Lion</option>
+ </select>
+ <div class="animal" id="animalReference"></div>
+ <div class="info">Drawing task: Observe the outline, head shape, ears, eyes and body proportions. Try to recreate the animal on your canvas.</div>
+ <div class="row">
+  <div><label>Brush colour</label><input type="color" id="drawColor" value="#222222"></div>
+  <div><label>Brush size</label><input type="range" id="drawSize" min="1" max="30" value="5"></div>
+  <div><label>Tool</label><select id="drawTool"><option value="brush">Brush</option><option value="eraser">Eraser</option></select></div>
+ </div>
+ <canvas id="drawBoard" width="700" height="380"></canvas>
+ <div class="row">
+  <button class="primary" onclick="clearDraw()">Clear</button>
+  <button class="primary" onclick="downloadCanvas('drawBoard','animal-drawing.png')">Download Artwork</button>
+ </div>
+</section>
+
+<!-- COLOURING GAME -->
+<section class="workspace" id="colouring">
+ <button class="close" onclick="closeGames()">Close ✕</button>
+ <h2>Colour the Picture</h2>
+ <p class="desc">Select an animal, choose a colour and click the different sections to fill the picture.</p>
+ <label>Choose picture</label>
+ <select id="colourAnimal" onchange="makeColourPicture()">
+  <option value="panda">Panda</option>
+  <option value="lion">Lion</option>
+ </select>
+ <label>Choose colour</label>
+ <div class="options" id="colourOptions">
+  <button style="background:#222;color:white" onclick="setFill('#222222')">Black</button>
+  <button style="background:#e9c46a" onclick="setFill('#e9c46a')">Yellow</button>
+  <button style="background:#e76f51;color:white" onclick="setFill('#e76f51')">Orange</button>
+  <button style="background:#72a875;color:white" onclick="setFill('#72a875')">Green</button>
+  <button style="background:#f2a6bd" onclick="setFill('#f2a6bd')">Pink</button>
+  <button style="background:#fff;border:1px solid #ccc" onclick="setFill('#ffffff')">White</button>
+ </div>
+ <div class="animal" id="colourPicture"></div>
+ <div class="row">
+  <button class="primary" onclick="resetColour()">Reset Picture</button>
+  <button class="primary" onclick="colourScore()">Check Colouring</button>
+ </div>
+ <p class="result" id="colourResult"></p>
+ <div class="info">Try your own colour combinations. The aim is to explore colour choices, not just copy a fixed answer.</div>
+</section>
+
+<!-- SHADE GAME -->
+<section class="workspace" id="shade">
+ <button class="close" onclick="closeGames()">Close ✕</button>
+ <h2>Shade Detective</h2>
+ <p class="desc">Look carefully at the target colour. Select the exact matching shade from the options.</p>
+ <div class="info">TARGET SHADE</div>
+ <div id="targetShade" style="height:95px;border-radius:10px;margin-top:12px;border:1px solid #ddd"></div>
+ <p id="shadeQuestion" style="margin-top:15px;font-weight:bold">Find the exact shade.</p>
+ <div class="shades" id="shadeOptions"></div>
+ <p class="result" id="shadeResult"></p>
+ <button class="primary" onclick="newShade()">Next Shade →</button>
+</section>
+
+<!-- COLOUR MASTER -->
+<section class="workspace" id="master">
+ <button class="close" onclick="closeGames()">Close ✕</button>
+ <h2>Colour Master Challenge</h2>
+ <p class="desc">Test your understanding of colour theory and visual combinations.</p>
+ <div class="info" id="masterQuestion"></div>
+ <div class="options" id="masterOptions"></div>
+ <p class="result" id="masterResult"></p>
+ <button class="primary" onclick="nextMaster()">Next Challenge →</button>
+</section>
+
+<!-- CREATIVE GAMES -->
+<section class="workspace" id="creative">
+ <button class="close" onclick="closeGames()">Close ✕</button>
+ <h2>Creative Art Games</h2>
+ <p class="desc">Choose a mini game and test your visual creativity.</p>
+ <label>Choose game</label>
+ <select id="miniGame" onchange="startMini()">
+  <option value="memory">Colour Memory</option>
+  <option value="missing">Missing Colour</option>
+  <option value="pixel">Pixel Pattern</option>
+ </select>
+ <div id="miniArea"></div>
+ <p class="result" id="miniResult"></p>
+</section>
+
+<footer>SPARKBYTE · Interactive Art World · Learn through creativity</footer>
+
+<script>
+let totalScore=0,played=new Set();
+function points(n){
+ totalScore+=n;
+ document.getElementById("score").textContent=totalScore;
+}
+function openGame(id){
+ closeGames();
+ document.getElementById(id).classList.add("active");
+ document.getElementById(id).scrollIntoView({behavior:"smooth"});
+ played.add(id);
+ document.getElementById("played").textContent=played.size;
+}
+function closeGames(){
+ document.querySelectorAll(".workspace").forEach(x=>x.classList.remove("active"));
+}
+
+// Animal SVG references
+function animalSVG(animal,colourMode=false){
+ if(animal==="panda"){
+ return `<svg viewBox="0 0 300 270" aria-label="Panda illustration">
+ <rect width="300" height="270" fill="#f5f5ef"/>
+ <g stroke="#252525" stroke-width="5" stroke-linejoin="round">
+ <ellipse data-part="body" cx="150" cy="202" rx="75" ry="52" fill="#fff"/>
+ <circle data-part="ear" cx="91" cy="72" r="27" fill="#252525"/>
+ <circle data-part="ear" cx="209" cy="72" r="27" fill="#252525"/>
+ <circle data-part="face" cx="150" cy="115" r="83" fill="#fff"/>
+ <ellipse data-part="patch" cx="119" cy="111" rx="17" ry="24" transform="rotate(25 119 111)" fill="#252525"/>
+ <ellipse data-part="patch" cx="181" cy="111" rx="17" ry="24" transform="rotate(-25 181 111)" fill="#252525"/>
+ <circle cx="119" cy="112" r="5" fill="#fff"/>
+ <circle cx="181" cy="112" r="5" fill="#fff"/>
+ <ellipse data-part="nose" cx="150" cy="143" rx="12" ry="8" fill="#252525"/>
+ <path d="M150 151 Q139 168 126 157 M150 151 Q161 168 174 157" fill="none"/>
+ <ellipse data-part="arm" cx="87" cy="194" rx="23" ry="40" transform="rotate(25 87 194)" fill="#252525"/>
+ <ellipse data-part="arm" cx="213" cy="194" rx="23" ry="40" transform="rotate(-25 213 194)" fill="#252525"/>
+ </g></svg>`;
+ }
+ return `<svg viewBox="0 0 300 270" aria-label="Lion illustration">
+ <rect width="300" height="270" fill="#f5f5ef"/>
+ <g stroke="#654b2b" stroke-width="5" stroke-linejoin="round">
+ <circle data-part="mane" cx="150" cy="125" r="105" fill="#d68c36"/>
+ <circle data-part="face" cx="150" cy="123" r="67" fill="#f2c77d"/>
+ <circle data-part="ear" cx="98" cy="75" r="19" fill="#f2c77d"/>
+ <circle data-part="ear" cx="202" cy="75" r="19" fill="#f2c77d"/>
+ <ellipse cx="125" cy="116" rx="8" ry="11" fill="#493c2c"/>
+ <ellipse cx="175" cy="116" rx="8" ry="11" fill="#493c2c"/>
+ <ellipse data-part="nose" cx="150" cy="143" rx="13" ry="9" fill="#704b37"/>
+ <path d="M150 152 Q140 166 128 158 M150 152 Q160 166 172 158" fill="none"/>
+ <ellipse data-part="body" cx="150" cy="231" rx="65" ry="30" fill="#e8bb76"/>
+ </g></svg>`;
+}
+function showAnimal(){
+ document.getElementById("animalReference").innerHTML=animalSVG(document.getElementById("animalChoice").value);
+}
+showAnimal();
+
+// Drawing canvas
+const drawBoard=document.getElementById("drawBoard"),dctx=drawBoard.getContext("2d");
+dctx.fillStyle="#fff";dctx.fillRect(0,0,700,380);
+let isDrawing=false;
+function pos(e,c){
+ const r=c.getBoundingClientRect();
+ return {x:(e.clientX-r.left)*c.width/r.width,y:(e.clientY-r.top)*c.height/r.height};
+}
+drawBoard.addEventListener("pointerdown",e=>{
+ isDrawing=true;drawBoard.setPointerCapture(e.pointerId);
+ let p=pos(e,drawBoard);dctx.beginPath();dctx.moveTo(p.x,p.y);dctx.lineTo(p.x+.1,p.y+.1);strokeDraw();
+});
+drawBoard.addEventListener("pointermove",e=>{
+ if(!isDrawing)return;
+ let p=pos(e,drawBoard);dctx.lineTo(p.x,p.y);strokeDraw();
+});
+function strokeDraw(){
+ dctx.strokeStyle=document.getElementById("drawTool").value==="eraser"?"white":document.getElementById("drawColor").value;
+ dctx.lineWidth=document.getElementById("drawSize").value;
+ dctx.lineCap="round";dctx.lineJoin="round";dctx.stroke();
+}
+function endDraw(){isDrawing=false;dctx.beginPath()}
+drawBoard.addEventListener("pointerup",endDraw);
+drawBoard.addEventListener("pointercancel",endDraw);
+function clearDraw(){dctx.clearRect(0,0,700,380);dctx.fillStyle="#fff";dctx.fillRect(0,0,700,380)}
+function downloadCanvas(id,name){
+ const c=document.getElementById(id),a=document.createElement("a");
+ a.download=name;a.href=c.toDataURL("image/png");a.click();
+}
+
+// Colouring picture
+let selectedFill="#222222";
+function setFill(c){selectedFill=c}
+function makeColourPicture(){
+ const box=document.getElementById("colourPicture");
+ box.innerHTML=animalSVG(document.getElementById("colourAnimal").value,true);
+ box.querySelectorAll("[data-part]").forEach(part=>{
+  part.style.cursor="pointer";
+  part.addEventListener("click",()=>{part.setAttribute("fill",selectedFill);part.dataset.coloured="yes"});
+ });
+ document.getElementById("colourResult").textContent="";
+}
+function resetColour(){makeColourPicture()}
+function colourScore(){
+ const parts=document.querySelectorAll("#colourPicture [data-part]");
+ let count=0;parts.forEach(p=>{if(p.dataset.coloured==="yes")count++});
+ if(count===0){document.getElementById("colourResult").textContent="Choose a colour and fill some parts first.";return}
+ document.getElementById("colourResult").textContent="Great! You coloured "+count+" picture sections. Keep experimenting!";
+ points(count*2);
+}
+makeColourPicture();
+
+// Shade Detective
+let currentShade="",shadeAnswered=false;
+function newShade(){
+ const base=Math.floor(Math.random()*360);
+ const saturation=45+Math.floor(Math.random()*35);
+ const light=35+Math.floor(Math.random()*30);
+ currentShade=`hsl(${base}, ${saturation}%, ${light}%)`;
+ document.getElementById("targetShade").style.background=currentShade;
+ const options=[currentShade];
+ while(options.length<5){
+  const hue=(base+Math.floor(Math.random()*75)-37+360)%360;
+  const l=Math.max(15,Math.min(85,light+Math.floor(Math.random()*36)-18));
+  const s=Math.max(20,Math.min(90,saturation+Math.floor(Math.random()*35)-17));
+  options.push(`hsl(${hue}, ${s}%, ${l}%)`);
+ }
+ options.sort(()=>Math.random()-.5);
+ const area=document.getElementById("shadeOptions");
+ area.innerHTML="";
+ shadeAnswered=false;
+ options.forEach(c=>{
+  const b=document.createElement("button");
+  b.className="shade";b.style.background=c;b.setAttribute("aria-label","Choose this shade");
+  b.onclick=()=>{
+   if(shadeAnswered)return;
+   shadeAnswered=true;
+   if(c===currentShade){
+    document.getElementById("shadeResult").textContent="Correct! You found the exact shade. +10 points";
+    points(10);
+   }else{
+    document.getElementById("shadeResult").textContent="Not quite! Look carefully at the target and try the next round.";
+   }
+  };
+  area.appendChild(b);
+ });
+ document.getElementById("shadeResult").textContent="";
+}
+newShade();
+
+// Colour Master questions
+const masterQuestions=[
+ {q:"Which pair creates a complementary colour combination?",a:["Red and green","Red and orange","Blue and green"],correct:0},
+ {q:"Which colours are traditional primary colours in painting?",a:["Red, yellow and blue","Green, purple and orange","Pink, brown and grey"],correct:0},
+ {q:"What is a gradient?",a:["A gradual transition between colours","A black outline","A repeated shape"],correct:0},
+ {q:"Which colour is commonly associated with a warm palette?",a:["Orange","Blue","Violet"],correct:0},
+ {q:"What does contrast help a designer achieve?",a:["Make important elements stand out","Remove all colours","Make every object identical"],correct:0}
+];
+let masterIndex=0,masterDone=false;
+function nextMaster(){
+ masterDone=false;
+ const q=masterQuestions[masterIndex%masterQuestions.length];
+ document.getElementById("masterQuestion").textContent="Challenge "+(masterIndex+1)+": "+q.q;
+ const area=document.getElementById("masterOptions");area.innerHTML="";
+ q.a.forEach((answer,i)=>{
+  const b=document.createElement("button");b.textContent=answer;
+  b.onclick=()=>{
+   if(masterDone)return;masterDone=true;
+   if(i===q.correct){
+    document.getElementById("masterResult").textContent="Correct answer! +10 points";
+    points(10);
+   }else{
+    document.getElementById("masterResult").textContent="Good try! Correct answer: "+q.a[q.correct];
+   }
+  };
+  area.appendChild(b);
+ });
+ document.getElementById("masterResult").textContent="";
+ masterIndex++;
+}
+nextMaster();
+
+// Creative mini games
+function startMini(){
+ const type=document.getElementById("miniGame").value;
+ const area=document.getElementById("miniArea");
+ document.getElementById("miniResult").textContent="";
+ if(type==="memory"){
+  const colours=["#e76f51","#457b9d","#e9c46a","#72a875"];
+  const target=colours[Math.floor(Math.random()*colours.length)];
+  area.innerHTML=`<p style="margin-top:15px">Remember this colour for a moment, then select it below.</p><div id="memoryTarget" style="height:70px;background:${target};border-radius:8px;margin:12px 0"></div><button class="primary" id="hideMemory">Hide & Play</button><div class="options" id="memoryOptions" style="display:none"></div>`;
+  document.getElementById("hideMemory").onclick=()=>{
+   document.getElementById("memoryTarget").style.visibility="hidden";
+   document.getElementById("memoryOptions").style.display="flex";
+   colours.slice().sort(()=>Math.random()-.5).forEach(c=>{
+    const b=document.createElement("button");b.style.background=c;b.style.width="65px";b.style.height="55px";
+    b.onclick=()=>{
+     if(c===target){document.getElementById("miniResult").textContent="Excellent memory! +10 points";points(10)}
+     else document.getElementById("miniResult").textContent="Good try! Remember the colour and play again.";
+    };
+    document.getElementById("memoryOptions").appendChild(b);
+   });
+  };
+ }
+ if(type==="missing"){
+  const sets=[
+   {colours:["#e76f51","#e76f51","#ffffff","#e76f51"],answer:2},
+   {colours:["#457b9d","#ffffff","#457b9d","#457b9d"],answer:1},
+   {colours:["#e9c46a","#e9c46a","#e9c46a","#ffffff"],answer:3}
+  ];
+  const s=sets[Math.floor(Math.random()*sets.length)];
+  area.innerHTML='<p style="margin-top:15px">Find the missing colour in this pattern.</p><div class="options" id="missingPattern"></div><div class="options" id="missingChoices"></div>';
+  s.colours.forEach(c=>{
+   const d=document.createElement("div");d.style.cssText="width:55px;height:55px;border-radius:8px;border:1px solid #bbb;background:"+c;
+   document.getElementById("missingPattern").appendChild(d);
+  });
+  ["#e76f51","#457b9d","#e9c46a"].forEach((c,i)=>{
+   const b=document.createElement("button");b.style.cssText="width:55px;height:45px;background:"+c;
+   b.onclick=()=>{
+    const correct=["#e76f51","#457b9d","#e9c46a"][s.answer===2?0:s.answer===1?1:2];
+    if(c===correct){document.getElementById("miniResult").textContent="Pattern completed! +10 points";points(10)}
+    else document.getElementById("miniResult").textContent="Try another colour.";
+   };
+   document.getElementById("missingChoices").appendChild(b);
+  });
+ }
+ if(type==="pixel"){
+  area.innerHTML='<p style="margin-top:15px">Create a small pixel design using the grid. Choose a colour and paint!</p><input type="color" id="miniPixelColor" value="#365d43"><canvas id="miniPixel" width="240" height="240" style="image-rendering:pixelated"></canvas><button class="primary" id="clearMini">Clear Design</button>';
+  const c=document.getElementById("miniPixel"),ctx=c.getContext("2d"),n=12,cell=20;
+  let grid=Array.from({length:n},()=>Array(n).fill("#fff"));
+  function render(){
+   grid.forEach((row,y)=>row.forEach((col,x)=>{
+    ctx.fillStyle=col;ctx.fillRect(x*cell,y*cell,cell,cell);
+    ctx.strokeStyle="#ddd";ctx.strokeRect(x*cell,y*cell,cell,cell);
+   }));
+  }
+  render();
+  c.onclick=e=>{
+   const r=c.getBoundingClientRect(),x=Math.floor((e.clientX-r.left)/r.width*n),y=Math.floor((e.clientY-r.top)/r.height*n);
+   grid[y][x]=document.getElementById("miniPixelColor").value;render();
+  };
+  document.getElementById("clearMini").onclick=()=>{
+   grid=Array.from({length:n},()=>Array(n).fill("#fff"));render();
+  };
+ }
+}
+startMini();
+</script>
+</body>
+</html>

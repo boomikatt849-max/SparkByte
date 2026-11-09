@@ -1,0 +1,274 @@
+
+<!DOCTYPE html>
+<html lang="en">
+<head>
+<meta charset="UTF-8">
+<meta name="viewport" content="width=device-width, initial-scale=1.0">
+<title>Environmental Problem Solver | SparkByte</title>
+<style>
+*{box-sizing:border-box;margin:0;padding:0}
+body{font-family:Arial,sans-serif;background:#f3f6f1;color:#26392e;line-height:1.6}
+header{background:#173f32;color:white;padding:35px 8%;text-align:center}
+header h1{font-size:32px;margin-bottom:8px}
+header p{color:#d9e9dc}
+main{max-width:1100px;margin:30px auto;padding:0 18px}
+section{background:white;padding:25px;border-radius:14px;margin-bottom:22px;box-shadow:0 3px 14px #193d2410}
+h2{color:#23563e;margin-bottom:12px}
+h3{color:#315b42;margin-bottom:8px}
+p{margin-bottom:10px}
+.grid{display:grid;grid-template-columns:repeat(auto-fit,minmax(210px,1fr));gap:15px;margin-top:15px}
+.card{background:#edf4e9;padding:17px;border-radius:10px;border:1px solid #dce8d7}
+button{background:#286344;color:white;border:0;padding:10px 16px;border-radius:7px;cursor:pointer;font-weight:bold;margin-top:8px}
+button:hover{background:#173f32}
+button:disabled{opacity:.5;cursor:not-allowed}
+.result{display:none;background:#e8f2e5;padding:16px;border-radius:9px;margin-top:15px}
+label{display:block;margin:10px 0}
+select{padding:10px;border:1px solid #aabca9;border-radius:7px;width:100%;max-width:400px}
+.option{display:block;width:100%;text-align:left;background:#e7efe4;color:#263b2d;margin:8px 0}
+.feedback{font-weight:bold;margin-top:12px}
+footer{text-align:center;padding:20px;color:#65786b}
+</style>
+</head>
+<body>
+
+<header>
+<h1>Environmental Problem Solver</h1>
+<p>Understand environmental challenges and explore evidence-based solutions.</p>
+</header>
+
+<main>
+
+<section>
+<h2>1. Environmental Case Studies</h2>
+<p>Study major environmental issues, their causes and their consequences.</p>
+
+<div class="grid">
+<div class="card">
+<h3>🌫️ Air Pollution</h3>
+<p>Harmful substances entering the atmosphere from human and natural sources.</p>
+<button onclick="showCase('air')">Analyse Problem</button>
+</div>
+
+<div class="card">
+<h3>💧 Water Pollution</h3>
+<p>Contamination of rivers, lakes and oceans by pollutants.</p>
+<button onclick="showCase('water')">Analyse Problem</button>
+</div>
+
+<div class="card">
+<h3>🌳 Deforestation</h3>
+<p>Large-scale removal of forests and its effects on ecosystems.</p>
+<button onclick="showCase('forest')">Analyse Problem</button>
+</div>
+
+<div class="card">
+<h3>♻️ Plastic Waste</h3>
+<p>Accumulation of plastic materials in land and aquatic environments.</p>
+<button onclick="showCase('plastic')">Analyse Problem</button>
+</div>
+</div>
+
+<div class="result" id="caseResult"></div>
+</section>
+
+<section>
+<h2>2. Environmental Solution Builder</h2>
+<p>Select an environmental problem and explore possible interventions.</p>
+
+<label for="problem">Choose a problem</label>
+<select id="problem">
+<option value="air">Air Pollution</option>
+<option value="water">Water Pollution</option>
+<option value="forest">Deforestation</option>
+<option value="plastic">Plastic Waste</option>
+</select>
+
+<label for="solution">Choose a possible solution</label>
+<select id="solution">
+<option value="public">Improve public transport</option>
+<option value="renewable">Adopt renewable energy</option>
+<option value="treatment">Improve wastewater treatment</option>
+<option value="plant">Restore forests and plant native trees</option>
+<option value="reduce">Reduce, reuse and recycle plastic</option>
+<option value="policy">Strengthen environmental policies</option>
+</select>
+
+<button onclick="evaluateSolution()">Evaluate Solution</button>
+<div class="result" id="solutionResult"></div>
+</section>
+
+<section>
+<h2>3. Impact Assessment</h2>
+<p>Explore how environmental problems can affect different areas of society.</p>
+
+<div class="grid">
+<div class="card">
+<h3>🌱 Biodiversity</h3>
+<p>Habitat destruction and pollution can reduce species populations and disturb food webs.</p>
+</div>
+<div class="card">
+<h3>🏙️ Human Communities</h3>
+<p>Environmental degradation can affect public health, livelihoods and access to clean resources.</p>
+</div>
+<div class="card">
+<h3>🌡️ Climate</h3>
+<p>Deforestation and greenhouse gas emissions contribute to changes in the climate system.</p>
+</div>
+<div class="card">
+<h3>💰 Economy</h3>
+<p>Environmental damage can affect agriculture, fisheries, infrastructure and local industries.</p>
+</div>
+</div>
+</section>
+
+<section>
+<h2>4. Knowledge Challenge</h2>
+<p>Answer five questions to test your environmental science knowledge.</p>
+<div id="quizArea"></div>
+<div class="result" id="quizResult"></div>
+</section>
+
+</main>
+
+<footer>Nature World | SparkByte Learning Platform</footer>
+
+<script>
+const cases={
+air:{
+title:"Air Pollution",
+causes:"Vehicle emissions, industrial activities, burning of fossil fuels and construction dust.",
+effects:"Poor air quality can affect respiratory health, ecosystems and visibility. Some air pollutants also contribute to climate change.",
+solutions:"Cleaner transport, emission controls, renewable energy and improved air-quality monitoring."
+},
+water:{
+title:"Water Pollution",
+causes:"Untreated sewage, industrial discharge, agricultural runoff and improper waste disposal.",
+effects:"Pollution can damage aquatic habitats, reduce water quality and threaten organisms and human communities.",
+solutions:"Wastewater treatment, responsible chemical disposal, reduced agricultural runoff and regular water monitoring."
+},
+forest:{
+title:"Deforestation",
+causes:"Agricultural expansion, urban development, logging and infrastructure projects.",
+effects:"Habitat loss, soil erosion, disrupted water cycles and reduced carbon storage.",
+solutions:"Forest restoration, sustainable land use, protected areas and responsible forestry."
+},
+plastic:{
+title:"Plastic Waste",
+causes:"Single-use packaging, poor waste collection, littering and inadequate recycling systems.",
+effects:"Plastic waste can harm wildlife, pollute waterways and persist in the environment for long periods.",
+solutions:"Reusable products, improved waste segregation, recycling systems and reduced unnecessary packaging."
+}
+};
+
+function showCase(type){
+const data=cases[type];
+const box=document.getElementById("caseResult");
+box.style.display="block";
+box.innerHTML=`
+<h3>${data.title}</h3>
+<p><strong>Major Causes:</strong> ${data.causes}</p>
+<p><strong>Environmental Effects:</strong> ${data.effects}</p>
+<p><strong>Possible Solutions:</strong> ${data.solutions}</p>`;
+}
+
+const solutionData={
+air:{
+public:"Improving public transport can reduce the number of individual vehicles on roads and help lower transport-related emissions.",
+renewable:"Renewable energy can reduce dependence on fossil fuels and lower emissions from electricity generation.",
+policy:"Emission standards and air-quality regulations can encourage cleaner industrial and transport practices."
+},
+water:{
+treatment:"Wastewater treatment removes many contaminants before water is released back into the environment.",
+policy:"Water-quality standards and monitoring help prevent harmful discharges into rivers and lakes."
+},
+forest:{
+plant:"Restoring native forests can rebuild habitats, support biodiversity and improve ecosystem functions.",
+policy:"Protected areas and sustainable land-use policies can help reduce forest loss."
+},
+plastic:{
+reduce:"Reducing single-use plastic and improving reuse and recycling systems can limit plastic entering the environment.",
+policy:"Waste-management policies and producer responsibility can improve collection and recycling."
+}
+};
+
+function evaluateSolution(){
+const problem=document.getElementById("problem").value;
+const solution=document.getElementById("solution").value;
+const box=document.getElementById("solutionResult");
+box.style.display="block";
+
+if(solutionData[problem] && solutionData[problem][solution]){
+box.innerHTML="<h3>Solution Analysis</h3><p>"+solutionData[problem][solution]+"</p><p><strong>Evaluation:</strong> This is a relevant intervention. Its success depends on planning, resources, public participation and long-term monitoring.</p>";
+}else{
+box.innerHTML="<h3>Broader Intervention</h3><p>This approach may support the selected environmental problem indirectly. Consider combining it with a solution that directly addresses the main source of pollution or environmental damage.</p>";
+}
+}
+
+const questions=[
+{q:"Which activity is a major source of urban air pollution?",o:["Vehicle emissions","Tree planting","Rainwater harvesting","Composting"],a:0,e:"Vehicle emissions are an important source of urban air pollutants."},
+{q:"What is one major consequence of deforestation?",o:["Habitat loss","More forest cover","Less soil erosion","Increased forest biodiversity"],a:0,e:"Deforestation removes or fragments habitats used by many species."},
+{q:"Which process helps reduce plastic waste?",o:["Open burning","Littering","Recycling","Dumping into rivers"],a:2,e:"Recycling allows suitable materials to be processed and used again."},
+{q:"What is the purpose of wastewater treatment?",o:["Increase water pollution","Remove contaminants","Destroy all aquatic life","Increase plastic waste"],a:1,e:"Wastewater treatment removes many contaminants before discharge or reuse."},
+{q:"Which is an example of renewable energy?",o:["Coal","Diesel","Solar energy","Petrol"],a:2,e:"Solar energy is renewable because it comes from sunlight."}
+];
+
+let current=0,score=0,answered=false;
+
+function loadQuestion(){
+answered=false;
+const q=questions[current];
+document.getElementById("quizArea").innerHTML=`
+<p><strong>Question ${current+1} of ${questions.length}</strong></p>
+<h3>${q.q}</h3>
+${q.o.map((option,i)=>`<button class="option" onclick="answerQuestion(${i})">${option}</button>`).join("")}
+<p id="feedback" class="feedback"></p>
+<button id="nextBtn" onclick="nextQuestion()" style="display:none">Next Question →</button>`;
+}
+
+function answerQuestion(choice){
+if(answered)return;
+answered=true;
+const q=questions[current];
+const correct=choice===q.a;
+if(correct)score+=10;
+
+document.getElementById("feedback").textContent=
+(correct?"Correct! ":"Not quite. ")+q.e;
+
+document.getElementById("nextBtn").style.display="inline-block";
+
+document.querySelectorAll(".option").forEach((btn,i)=>{
+btn.disabled=true;
+if(i===q.a)btn.style.background="#cce6c8";
+});
+}
+
+function nextQuestion(){
+current++;
+if(current<questions.length){
+loadQuestion();
+return;
+}
+
+document.getElementById("quizArea").innerHTML="";
+const box=document.getElementById("quizResult");
+box.style.display="block";
+box.innerHTML=`
+<h3>Challenge Completed!</h3>
+<p><strong>Final Score: ${score} / 50</strong></p>
+<p>${score>=40?"Excellent environmental science knowledge!":score>=20?"Good effort! Keep learning.":"Review the concepts and try again."}</p>
+<button onclick="restartQuiz()">Try Again</button>`;
+}
+
+function restartQuiz(){
+current=0;
+score=0;
+document.getElementById("quizResult").style.display="none";
+loadQuestion();
+}
+
+loadQuestion();
+</script>
+
+</body>
+</html>

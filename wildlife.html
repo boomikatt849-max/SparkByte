@@ -1,0 +1,559 @@
+
+<!DOCTYPE html>
+<html lang="en">
+<head>
+<meta charset="UTF-8">
+<meta name="viewport" content="width=device-width, initial-scale=1.0">
+<title>Wildlife & Biodiversity | SparkByte</title>
+
+<style>
+* {
+    margin: 0;
+    padding: 0;
+    box-sizing: border-box;
+}
+
+body {
+    font-family: Arial, sans-serif;
+    background: #f3f6f0;
+    color: #29382e;
+}
+
+header {
+    background: linear-gradient(120deg, #173c2b, #52754c);
+    color: white;
+    text-align: center;
+    padding: 40px 20px;
+}
+
+header h1 {
+    font-size: 32px;
+    margin-bottom: 12px;
+}
+
+header p {
+    color: #e2eddf;
+    line-height: 1.6;
+}
+
+.container {
+    max-width: 1050px;
+    margin: auto;
+    padding: 25px 20px;
+}
+
+.intro {
+    background: white;
+    padding: 20px;
+    border-left: 5px solid #638b58;
+    border-radius: 10px;
+    line-height: 1.8;
+    color: #647267;
+    margin-bottom: 30px;
+}
+
+.section-title {
+    color: #315b3b;
+    font-size: 23px;
+    margin-bottom: 16px;
+}
+
+.search {
+    width: 100%;
+    padding: 13px;
+    border: 1px solid #cdd8c8;
+    border-radius: 8px;
+    font-size: 15px;
+    margin-bottom: 18px;
+}
+
+.animal-grid {
+    display: grid;
+    grid-template-columns: repeat(auto-fit, minmax(220px, 1fr));
+    gap: 18px;
+}
+
+.animal-card {
+    background: white;
+    padding: 20px;
+    border-radius: 12px;
+    border: 1px solid #e0e7dc;
+}
+
+.animal-icon {
+    font-size: 38px;
+}
+
+.animal-card h3 {
+    color: #315b3b;
+    margin: 12px 0 8px;
+}
+
+.animal-card p {
+    font-size: 14px;
+    line-height: 1.7;
+    color: #667269;
+}
+
+button {
+    background: #315d3d;
+    color: white;
+    border: none;
+    padding: 10px 15px;
+    border-radius: 7px;
+    cursor: pointer;
+    margin-top: 13px;
+}
+
+button:hover {
+    background: #21452d;
+}
+
+.details {
+    display: none;
+    background: #e7efe3;
+    padding: 20px;
+    border-radius: 12px;
+    margin-top: 20px;
+    line-height: 1.8;
+}
+
+.info-section {
+    background: white;
+    padding: 22px;
+    border-radius: 12px;
+    margin-top: 32px;
+    border: 1px solid #e0e7dc;
+}
+
+.food-chain {
+    display: flex;
+    flex-wrap: wrap;
+    align-items: center;
+    justify-content: center;
+    gap: 12px;
+    margin: 20px 0;
+}
+
+.food-item {
+    background: #edf3e9;
+    padding: 15px;
+    border-radius: 10px;
+    text-align: center;
+    min-width: 110px;
+    font-weight: bold;
+    color: #315b3b;
+}
+
+.arrow {
+    font-size: 22px;
+    color: #638b58;
+}
+
+.quiz {
+    background: white;
+    padding: 22px;
+    border-radius: 12px;
+    margin-top: 32px;
+    border: 1px solid #e0e7dc;
+}
+
+.question {
+    font-weight: bold;
+    font-size: 17px;
+    margin: 18px 0;
+    line-height: 1.5;
+}
+
+.option {
+    display: block;
+    width: 100%;
+    text-align: left;
+    background: #f3f6f0;
+    border: 1px solid #dce5d7;
+    color: #344536;
+    margin: 9px 0;
+}
+
+.option:disabled {
+    cursor: default;
+}
+
+#feedback {
+    margin-top: 15px;
+    line-height: 1.6;
+    font-weight: bold;
+}
+
+#nextBtn {
+    display: none;
+}
+
+#score {
+    color: #315b3b;
+    font-weight: bold;
+    margin-top: 15px;
+}
+
+.back {
+    display: inline-block;
+    margin: 25px 0;
+    text-decoration: none;
+    color: #315b3b;
+    font-weight: bold;
+}
+
+@media(max-width: 500px) {
+    header h1 {
+        font-size: 26px;
+    }
+}
+</style>
+</head>
+
+<body>
+
+<header>
+    <h1>🦁 Wildlife & Biodiversity</h1>
+    <p>Explore animal diversity, ecological relationships and wildlife conservation.</p>
+</header>
+
+<div class="container">
+
+    <div class="intro">
+        <h3>Wildlife Research Overview</h3>
+        <p>
+            Biodiversity refers to the variety of life found on Earth, including
+            animals, plants and microorganisms. Wildlife plays an important role
+            in maintaining ecosystem balance through food chains, pollination,
+            seed dispersal and nutrient cycling.
+        </p>
+    </div>
+
+    <h2 class="section-title">Wildlife Species Database</h2>
+
+    <input
+        type="text"
+        class="search"
+        id="search"
+        placeholder="Search species, habitat or classification..."
+        oninput="searchAnimals()"
+    >
+
+    <div class="animal-grid">
+
+        <div class="animal-card">
+            <div class="animal-icon">🐅</div>
+            <h3>Bengal Tiger</h3>
+            <p>Group: Mammal</p>
+            <p>Habitat: Forests and grasslands</p>
+            <button onclick="showAnimal(0)">Explore Species →</button>
+        </div>
+
+        <div class="animal-card">
+            <div class="animal-icon">🐘</div>
+            <h3>Asian Elephant</h3>
+            <p>Group: Mammal</p>
+            <p>Habitat: Forests and grasslands</p>
+            <button onclick="showAnimal(1)">Explore Species →</button>
+        </div>
+
+        <div class="animal-card">
+            <div class="animal-icon">🦅</div>
+            <h3>Golden Eagle</h3>
+            <p>Group: Bird</p>
+            <p>Habitat: Mountains and open areas</p>
+            <button onclick="showAnimal(2)">Explore Species →</button>
+        </div>
+
+        <div class="animal-card">
+            <div class="animal-icon">🐢</div>
+            <h3>Green Sea Turtle</h3>
+            <p>Group: Reptile</p>
+            <p>Habitat: Tropical oceans</p>
+            <button onclick="showAnimal(3)">Explore Species →</button>
+        </div>
+
+        <div class="animal-card">
+            <div class="animal-icon">🐬</div>
+            <h3>Bottlenose Dolphin</h3>
+            <p>Group: Mammal</p>
+            <p>Habitat: Coastal and open oceans</p>
+            <button onclick="showAnimal(4)">Explore Species →</button>
+        </div>
+
+        <div class="animal-card">
+            <div class="animal-icon">🐸</div>
+            <h3>Indian Bullfrog</h3>
+            <p>Group: Amphibian</p>
+            <p>Habitat: Wetlands and freshwater areas</p>
+            <button onclick="showAnimal(5)">Explore Species →</button>
+        </div>
+
+    </div>
+
+    <div class="details" id="details"></div>
+
+    <div class="info-section">
+        <h2 class="section-title">Animal Classification</h2>
+        <p>
+            Animals are classified into major groups based on their body
+            structure, characteristics and biological features.
+        </p>
+        <br>
+        <p><b>Mammals:</b> Have hair or fur and females generally produce milk.</p>
+        <p><b>Birds:</b> Have feathers, beaks and lay eggs.</p>
+        <p><b>Reptiles:</b> Usually have dry, scaly skin.</p>
+        <p><b>Amphibians:</b> Commonly have life stages associated with both water and land.</p>
+        <p><b>Fish:</b> Aquatic vertebrates that generally breathe using gills.</p>
+    </div>
+
+    <div class="info-section">
+        <h2 class="section-title">Food Chain Explorer</h2>
+        <p>
+            A food chain shows how energy moves from one organism to another
+            within an ecosystem.
+        </p>
+
+        <div class="food-chain">
+            <div class="food-item">🌿<br>Grass<br><small>Producer</small></div>
+            <div class="arrow">→</div>
+            <div class="food-item">🦌<br>Deer<br><small>Primary consumer</small></div>
+            <div class="arrow">→</div>
+            <div class="food-item">🐅<br>Tiger<br><small>Secondary consumer</small></div>
+        </div>
+
+        <p>
+            <b>Energy flow:</b> Plants capture solar energy through photosynthesis.
+            Herbivores obtain energy by eating plants, while carnivores obtain
+            energy by eating other animals.
+        </p>
+    </div>
+
+    <div class="quiz">
+        <h2 class="section-title">🔬 Biodiversity Knowledge Challenge</h2>
+        <p>Test your understanding of wildlife and ecosystems.</p>
+
+        <p id="questionNumber"></p>
+        <div class="question" id="question"></div>
+        <div id="options"></div>
+        <p id="feedback"></p>
+        <button id="nextBtn" onclick="nextQuestion()">Next Question →</button>
+        <p id="score">Score: 0 / 50</p>
+    </div>
+
+    <a href="nature.html" class="back">← Back to Nature World</a>
+
+</div>
+
+<script>
+
+const animals = [
+{
+    name: "Bengal Tiger",
+    scientific: "Panthera tigris tigris",
+    group: "Mammal",
+    habitat: "Tropical forests, mangroves and grasslands.",
+    adaptation: "Its striped coat provides camouflage in vegetation. It has strong limbs and sharp senses for hunting.",
+    role: "An apex predator that helps regulate prey populations.",
+    conservation: "Endangered"
+},
+{
+    name: "Asian Elephant",
+    scientific: "Elephas maximus",
+    group: "Mammal",
+    habitat: "Tropical forests and grasslands.",
+    adaptation: "Its trunk helps with feeding, drinking and communication. Large ears help with heat regulation.",
+    role: "A keystone species that disperses seeds and modifies habitats.",
+    conservation: "Endangered"
+},
+{
+    name: "Golden Eagle",
+    scientific: "Aquila chrysaetos",
+    group: "Bird",
+    habitat: "Mountains, open grasslands and rugged landscapes.",
+    adaptation: "Excellent eyesight and powerful talons help it locate and capture prey.",
+    role: "A predator that contributes to ecosystem population balance.",
+    conservation: "Least Concern"
+},
+{
+    name: "Green Sea Turtle",
+    scientific: "Chelonia mydas",
+    group: "Reptile",
+    habitat: "Tropical and subtropical oceans, seagrass beds and nesting beaches.",
+    adaptation: "Its streamlined shell and flippers support efficient swimming.",
+    role: "Helps maintain healthy seagrass ecosystems.",
+    conservation: "Endangered"
+},
+{
+    name: "Bottlenose Dolphin",
+    scientific: "Tursiops truncatus",
+    group: "Mammal",
+    habitat: "Coastal waters and open oceans.",
+    adaptation: "Uses echolocation to navigate and locate food underwater.",
+    role: "A marine predator that forms part of ocean food webs.",
+    conservation: "Least Concern"
+},
+{
+    name: "Indian Bullfrog",
+    scientific: "Hoplobatrachus tigerinus",
+    group: "Amphibian",
+    habitat: "Ponds, wetlands and freshwater habitats.",
+    adaptation: "Its moist skin supports gas exchange, and its strong hind legs help it jump.",
+    role: "Helps control insect populations and serves as prey for other animals.",
+    conservation: "Least Concern"
+}
+];
+
+function showAnimal(index) {
+    const a = animals[index];
+    const box = document.getElementById("details");
+
+    box.style.display = "block";
+    box.innerHTML = `
+        <h2>${a.name}</h2>
+        <p><b>Scientific Name:</b> <i>${a.scientific}</i></p>
+        <p><b>Classification:</b> ${a.group}</p>
+        <p><b>Habitat:</b> ${a.habitat}</p>
+        <p><b>Adaptations:</b> ${a.adaptation}</p>
+        <p><b>Ecological Role:</b> ${a.role}</p>
+        <p><b>IUCN Conservation Status:</b> ${a.conservation}</p>
+    `;
+
+    box.scrollIntoView({behavior: "smooth", block: "nearest"});
+}
+
+function searchAnimals() {
+    const value = document.getElementById("search").value.toLowerCase();
+    document.querySelectorAll(".animal-card").forEach(card => {
+        card.style.display = card.textContent.toLowerCase().includes(value)
+            ? "block" : "none";
+    });
+}
+
+const questions = [
+{
+    q: "Which animal is classified as an amphibian?",
+    options: ["Bengal Tiger", "Indian Bullfrog", "Golden Eagle", "Dolphin"],
+    correct: 1,
+    explanation: "The Indian Bullfrog is an amphibian associated with both aquatic and terrestrial environments."
+},
+{
+    q: "What is the ecological role of an apex predator?",
+    options: ["Produces sunlight", "Controls prey populations", "Creates rainfall", "Performs photosynthesis"],
+    correct: 1,
+    explanation: "Apex predators can help regulate prey populations and maintain ecosystem balance."
+},
+{
+    q: "Which adaptation helps dolphins locate objects underwater?",
+    options: ["Camouflage", "Echolocation", "Photosynthesis", "Hibernation"],
+    correct: 1,
+    explanation: "Dolphins use echolocation by producing sounds and interpreting returning echoes."
+},
+{
+    q: "What is the main role of producers in a food chain?",
+    options: ["Eat predators", "Produce food using energy", "Break down rocks", "Hunt herbivores"],
+    correct: 1,
+    explanation: "Producers such as green plants convert solar energy into chemical energy through photosynthesis."
+},
+{
+    q: "What does biodiversity mean?",
+    options: ["Only animal population", "Variety of life", "Only forest area", "Climate temperature"],
+    correct: 1,
+    explanation: "Biodiversity includes the variety of living organisms, their genes and ecosystems."
+}
+];
+
+let current = 0;
+let score = 0;
+let answered = false;
+
+function loadQuestion() {
+    const q = questions[current];
+
+    document.getElementById("questionNumber").textContent =
+        "Question " + (current + 1) + " of " + questions.length;
+
+    document.getElementById("question").textContent = q.q;
+    document.getElementById("feedback").textContent = "";
+    document.getElementById("nextBtn").style.display = "none";
+
+    const area = document.getElementById("options");
+    area.innerHTML = "";
+
+    q.options.forEach((option, index) => {
+        const btn = document.createElement("button");
+        btn.className = "option";
+        btn.textContent = String.fromCharCode(65 + index) + ". " + option;
+        btn.onclick = () => checkAnswer(index);
+        area.appendChild(btn);
+    });
+
+    answered = false;
+}
+
+function checkAnswer(selected) {
+    if (answered) return;
+    answered = true;
+
+    const q = questions[current];
+    const buttons = document.querySelectorAll(".option");
+
+    buttons.forEach(btn => btn.disabled = true);
+
+    const feedback = document.getElementById("feedback");
+
+    if (selected === q.correct) {
+        score += 10;
+        feedback.textContent = "✓ Correct! " + q.explanation;
+        feedback.style.color = "#267b45";
+    } else {
+        feedback.textContent = "✗ Incorrect. " + q.explanation;
+        feedback.style.color = "#b34c40";
+    }
+
+    document.getElementById("score").textContent = "Score: " + score + " / 50";
+    buttons[q.correct].style.background = "#e3f3e5";
+
+    document.getElementById("nextBtn").style.display = "inline-block";
+}
+
+function nextQuestion() {
+    current++;
+
+    if (current < questions.length) {
+        loadQuestion();
+    } else {
+        document.querySelector(".quiz").innerHTML = `
+            <h2 class="section-title">🏆 Challenge Completed!</h2>
+            <h1 style="color:#315b3b; margin:15px 0;">${score} / 50</h1>
+            <p>You have completed the Biodiversity Knowledge Challenge.</p>
+            <button onclick="restartQuiz()">Try Again</button>
+        `;
+    }
+}
+
+function restartQuiz() {
+    current = 0;
+    score = 0;
+
+    document.querySelector(".quiz").innerHTML = `
+        <h2 class="section-title">🔬 Biodiversity Knowledge Challenge</h2>
+        <p>Test your understanding of wildlife and ecosystems.</p>
+        <p id="questionNumber"></p>
+        <div class="question" id="question"></div>
+        <div id="options"></div>
+        <p id="feedback"></p>
+        <button id="nextBtn" onclick="nextQuestion()" style="display:none;">Next Question →</button>
+        <p id="score">Score: 0 / 50</p>
+    `;
+
+    loadQuestion();
+}
+
+loadQuestion();
+
+</script>
+
+</body>
+</html>

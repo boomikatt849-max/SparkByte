@@ -1,0 +1,399 @@
+
+<!DOCTYPE html>
+<html lang="en">
+<head>
+<meta charset="UTF-8">
+<meta name="viewport" content="width=device-width, initial-scale=1.0">
+<title>Brain World | SparkByte</title>
+<style>
+*{box-sizing:border-box;margin:0;padding:0}
+body{font-family:Arial,sans-serif;background:#f4f5fa;color:#252b40;line-height:1.6}
+header{background:#202a50;color:white;padding:38px 8%;text-align:center}
+header h1{font-size:34px;margin-bottom:8px}
+header p{color:#dce2f6}
+main{max-width:1100px;margin:30px auto;padding:0 18px}
+.intro{background:white;padding:24px;border-radius:13px;margin-bottom:22px}
+.stats{display:grid;grid-template-columns:repeat(auto-fit,minmax(150px,1fr));gap:12px;margin-top:18px}
+.stat{background:#edf0fb;padding:15px;border-radius:9px}
+.stat strong{display:block;font-size:24px;color:#354b91}
+section{background:white;padding:25px;border-radius:13px;margin-bottom:22px;box-shadow:0 3px 14px #202a5010}
+h2{color:#354b91;margin-bottom:12px}
+h3{color:#34436e;margin-bottom:8px}
+p{margin-bottom:10px}
+.grid{display:grid;grid-template-columns:repeat(auto-fit,minmax(210px,1fr));gap:15px;margin-top:15px}
+.card{background:#f0f2fb;padding:18px;border-radius:10px;border:1px solid #dfe4f5}
+.tag{font-size:12px;color:#53649a;font-weight:bold}
+button{background:#354b91;color:white;border:0;padding:10px 16px;border-radius:7px;cursor:pointer;font-weight:bold;margin-top:8px}
+button:hover{background:#202a50}
+button:disabled{opacity:.55;cursor:not-allowed}
+select{padding:10px;border:1px solid #c4cbe0;border-radius:7px;margin:6px 0;width:100%;max-width:300px}
+.result{display:none;background:#edf2ff;padding:16px;border-radius:9px;margin-top:15px}
+.question{background:#f0f2fb;padding:18px;border-radius:10px;margin:15px 0}
+.option{display:block;width:100%;text-align:left;background:#e4e9f8;color:#273454;margin:8px 0}
+.option:hover{background:#d4def6}
+.feedback{font-weight:bold;margin-top:12px}
+.progress{height:9px;background:#e5e8f2;border-radius:20px;overflow:hidden;margin:12px 0}
+.progress div{height:100%;background:#5269b5;width:0;transition:.3s}
+footer{text-align:center;padding:20px;color:#6d7489}
+
+@media (max-width: 768px) {
+    .container {
+        width: 94%;
+        padding: 12px;
+    }
+
+    .grid,
+    .cards,
+    .modules {
+        grid-template-columns: repeat(2, minmax(0, 1fr));
+        gap: 12px;
+    }
+
+    h1 {
+        font-size: 28px;
+    }
+
+    button {
+        max-width: 100%;
+    }
+}
+
+@media (max-width: 480px) {
+    .grid,
+    .cards,
+    .modules {
+        grid-template-columns: 1fr;
+    }
+
+    body {
+        font-size: 14px;
+    }
+
+    h1 {
+        font-size: 24px;
+    }
+
+    input,
+    textarea,
+    select {
+        width: 100%;
+        box-sizing: border-box;
+    }
+}
+</style>
+</head>
+<body>
+
+<header>
+<h1>Brain World</h1>
+<p>Develop logical reasoning, analytical thinking and cognitive problem-solving skills.</p>
+</header>
+
+<main>
+
+<div class="intro">
+<h2>Intellectual Skills Development</h2>
+<p>Brain World provides structured activities designed to strengthen reasoning, numerical ability, pattern recognition, memory and critical thinking.</p>
+<div class="stats">
+<div class="stat"><strong>05</strong>Learning Modules</div>
+<div class="stat"><strong>03</strong>Difficulty Levels</div>
+<div class="stat"><strong>25</strong>Practice Questions</div>
+<div class="stat"><strong id="totalScore">0</strong>Total Points Earned</div>
+</div>
+</div>
+
+<section>
+<h2>Learning Modules</h2>
+<div class="grid">
+
+<div class="card">
+<span class="tag">MODULE 01</span>
+<h3>Logical Reasoning Lab</h3>
+<p>Evaluate statements, identify relationships and solve logical problems.</p>
+<button onclick="startModule('logic')">Start Module →</button>
+</div>
+
+<div class="card">
+<span class="tag">MODULE 02</span>
+<h3>Mathematical Problem Solving</h3>
+<p>Practise numerical reasoning, calculations and mathematical applications.</p>
+<button onclick="startModule('math')">Start Module →</button>
+</div>
+
+<div class="card">
+<span class="tag">MODULE 03</span>
+<h3>Pattern & Sequence Analysis</h3>
+<p>Identify numerical patterns, sequences and underlying rules.</p>
+<button onclick="startModule('pattern')">Start Module →</button>
+</div>
+
+<div class="card">
+<span class="tag">MODULE 04</span>
+<h3>Memory & Cognitive Skills</h3>
+<p>Practise information recall, attention and short-term memory.</p>
+<button onclick="startModule('memory')">Start Module →</button>
+</div>
+
+<div class="card">
+<span class="tag">MODULE 05</span>
+<h3>Critical Thinking Challenges</h3>
+<p>Analyse situations, compare evidence and select reasoned conclusions.</p>
+<button onclick="startModule('critical')">Start Module →</button>
+</div>
+
+</div>
+</section>
+
+<section id="workspace" style="display:none">
+<h2 id="moduleTitle">Practice Module</h2>
+<p id="moduleDescription"></p>
+
+<label for="difficulty"><strong>Difficulty Level</strong></label>
+<br>
+<select id="difficulty" onchange="changeDifficulty()">
+<option value="beginner">Beginner</option>
+<option value="intermediate">Intermediate</option>
+<option value="advanced">Advanced</option>
+</select>
+
+<div class="progress"><div id="progressBar"></div></div>
+<p id="questionCount"></p>
+<div id="questionArea"></div>
+<div class="result" id="feedback"></div>
+<button id="nextButton" onclick="nextQuestion()" style="display:none">Next Question →</button>
+<button onclick="closeModule()" style="background:#69738c">Back to Modules</button>
+</section>
+
+<section>
+<h2>Learning Approach</h2>
+<div class="grid">
+<div class="card">
+<h3>Understand</h3>
+<p>Read each problem carefully and identify the information provided.</p>
+</div>
+<div class="card">
+<h3>Analyse</h3>
+<p>Break complex questions into smaller logical steps.</p>
+</div>
+<div class="card">
+<h3>Evaluate</h3>
+<p>Compare possible answers and select the most accurate conclusion.</p>
+</div>
+</div>
+</section>
+
+</main>
+
+<footer>SparkByte | Brain World – Intellectual Skills Development</footer>
+
+<script>
+const modules={
+logic:{
+title:"Logical Reasoning Lab",
+description:"Evaluate logical relationships and identify valid conclusions.",
+questions:{
+beginner:[
+["All roses are flowers. Which statement is correct?",["All flowers are roses","Every rose is a flower","No rose is a flower","Flowers cannot be plants"],1,"The statement confirms that roses belong to the category of flowers."],
+["If today is Monday, what day will it be after 3 days?",["Tuesday","Wednesday","Thursday","Friday"],2,"Three days after Monday is Thursday."],
+["Which item does not belong?",["Circle","Square","Triangle","Apple"],3,"Apple is a fruit; the other options are geometric shapes."],
+["A is taller than B. B is taller than C. Who is tallest?",["A","B","C","Cannot determine"],0,"A is taller than B, and B is taller than C."],
+["Which pair has the same relationship as Bird : Fly?",["Fish : Swim","Dog : Bark","Cat : Eat","Tree : Green"],0,"Flying is a movement associated with birds; swimming is associated with fish."]
+],
+intermediate:[
+["All engineers are graduates. Some graduates are researchers. Which is certain?",["All engineers are researchers","Some researchers are engineers","All engineers are graduates","No graduate is an engineer"],2,"Only the first statement is guaranteed by the information."],
+["If NORTH is coded as OPSUI, how is SOUTH coded using the same rule?",["TPVUI","RNTUG","TPVTH","TPVUI"],0,"Each letter is shifted one position forward. SOUTH becomes TPVUI."],
+["Find the odd one out.",["January","March","May","Monday"],3,"Monday is a weekday; the others are months."],
+["A person faces north, turns right, then right again. Which direction now?",["East","West","South","North"],2,"Two right turns from north lead to south."],
+["Complete the relationship: Book : Reading :: Fork : ?",["Writing","Eating","Drawing","Walking"],1,"A book is used for reading; a fork is used for eating."]
+],
+advanced:[
+["If all A are B and no B are C, what follows?",["Some A are C","No A are C","All C are A","All B are A"],1,"Since A is entirely within B, and B has no overlap with C, A cannot overlap with C."],
+["A statement is true only when both P and Q are true. Which operator represents it?",["OR","NOT","AND","XOR"],2,"Logical AND is true only when both conditions are true."],
+["If the day before yesterday was Friday, what is tomorrow?",["Sunday","Monday","Tuesday","Wednesday"],1,"Day before yesterday Friday means today Sunday; tomorrow is Monday."],
+["Which conclusion follows: No mammals are insects. All whales are mammals.",["All whales are insects","No whales are insects","Some insects are whales","All mammals are whales"],1,"Whales are mammals, and mammals are not insects."],
+["A valid argument must have:",["Only a popular opinion","A conclusion supported by premises","An emotional statement","An unrelated example"],1,"A logical argument connects its conclusion to supporting premises."]
+]
+}
+},
+math:{
+title:"Mathematical Problem Solving",
+description:"Apply numerical reasoning and mathematical operations.",
+questions:{
+beginner:[
+["What is 25% of 200?",["25","40","50","75"],2,"25% is one-fourth. One-fourth of 200 is 50."],
+["Solve: 15 + 8 × 2",["46","31","23","30"],1,"Multiplication comes before addition: 15 + 16 = 31."],
+["What is the average of 10, 20 and 30?",["15","20","25","30"],1,"Average = (10 + 20 + 30) / 3 = 20."],
+["A notebook costs ₹40. What is the cost of 3 notebooks?",["₹80","₹100","₹120","₹140"],2,"40 × 3 = ₹120."],
+["What is the square of 9?",["18","72","81","99"],2,"9 × 9 = 81."]
+],
+intermediate:[
+["Solve: 3x + 5 = 20",["3","5","7","10"],1,"3x = 15, therefore x = 5."],
+["A product costs ₹800 after a 20% discount. What was its original price?",["₹900","₹960","₹1000","₹1200"],2,"₹800 represents 80% of the original price. 800 / 0.8 = ₹1000."],
+["Find the next number: 4, 9, 16, 25, ?",["30","32","36","49"],2,"These are squares: 2², 3², 4², 5², so the next is 6² = 36."],
+["A vehicle travels 150 km in 3 hours. Find its average speed.",["30 km/h","40 km/h","50 km/h","60 km/h"],2,"Speed = distance / time = 150 / 3 = 50 km/h."],
+["What is 2/3 of  ninety?",["30","45","60","75"],2,"90 × 2/3 = 60."]
+],
+advanced:[
+["Solve: x² - 9 = 0. What are the solutions?",["3 only","-3 only","3 and -3","9 and -9"],2,"x² = 9, so x = 3 or x = -3."],
+["If a:b = 2:3 and b = 18, find a.",["6","9","12","15"],2,"Two parts correspond to 12 when three parts equal 18."],
+["A number increases from 80 to 100. Find the percentage increase.",["20%","25%","30%","40%"],1,"Increase = 20. Percentage = 20/80 × 100 = 25%."],
+["What is the probability of getting an even number on a fair six-sided die?",["1/6","1/3","1/2","2/3"],2,"Even outcomes are 2, 4 and 6: 3/6 = 1/2."],
+["If f(x) = 2x², find f(3).",["6","12","18","36"],2,"f(3) = 2 × 3² = 18."]
+]
+}
+},
+pattern:{
+title:"Pattern & Sequence Analysis",
+description:"Discover rules and relationships in numerical sequences.",
+questions:{
+beginner:[
+["2, 4, 6, 8, ?",["9","10","12","14"],1,"Each term increases by 2."],
+["5, 10, 15, 20, ?",["22","24","25","30"],2,"Each term increases by 5."],
+["1, 2, 4, 8, ?",["10","12","14","16"],3,"Each term is multiplied by 2."],
+["A, C, E, G, ?",["H","I","J","K"],1,"The sequence skips one letter each time."],
+["3, 6, 9, 12, ?",["13","14","15","18"],2,"The sequence increases by 3."]
+],
+intermediate:[
+["2, 6, 12, 20, 30, ?",["36","40","42","44"],2,"The differences are 4, 6, 8, 10 and then 12. Answer: 42."],
+["1, 4, 9, 16, 25, ?",["30","32","36","49"],2,"These are consecutive square numbers. Next is 6² = 36."],
+["81, 27, 9, 3, ?",["0","1","2","6"],1,"Each term is divided by 3."],
+["2, 3, 5, 8, 12, ?",["15","16","17","18"],2,"The differences increase by 1: +1, +2, +3, +4, then +5."],
+["B, E, I, N, ?",["R","S","T","U"],2,"Letter positions increase by 3, 4, 5 and then 6. Next is T."]
+],
+advanced:[
+["1, 2, 6, 24, 120, ?",["240","360","600","720"],3,"The terms are factorials: 1!, 2!, 3!, 4!, 5!, then 6! = 720."],
+["3, 7, 15, 31, 63, ?",["95","111","127","129"],2,"Each term is multiplied by 2 and then 1 is added. Next is 127."],
+["1, 8, 27, 64, 125, ?",["180","196","216","225"],2,"These are cube numbers: 1³, 2³, 3³, 4³, 5³, then 6³ = 216."],
+["2, 5, 11, 23, 47, ?",["85","93","95","97"],2,"Each term is multiplied by 2 and then 1 is added. Next is 95."],
+["4, 9, 19, 39, 79, ?",["119","139","159","169"],2,"Each term is multiplied by 2 and then 1 is added. Next is 159."]
+]
+}
+},
+memory:{
+title:"Memory & Cognitive Skills",
+description:"Observe the sequence carefully and recall the information.",
+questions:{
+beginner:[
+["Remember: 4, 7, 2, 9. What was the third number?",["4","7","2","9"],2,"The original sequence was 4, 7, 2, 9. The third number was 2."],
+["Remember: RED, BLUE, GREEN. What was the second colour?",["Red","Blue","Green","Yellow"],1,"Blue was the second colour."],
+["Remember: 12, 18, 24, 30. What was the first number?",["12","18","24","30"],0,"The first number was 12."],
+["Remember: CAT, DOG, BIRD. Which word was last?",["Cat","Dog","Bird","Fish"],2,"Bird was the last word."],
+["Remember: 5, 1, 8, 3. What was the fourth number?",["5","1","8","3"],3,"The fourth number was 3."]
+],
+intermediate:[
+["Remember: 14, 6, 22, 9, 31. What was the second number?",["14","6","22","9"],1,"The second number was 6."],
+["Remember: LION, TIGER, DEER, BEAR. Which was third?",["Lion","Tiger","Deer","Bear"],2,"Deer was the third item."],
+["Remember: 3, 8, 1, 7, 4, 9. What was fifth?",["3","8","1","7","4"],4,"The fifth number was 4."],
+["Remember: MONDAY, WEDNESDAY, FRIDAY, SUNDAY. Which was fourth?",["Monday","Wednesday","Friday","Sunday"],3,"Sunday was the fourth day."],
+["Remember: 21, 42, 16, 35, 28. What was the first number?",["21","42","16","35"],0,"The first number was 21."]
+],
+advanced:[
+["Remember: 8, 3, 14, 6, 21, 11, 5. What was the sixth number?",["14","21","11","5"],2,"The sixth number was 11."],
+["Remember: A7, C4, F9, H2, K6. Which pair was fourth?",["A7","C4","F9","H2"],3,"H2 was the fourth pair."],
+["Remember: 17, 29, 11, 43, 8, 36. What was the third number?",["17","29","11","43"],2,"The third number was 11."],
+["Remember: NORTH, EAST, SOUTH, WEST, EAST. What was the fourth direction?",["North","East","South","West"],3,"West was the fourth direction."],
+["Remember: 2B, 5D, 8F, 3H, 7J. What was the fifth pair?",["2B","5D","8F","3H","7J"],4,"7J was the fifth pair."]
+]
+}
+},
+critical:{
+title:"Critical Thinking Challenges",
+description:"Evaluate evidence and select the most reasonable conclusion.",
+questions:{
+beginner:[
+["A plant near a window grows faster than one in a dark room. What is a reasonable explanation?",["Plants need sunlight","Plants need plastic","Plants cannot grow in soil","Darkness creates food"],0,"Sunlight is required for photosynthesis, although other factors also influence growth."],
+["A student finds three broken pencils in a box. What can be concluded?",["All pencils are broken","At least three pencils are broken","No pencils are usable","The box is empty"],1,"Only the observed fact is certain: at least three pencils are broken."],
+["Which is the strongest evidence for a claim about rainfall?",["A guess","A single opinion","Recorded rainfall measurements","A rumour"],2,"Recorded measurements provide measurable evidence."],
+["A report uses data from only two people. What should you consider?",["The sample may be too small","The conclusion is always correct","No further evidence is needed","The data must be false"],0,"A small sample may not represent a wider population."],
+["Which question helps evaluate a source?",["Who created it and what evidence supports it?","Is the title attractive?","Is it very short?","Does it use bright colours?"],0,"Source credibility depends on authorship, evidence and methods."]
+],
+intermediate:[
+["A survey shows 70% of 20 respondents prefer option A. What is the sample size?",["10","14","20","70"],2,"The survey included 20 respondents."],
+["Two studies reach different conclusions. What should you do first?",["Ignore both","Compare their methods and evidence","Choose the longer report","Accept the newest automatically"],1,"Comparing methods and evidence helps explain differences."],
+["A river has more algae after fertiliser runoff. What is a possible explanation?",["Extra nutrients support algae growth","Algae produce fertiliser","Water has no nutrients","The river became a desert"],0,"Nutrients such as nitrogen and phosphorus can promote algal growth."],
+["A graph starts its vertical axis at 90 instead of 0. What should a reader consider?",["The visual difference may be exaggerated","The data is automatically false","The graph is always perfect","The values cannot be compared"],0,"A truncated axis can exaggerate apparent differences."],
+["Which approach reduces bias in an experiment?",["Change many factors together","Use consistent methods and controls","Select only favourable results","Avoid recording observations"],1,"Consistent procedures and suitable controls reduce bias."]
+],
+advanced:[
+["A study finds correlation between two variables. What does this establish?",["One causes the other","They are associated in the data","There are no other factors","The result applies everywhere"],1,"Correlation alone does not establish causation."],
+["A result cannot be reproduced by another researcher. What is the best response?",["Hide the result","Review methods and repeat the investigation","Declare it proven","Remove all data"],1,"Reproducibility is important for evaluating scientific reliability."],
+["A policy has benefits but also unexpected costs. What is the best evaluation?",["Consider both benefits and costs","Ignore the costs","Assume it has no benefits","Use opinions only"],0,"Balanced evaluation considers intended and unintended consequences."],
+["A sample is selected only from one neighbourhood. What limitation may exist?",["Selection bias and limited representation","Perfect global coverage","No possible bias","Automatic causation"],0,"A sample from one neighbourhood may not represent the wider population."],
+["Which conclusion is most scientifically responsible?",["The data proves everything","The results support a possible explanation within the study limits","No limitations exist","All future studies will agree"],1,"Scientific conclusions should reflect evidence and acknowledge limitations."]
+]
+}
+}
+};
+
+let activeModule=null,questions=[],current=0,score=0,answered=false;
+let totalScore=0;
+
+function startModule(key){
+activeModule=key;
+document.getElementById("workspace").style.display="block";
+document.getElementById("moduleTitle").textContent=modules[key].title;
+document.getElementById("moduleDescription").textContent=modules[key].description;
+document.getElementById("difficulty").value="beginner";
+loadLevel();
+document.getElementById("workspace").scrollIntoView({behavior:"smooth"});
+}
+
+function changeDifficulty(){loadLevel()}
+
+function loadLevel(){
+questions=modules[activeModule].questions[document.getElementById("difficulty").value];
+current=0;score=0;
+document.getElementById("feedback").style.display="none";
+document.getElementById("nextButton").style.display="none";
+loadQuestion();
+}
+
+function loadQuestion(){
+answered=false;
+const q=questions[current];
+document.getElementById("progressBar").style.width=(current/questions.length*100)+"%";
+document.getElementById("questionCount").textContent="Question "+(current+1)+" of "+questions.length;
+document.getElementById("questionArea").innerHTML=
+'<div class="question"><h3>'+q[0]+'</h3>'+
+q[1].map((option,i)=>'<button class="option" onclick="answerQuestion('+i+')">'+option+'</button>').join("")+
+'</div>';
+document.getElementById("feedback").style.display="none";
+document.getElementById("nextButton").style.display="none";
+}
+
+function answerQuestion(choice){
+if(answered)return;
+answered=true;
+const q=questions[current];
+const correct=choice===q[2];
+if(correct)score+=10;
+const box=document.getElementById("feedback");
+box.style.display="block";
+box.innerHTML="<strong>"+(correct?"Correct!":"Incorrect.")+"</strong><p>"+q[3]+"</p>";
+document.querySelectorAll(".option").forEach((btn,i)=>{
+btn.disabled=true;
+if(i===q[2])btn.style.background="#cce6c8";
+});
+document.getElementById("nextButton").style.display="inline-block";
+document.getElementById("nextButton").textContent=current===questions.length-1?"View Results →":"Next Question →";
+}
+
+function nextQuestion(){
+current++;
+if(current<questions.length){loadQuestion();return;}
+totalScore+=score;
+document.getElementById("totalScore").textContent=totalScore;
+document.getElementById("progressBar").style.width="100%";
+document.getElementById("questionArea").innerHTML=
+"<div class='question'><h3>Module Completed</h3><p>Your score: <strong>"+score+" / 50</strong></p><p>"+(score>=40?"Excellent performance!":score>=20?"Good effort. Keep practising!":"Review the explanations and try again.")+"</p><button onclick='loadLevel()'>Retry This Level</button></div>";
+document.getElementById("feedback").style.display="none";
+document.getElementById("nextButton").style.display="none";
+}
+
+function closeModule(){
+document.getElementById("workspace").style.display="none";
+document.querySelector(".intro").scrollIntoView({behavior:"smooth"});
+}
+</script>
+</body>
+</html>

@@ -1,0 +1,611 @@
+
+<!DOCTYPE html>
+<html lang="en">
+<head>
+<meta charset="UTF-8">
+<meta name="viewport" content="width=device-width, initial-scale=1.0">
+<title>Climate Science Lab | SparkByte</title>
+
+<style>
+* {
+    margin: 0;
+    padding: 0;
+    box-sizing: border-box;
+}
+
+body {
+    font-family: Arial, sans-serif;
+    background: #f3f6f5;
+    color: #293b3a;
+}
+
+header {
+    background: linear-gradient(120deg, #163c3b, #347b70);
+    color: white;
+    text-align: center;
+    padding: 42px 20px;
+}
+
+header h1 {
+    font-size: 32px;
+    margin-bottom: 12px;
+}
+
+header p {
+    color: #dceee9;
+    line-height: 1.6;
+}
+
+.container {
+    max-width: 1050px;
+    margin: auto;
+    padding: 25px 20px;
+}
+
+.intro {
+    background: white;
+    padding: 21px;
+    border-left: 5px solid #3e8c7b;
+    border-radius: 10px;
+    line-height: 1.8;
+    color: #63736e;
+    margin-bottom: 30px;
+}
+
+.section-title {
+    color: #28645b;
+    font-size: 23px;
+    margin-bottom: 16px;
+}
+
+.dashboard {
+    display: grid;
+    grid-template-columns: repeat(auto-fit, minmax(200px, 1fr));
+    gap: 15px;
+    margin-bottom: 32px;
+}
+
+.metric {
+    background: white;
+    border: 1px solid #dce7e2;
+    border-radius: 12px;
+    padding: 20px;
+}
+
+.metric h3 {
+    font-size: 14px;
+    color: #71817b;
+    margin-bottom: 12px;
+}
+
+.metric h2 {
+    color: #28645b;
+    font-size: 26px;
+}
+
+.metric p {
+    font-size: 12px;
+    color: #84918c;
+    margin-top: 7px;
+}
+
+.info-card {
+    background: white;
+    padding: 22px;
+    border-radius: 12px;
+    margin-top: 25px;
+    border: 1px solid #dce7e2;
+    line-height: 1.8;
+}
+
+.greenhouse {
+    display: grid;
+    grid-template-columns: repeat(auto-fit, minmax(180px, 1fr));
+    gap: 12px;
+    margin-top: 18px;
+}
+
+.step {
+    background: #edf4f0;
+    padding: 16px;
+    border-radius: 9px;
+    text-align: center;
+}
+
+.step h3 {
+    color: #28645b;
+    margin-bottom: 8px;
+}
+
+.step p {
+    font-size: 13px;
+    color: #65766f;
+}
+
+.case-grid {
+    display: grid;
+    grid-template-columns: repeat(auto-fit, minmax(220px, 1fr));
+    gap: 15px;
+    margin-top: 15px;
+}
+
+.case {
+    background: #edf4f0;
+    padding: 18px;
+    border-radius: 10px;
+}
+
+.case h3 {
+    color: #28645b;
+    margin-bottom: 8px;
+}
+
+.case p {
+    font-size: 14px;
+    line-height: 1.7;
+    color: #65766f;
+}
+
+.calculator {
+    background: white;
+    padding: 23px;
+    border-radius: 12px;
+    margin-top: 30px;
+    border: 1px solid #dce7e2;
+}
+
+.field {
+    margin: 18px 0;
+}
+
+.field label {
+    display: block;
+    font-weight: bold;
+    margin-bottom: 8px;
+}
+
+.field input,
+.field select {
+    width: 100%;
+    padding: 12px;
+    border: 1px solid #cbd9d2;
+    border-radius: 7px;
+    font-size: 15px;
+    background: white;
+}
+
+button {
+    background: #28645b;
+    color: white;
+    padding: 12px 17px;
+    border: none;
+    border-radius: 7px;
+    cursor: pointer;
+    margin-top: 12px;
+}
+
+button:hover {
+    background: #19483f;
+}
+
+.result {
+    display: none;
+    background: #edf4f0;
+    padding: 18px;
+    border-radius: 9px;
+    margin-top: 18px;
+    line-height: 1.8;
+}
+
+.quiz {
+    background: white;
+    padding: 23px;
+    border-radius: 12px;
+    margin-top: 32px;
+    border: 1px solid #dce7e2;
+}
+
+.question {
+    font-size: 17px;
+    font-weight: bold;
+    margin: 18px 0;
+    line-height: 1.5;
+}
+
+.option {
+    display: block;
+    width: 100%;
+    text-align: left;
+    background: #edf4f0;
+    color: #344b43;
+    border: 1px solid #dce7e2;
+    margin: 9px 0;
+}
+
+.option:disabled {
+    cursor: default;
+}
+
+#feedback {
+    margin-top: 15px;
+    line-height: 1.7;
+    font-weight: bold;
+}
+
+#nextBtn {
+    display: none;
+}
+
+#score {
+    color: #28645b;
+    font-weight: bold;
+    margin-top: 15px;
+}
+
+.back {
+    display: inline-block;
+    margin: 25px 0;
+    color: #28645b;
+    text-decoration: none;
+    font-weight: bold;
+}
+
+@media(max-width: 500px) {
+    header h1 {
+        font-size: 26px;
+    }
+}
+</style>
+</head>
+
+<body>
+
+<header>
+    <h1>🌍 Climate Science Lab</h1>
+    <p>Understand climate systems, greenhouse gases and environmental change.</p>
+</header>
+
+<div class="container">
+
+    <div class="intro">
+        <h3>Research Overview</h3>
+        <p>
+            Climate science studies long-term patterns in Earth's atmosphere,
+            oceans, land and ice systems. Human activities such as fossil fuel
+            combustion and deforestation increase greenhouse gas concentrations,
+            contributing to global warming and changes in climate patterns.
+        </p>
+    </div>
+
+    <h2 class="section-title">Climate Science Dashboard</h2>
+
+    <div class="dashboard">
+
+        <div class="metric">
+            <h3>Climate System</h3>
+            <h2>Atmosphere</h2>
+            <p>One of Earth's interconnected climate components</p>
+        </div>
+
+        <div class="metric">
+            <h3>Main Greenhouse Gas</h3>
+            <h2>CO₂</h2>
+            <p>Carbon dioxide is a major human-influenced greenhouse gas</p>
+        </div>
+
+        <div class="metric">
+            <h3>Major Energy Source</h3>
+            <h2>Sun</h2>
+            <p>Solar energy drives Earth's climate system</p>
+        </div>
+
+        <div class="metric">
+            <h3>Climate Evidence</h3>
+            <h2>Multiple</h2>
+            <p>Temperature, ice, ocean and rainfall observations</p>
+        </div>
+
+    </div>
+
+    <div class="info-card">
+        <h2 class="section-title">Understanding the Greenhouse Effect</h2>
+
+        <p>
+            The greenhouse effect is a natural process that keeps Earth warm.
+            Greenhouse gases absorb and re-emit some of the infrared radiation
+            released by Earth's surface. Human activities increase the
+            concentration of these gases, strengthening this effect.
+        </p>
+
+        <div class="greenhouse">
+
+            <div class="step">
+                <h3>☀️ 01. Solar Energy</h3>
+                <p>Sunlight passes through the atmosphere and reaches Earth's surface.</p>
+            </div>
+
+            <div class="step">
+                <h3>🌎 02. Absorption</h3>
+                <p>Land and oceans absorb energy and become warmer.</p>
+            </div>
+
+            <div class="step">
+                <h3>♨️ 03. Heat Release</h3>
+                <p>Earth releases energy back toward space as infrared radiation.</p>
+            </div>
+
+            <div class="step">
+                <h3>☁️ 04. Greenhouse Gases</h3>
+                <p>Greenhouse gases absorb and re-emit some outgoing infrared radiation.</p>
+            </div>
+
+        </div>
+    </div>
+
+    <div class="info-card">
+        <h2 class="section-title">Climate Change Case Studies</h2>
+
+        <div class="case-grid">
+
+            <div class="case">
+                <h3>🌊 Sea Level Rise</h3>
+                <p>
+                    Warming oceans expand, while melting land-based ice adds
+                    water to the oceans. These processes contribute to rising
+                    global sea levels.
+                </p>
+            </div>
+
+            <div class="case">
+                <h3>🌡️ Heatwaves</h3>
+                <p>
+                    Human-caused warming increases the likelihood and intensity
+                    of many extreme heat events, affecting health and ecosystems.
+                </p>
+            </div>
+
+            <div class="case">
+                <h3>🌳 Deforestation</h3>
+                <p>
+                    Forest loss reduces carbon storage and can alter local
+                    rainfall, soil conditions and biodiversity.
+                </p>
+            </div>
+
+            <div class="case">
+                <h3>🌧️ Rainfall Changes</h3>
+                <p>
+                    A warming atmosphere changes the water cycle and can
+                    influence heavy rainfall and drought patterns.
+                </p>
+            </div>
+
+        </div>
+    </div>
+
+    <div class="calculator">
+        <h2 class="section-title">Carbon Footprint Estimator</h2>
+
+        <p>
+            Estimate emissions from a few selected daily activities.
+            This is a simplified educational calculator, not a complete
+            personal carbon audit.
+        </p>
+
+        <div class="field">
+            <label>Car travel distance per week (km)</label>
+            <input type="number" id="distance" min="0" max="5000" value="50">
+        </div>
+
+        <div class="field">
+            <label>Vehicle type</label>
+            <select id="vehicle">
+                <option value="0.12">Small petrol car</option>
+                <option value="0.17">Average petrol car</option>
+                <option value="0.20">Diesel car</option>
+                <option value="0.00">Electric vehicle (tailpipe emissions)</option>
+            </select>
+        </div>
+
+        <div class="field">
+            <label>Electricity usage per month (kWh)</label>
+            <input type="number" id="electricity" min="0" max="10000" value="100">
+        </div>
+
+        <button onclick="calculateFootprint()">Calculate Estimate</button>
+
+        <div class="result" id="result"></div>
+    </div>
+
+    <div class="quiz">
+        <h2 class="section-title">🔬 Climate Science Knowledge Challenge</h2>
+
+        <p>Test your understanding of climate systems and environmental science.</p>
+
+        <p id="questionNumber"></p>
+        <div class="question" id="question"></div>
+        <div id="options"></div>
+        <p id="feedback"></p>
+
+        <button id="nextBtn" onclick="nextQuestion()">Next Question →</button>
+
+        <p id="score">Score: 0 / 50</p>
+    </div>
+
+    <a href="nature.html" class="back">← Back to Nature World</a>
+
+</div>
+
+<script>
+
+function calculateFootprint() {
+    const distance = Number(document.getElementById("distance").value);
+    const vehicle = Number(document.getElementById("vehicle").value);
+    const electricity = Number(document.getElementById("electricity").value);
+
+    const result = document.getElementById("result");
+
+    if (
+        !Number.isFinite(distance) ||
+        !Number.isFinite(electricity) ||
+        distance < 0 || distance > 5000 ||
+        electricity < 0 || electricity > 10000
+    ) {
+        result.style.display = "block";
+        result.textContent = "Please enter valid non-negative values within the stated limits.";
+        return;
+    }
+
+    // Illustrative factors only; actual emissions vary by region and vehicle.
+    const travelEmission = distance * vehicle * 52 / 1000;
+    const electricityEmission = electricity * 0.7 * 12 / 1000;
+    const total = travelEmission + electricityEmission;
+
+    result.style.display = "block";
+    result.innerHTML = `
+        <h3>Estimated Annual Emissions</h3>
+        <h2 style="color:#28645b; margin:10px 0;">${total.toFixed(2)} tonnes CO₂e</h2>
+        <p>Travel estimate: ${travelEmission.toFixed(2)} tonnes CO₂e/year</p>
+        <p>Electricity estimate: ${electricityEmission.toFixed(2)} tonnes CO₂e/year</p>
+        <p><small>Illustrative factors: vehicle emissions are estimated from the selected category; electricity uses 0.7 kg CO₂e/kWh as an example factor. Actual grid and vehicle emission factors vary.</small></p>
+    `;
+}
+
+const questions = [
+{
+    q: "Which gas is a major contributor to human-caused global warming?",
+    options: ["Oxygen", "Carbon dioxide", "Nitrogen", "Helium"],
+    correct: 1,
+    explanation: "Carbon dioxide is a major greenhouse gas released through fossil fuel use and land-use changes."
+},
+{
+    q: "What is the natural greenhouse effect?",
+    options: [
+        "Blocking all sunlight",
+        "Absorption and re-emission of infrared radiation by gases",
+        "Stopping ocean currents",
+        "Creating oxygen"
+    ],
+    correct: 1,
+    explanation: "Greenhouse gases absorb and re-emit infrared radiation, helping keep Earth's surface warmer."
+},
+{
+    q: "Which activity reduces the ability of forests to store carbon?",
+    options: ["Reforestation", "Deforestation", "Tree protection", "Forest restoration"],
+    correct: 1,
+    explanation: "Deforestation removes trees that store carbon and can release stored carbon into the atmosphere."
+},
+{
+    q: "Which process contributes to sea level rise?",
+    options: [
+        "Expansion of warming seawater",
+        "Formation of new mountains",
+        "Increase in forest cover",
+        "Reduction in sunlight"
+    ],
+    correct: 0,
+    explanation: "Warming seawater expands, and melting land ice adds more water to oceans."
+},
+{
+    q: "Which of these is a source of renewable energy?",
+    options: ["Coal", "Petroleum", "Solar energy", "Natural gas"],
+    correct: 2,
+    explanation: "Solar energy is renewable because it comes from the Sun and is naturally replenished."
+}
+];
+
+let current = 0;
+let score = 0;
+let answered = false;
+
+function loadQuestion() {
+    const q = questions[current];
+
+    document.getElementById("questionNumber").textContent =
+        "Question " + (current + 1) + " of " + questions.length;
+
+    document.getElementById("question").textContent = q.q;
+    document.getElementById("feedback").textContent = "";
+    document.getElementById("nextBtn").style.display = "none";
+
+    const area = document.getElementById("options");
+    area.innerHTML = "";
+
+    q.options.forEach((option, index) => {
+        const btn = document.createElement("button");
+        btn.className = "option";
+        btn.textContent = String.fromCharCode(65 + index) + ". " + option;
+        btn.onclick = () => checkAnswer(index);
+        area.appendChild(btn);
+    });
+
+    answered = false;
+}
+
+function checkAnswer(selected) {
+    if (answered) return;
+    answered = true;
+
+    const q = questions[current];
+    const buttons = document.querySelectorAll(".option");
+
+    buttons.forEach(btn => btn.disabled = true);
+
+    const feedback = document.getElementById("feedback");
+
+    if (selected === q.correct) {
+        score += 10;
+        feedback.textContent = "✓ Correct! " + q.explanation;
+        feedback.style.color = "#267b45";
+    } else {
+        feedback.textContent = "✗ Incorrect. " + q.explanation;
+        feedback.style.color = "#b34c40";
+    }
+
+    buttons[q.correct].style.background = "#dcefe2";
+
+    document.getElementById("score").textContent =
+        "Score: " + score + " / 50";
+
+    document.getElementById("nextBtn").style.display = "inline-block";
+}
+
+function nextQuestion() {
+    current++;
+
+    if (current < questions.length) {
+        loadQuestion();
+    } else {
+        document.querySelector(".quiz").innerHTML = `
+            <h2 class="section-title">🏆 Challenge Completed!</h2>
+            <h1 style="color:#28645b; margin:15px 0;">${score} / 50</h1>
+            <p>You have completed the Climate Science Challenge.</p>
+            <button onclick="restartQuiz()">Try Again</button>
+        `;
+    }
+}
+
+function restartQuiz() {
+    current = 0;
+    score = 0;
+
+    document.querySelector(".quiz").innerHTML = `
+        <h2 class="section-title">🔬 Climate Science Knowledge Challenge</h2>
+        <p>Test your understanding of climate systems and environmental science.</p>
+        <p id="questionNumber"></p>
+        <div class="question" id="question"></div>
+        <div id="options"></div>
+        <p id="feedback"></p>
+        <button id="nextBtn" onclick="nextQuestion()" style="display:none;">Next Question →</button>
+        <p id="score">Score: 0 / 50</p>
+    `;
+
+    loadQuestion();
+}
+
+loadQuestion();
+
+</script>
+
+</body>
+</html>

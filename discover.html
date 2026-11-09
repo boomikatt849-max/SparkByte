@@ -1,0 +1,343 @@
+
+<!DOCTYPE html>
+<html lang="en">
+<head>
+<meta charset="UTF-8">
+<meta name="viewport" content="width=device-width, initial-scale=1.0">
+<title>Discover Your World | SparkByte</title>
+
+<link href="https://fonts.googleapis.com/css2?family=DM+Sans:wght@400;500;600;700;800&family=Outfit:wght@400;500;600;700;800&family=Playfair+Display:wght@600;700&display=swap" rel="stylesheet">
+
+<style>
+* {
+    margin: 0;
+    padding: 0;
+    box-sizing: border-box;
+}
+
+body {
+    background: #faf9f3;
+    color: #173c32;
+    font-family: 'DM Sans', sans-serif;
+}
+
+nav {
+    padding: 18px 7%;
+    display: flex;
+    align-items: center;
+    justify-content: space-between;
+    background: white;
+    border-bottom: 1px solid #e8ece5;
+}
+
+.logo {
+    display: flex;
+    align-items: center;
+    gap: 10px;
+    text-decoration: none;
+    color: #173c32;
+    font-family: 'Outfit', sans-serif;
+    font-size: 25px;
+    font-weight: 800;
+}
+
+.logo-icon {
+    background: #167c54;
+    color: white;
+    border-radius: 12px;
+    width: 42px;
+    height: 42px;
+    display: grid;
+    place-items: center;
+}
+
+.logo span {
+    color: #167c54;
+}
+
+.home-link {
+    text-decoration: none;
+    color: #167c54;
+    font-size: 14px;
+    font-weight: 700;
+}
+
+header {
+    text-align: center;
+    padding: 65px 20px 35px;
+}
+
+.tag {
+    color: #167c54;
+    font-size: 11px;
+    font-weight: 800;
+    letter-spacing: 2px;
+}
+
+header h1 {
+    font-family: 'Outfit', sans-serif;
+    font-size: clamp(35px, 5vw, 54px);
+    margin: 15px 0;
+    letter-spacing: -1px;
+}
+
+header h1 span {
+    color: #167c54;
+    font-family: 'Playfair Display', serif;
+    font-style: italic;
+}
+
+header p {
+    max-width: 600px;
+    margin: auto;
+    line-height: 1.8;
+    color: #77847c;
+    font-size: 14px;
+}
+
+.worlds {
+    max-width: 1200px;
+    margin: 25px auto 80px;
+    padding: 0 25px;
+    display: grid;
+    grid-template-columns: repeat(2, 1fr);
+    gap: 25px;
+}
+
+.world-card {
+    background: white;
+    border-radius: 25px;
+    overflow: hidden;
+    border: 1px solid #e9eee7;
+    transition: .3s;
+    text-decoration: none;
+    color: inherit;
+    display: block;
+}
+
+.world-card:hover {
+    transform: translateY(-8px);
+    box-shadow: 0 18px 35px #1c49331a;
+}
+
+.picture {
+    height: 245px;
+    display: flex;
+    justify-content: center;
+    align-items: center;
+    position: relative;
+    overflow: hidden;
+}
+
+.picture img {
+    width: 100%;
+    height: 100%;
+    object-fit: cover;
+    transition: .5s;
+}
+
+.world-card:hover .picture img {
+    transform: scale(1.06);
+}
+
+.picture .number {
+    position: absolute;
+    top: 18px;
+    left: 18px;
+    background: white;
+    border-radius: 20px;
+    padding: 8px 13px;
+    font-size: 11px;
+    font-weight: 800;
+}
+
+.content {
+    padding: 25px;
+}
+
+.content h2 {
+    font-family: 'Outfit', sans-serif;
+    font-size: 25px;
+    margin-bottom: 10px;
+}
+
+.content p {
+    color: #77847c;
+    font-size: 13px;
+    line-height: 1.8;
+    min-height: 48px;
+}
+
+.card-bottom {
+    display: flex;
+    justify-content: space-between;
+    align-items: center;
+    margin-top: 22px;
+}
+
+.explore {
+    font-size: 13px;
+    font-weight: 800;
+}
+
+.arrow {
+    width: 38px;
+    height: 38px;
+    border-radius: 50%;
+    display: grid;
+    place-items: center;
+    color: white;
+    font-size: 20px;
+}
+
+.nature .picture { background: #dcebdc; }
+.nature .explore { color: #27834e; }
+.nature .arrow { background: #27834e; }
+
+.coding .picture { background: #dce8ff; }
+.coding .explore { color: #3979d6; }
+.coding .arrow { background: #3979d6; }
+
+.brain .picture { background: #fff0c8; }
+.brain .explore { color: #c18b1d; }
+.brain .arrow { background: #e7b53c; }
+
+.art .picture { background: #fbe1e9; }
+.art .explore { color: #d65e83; }
+.art .arrow { background: #df7897; }
+
+footer {
+    text-align: center;
+    padding: 28px 15px;
+    background: white;
+    color: #87938a;
+    font-size: 12px;
+    border-top: 1px solid #e8ece5;
+}
+
+@media(max-width: 650px) {
+    nav {
+        padding: 14px 5%;
+    }
+
+    .logo {
+        font-size: 22px;
+    }
+
+    header {
+        padding: 48px 20px 25px;
+    }
+
+    .worlds {
+        grid-template-columns: 1fr;
+        padding: 0 18px;
+        gap: 20px;
+        margin-top: 20px;
+    }
+
+    .picture {
+        height: 220px;
+    }
+
+    .content {
+        padding: 21px;
+    }
+}
+</style>
+</head>
+
+<body>
+
+<nav>
+    <a href="index.html" class="logo">
+        <div class="logo-icon">S</div>
+        Spark<span>Byte</span>
+    </a>
+
+    <a href="index.html" class="home-link">← Home</a>
+</nav>
+
+<header>
+    <div class="tag">THE SPARKBYTE EXPERIENCE</div>
+    <h1>Discover Your <span>World.</span></h1>
+    <p>
+        Four different worlds. Endless possibilities.
+        Choose your interest, explore new ideas and
+        discover what you can create.
+    </p>
+</header>
+
+<section class="worlds">
+
+    <a href="nature.html" class="world-card nature">
+        <div class="picture">
+            <img src="https://images.unsplash.com/photo-1441974231531-c6227db76b6e?w=900"
+                 alt="Green forest and nature">
+            <div class="number">01 / WORLD</div>
+        </div>
+        <div class="content">
+            <h2>Nature World 🌿</h2>
+            <p>Explore biodiversity, ecosystems, wildlife and climate science through interactive activities.</p>
+            <div class="card-bottom">
+                <span class="explore">Explore Nature</span>
+                <span class="arrow">↗</span>
+            </div>
+        </div>
+    </a>
+
+    <a href="coding.html" class="world-card coding">
+        <div class="picture">
+            <img src="https://images.unsplash.com/photo-1518770660439-4636190af475?w=900"
+                 alt="Technology circuit board">
+            <div class="number">02 / WORLD</div>
+        </div>
+        <div class="content">
+            <h2>Coding World 💻</h2>
+            <p>Build programming knowledge, understand algorithms, debug code and solve coding challenges.</p>
+            <div class="card-bottom">
+                <span class="explore">Explore Coding</span>
+                <span class="arrow">↗</span>
+            </div>
+        </div>
+    </a>
+
+    <a href="brain.html" class="world-card brain">
+        <div class="picture">
+            <img src="https://images.unsplash.com/photo-1509062522246-3755977927d7?w=900"
+                 alt="Learning and thinking">
+            <div class="number">03 / WORLD</div>
+        </div>
+        <div class="content">
+            <h2>Brain World 🧠</h2>
+            <p>Challenge your logical reasoning, memory, problem-solving and critical thinking skills.</p>
+            <div class="card-bottom">
+                <span class="explore">Explore Brain</span>
+                <span class="arrow">↗</span>
+            </div>
+        </div>
+    </a>
+
+    <a href="art.html" class="world-card art">
+        <div class="picture">
+            <img src="https://images.unsplash.com/photo-1513364776144-60967b0f800f?w=900"
+                 alt="Colourful painting and art">
+            <div class="number">04 / WORLD</div>
+        </div>
+        <div class="content">
+            <h2>Art World 🎨</h2>
+            <p>Experiment with colours, draw animals, explore digital art and play creative visual games.</p>
+            <div class="card-bottom">
+                <span class="explore">Explore Art</span>
+                <span class="arrow">↗</span>
+            </div>
+        </div>
+    </a>
+
+</section>
+
+<footer>
+    © 2026 SparkByte · Explore Beyond Limits
+</footer>
+
+</body>
+</html>

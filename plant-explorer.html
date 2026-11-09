@@ -1,0 +1,510 @@
+
+<!DOCTYPE html>
+<html lang="en">
+<head>
+<meta charset="UTF-8">
+<meta name="viewport" content="width=device-width, initial-scale=1.0">
+<title>Plant & Species Explorer | SparkByte</title>
+
+<style>
+* {
+    margin: 0;
+    padding: 0;
+    box-sizing: border-box;
+}
+
+body {
+    font-family: Arial, sans-serif;
+    background: #f4f6ef;
+    color: #29382e;
+}
+
+header {
+    background: linear-gradient(120deg, #173c2b, #49734c);
+    padding: 35px 20px;
+    color: white;
+    text-align: center;
+}
+
+header h1 {
+    font-size: 32px;
+    margin-bottom: 10px;
+}
+
+header p {
+    color: #e2eddf;
+    line-height: 1.6;
+}
+
+.container {
+    max-width: 1050px;
+    margin: auto;
+    padding: 25px 20px;
+}
+
+.section-title {
+    color: #315b3b;
+    margin-bottom: 15px;
+    font-size: 22px;
+}
+
+.intro {
+    background: white;
+    border-left: 5px solid #5c8b56;
+    padding: 20px;
+    border-radius: 10px;
+    line-height: 1.8;
+    margin-bottom: 28px;
+    color: #657268;
+}
+
+.search {
+    width: 100%;
+    padding: 14px;
+    border: 1px solid #ccd8c8;
+    border-radius: 9px;
+    font-size: 15px;
+    margin-bottom: 20px;
+}
+
+.plant-grid {
+    display: grid;
+    grid-template-columns: repeat(auto-fit, minmax(220px, 1fr));
+    gap: 18px;
+}
+
+.plant-card {
+    background: white;
+    padding: 20px;
+    border-radius: 13px;
+    border: 1px solid #e0e7dc;
+}
+
+.plant-card .emoji {
+    font-size: 38px;
+}
+
+.plant-card h3 {
+    color: #315b3b;
+    margin: 12px 0 7px;
+}
+
+.scientific {
+    color: #748276;
+    font-style: italic;
+    font-size: 13px;
+    margin-bottom: 12px;
+}
+
+.plant-card p {
+    color: #637066;
+    font-size: 14px;
+    line-height: 1.7;
+}
+
+.plant-card button {
+    background: #315d3d;
+    color: white;
+    padding: 10px 14px;
+    border: none;
+    border-radius: 7px;
+    cursor: pointer;
+    margin-top: 14px;
+}
+
+.plant-card button:hover {
+    background: #21452d;
+}
+
+.details {
+    display: none;
+    background: #e8efe3;
+    border-radius: 12px;
+    padding: 20px;
+    margin-top: 20px;
+    line-height: 1.8;
+}
+
+.challenge {
+    background: white;
+    padding: 23px;
+    border-radius: 13px;
+    margin-top: 35px;
+    border: 1px solid #e0e7dc;
+}
+
+.question {
+    font-size: 17px;
+    font-weight: bold;
+    margin: 15px 0;
+}
+
+.option {
+    display: block;
+    width: 100%;
+    text-align: left;
+    background: #f5f7f1;
+    border: 1px solid #dce5d7;
+    padding: 13px;
+    border-radius: 8px;
+    margin: 9px 0;
+    cursor: pointer;
+    color: #344536;
+    font-size: 14px;
+}
+
+.option:hover {
+    background: #e8efe3;
+}
+
+.option:disabled {
+    cursor: default;
+}
+
+#feedback {
+    margin-top: 15px;
+    font-weight: bold;
+    line-height: 1.6;
+}
+
+#nextBtn {
+    display: none;
+    background: #315d3d;
+    color: white;
+    border: none;
+    padding: 12px 18px;
+    border-radius: 8px;
+    margin-top: 15px;
+    cursor: pointer;
+}
+
+#score {
+    color: #315b3b;
+    font-weight: bold;
+    margin-top: 15px;
+}
+
+.back {
+    display: inline-block;
+    margin-top: 25px;
+    color: #315b3b;
+    text-decoration: none;
+    font-weight: bold;
+}
+
+@media(max-width: 500px) {
+    header h1 { font-size: 26px; }
+}
+</style>
+</head>
+
+<body>
+
+<header>
+    <h1>🌱 Plant & Species Explorer</h1>
+    <p>Discover plant diversity, botanical classification and ecological adaptations.</p>
+</header>
+
+<div class="container">
+
+    <div class="intro">
+        <h3>About this Learning Lab</h3>
+        <p>
+            Plants are essential components of terrestrial and aquatic ecosystems.
+            They support food webs, regulate atmospheric gases and provide habitats
+            for numerous organisms. Explore their scientific characteristics,
+            classification and environmental adaptations.
+        </p>
+    </div>
+
+    <h2 class="section-title">Plant Species Library</h2>
+
+    <input
+        type="text"
+        id="search"
+        class="search"
+        placeholder="Search plants by common or scientific name..."
+        oninput="searchPlants()"
+    >
+
+    <div class="plant-grid" id="plantGrid">
+
+        <div class="plant-card">
+            <div class="emoji">🌻</div>
+            <h3>Sunflower</h3>
+            <div class="scientific">Helianthus annuus</div>
+            <p>Family: Asteraceae</p>
+            <p>Type: Flowering plant</p>
+            <button onclick="showDetails(0)">View Details →</button>
+        </div>
+
+        <div class="plant-card">
+            <div class="emoji">🌿</div>
+            <h3>Neem</h3>
+            <div class="scientific">Azadirachta indica</div>
+            <p>Family: Meliaceae</p>
+            <p>Type: Evergreen tree</p>
+            <button onclick="showDetails(1)">View Details →</button>
+        </div>
+
+        <div class="plant-card">
+            <div class="emoji">🌵</div>
+            <h3>Cactus</h3>
+            <div class="scientific">Opuntia ficus-indica</div>
+            <p>Family: Cactaceae</p>
+            <p>Type: Succulent plant</p>
+            <button onclick="showDetails(2)">View Details →</button>
+        </div>
+
+        <div class="plant-card">
+            <div class="emoji">🌾</div>
+            <h3>Rice</h3>
+            <div class="scientific">Oryza sativa</div>
+            <p>Family: Poaceae</p>
+            <p>Type: Cereal crop</p>
+            <button onclick="showDetails(3)">View Details →</button>
+        </div>
+
+        <div class="plant-card">
+            <div class="emoji">🌴</div>
+            <h3>Coconut</h3>
+            <div class="scientific">Cocos nucifera</div>
+            <p>Family: Arecaceae</p>
+            <p>Type: Palm tree</p>
+            <button onclick="showDetails(4)">View Details →</button>
+        </div>
+
+        <div class="plant-card">
+            <div class="emoji">🪷</div>
+            <h3>Lotus</h3>
+            <div class="scientific">Nelumbo nucifera</div>
+            <p>Family: Nelumbonaceae</p>
+            <p>Type: Aquatic plant</p>
+            <button onclick="showDetails(5)">View Details →</button>
+        </div>
+
+    </div>
+
+    <div class="details" id="details"></div>
+
+    <div class="challenge">
+        <h2 class="section-title">🔬 Plant Identification Challenge</h2>
+
+        <p>Test your botanical knowledge with these scientific questions.</p>
+
+        <p id="questionNumber"></p>
+        <div class="question" id="question"></div>
+
+        <div id="options"></div>
+
+        <p id="feedback"></p>
+        <button id="nextBtn" onclick="nextQuestion()">Next Question →</button>
+
+        <p id="score">Score: 0 / 50</p>
+    </div>
+
+    <a class="back" href="nature.html">← Back to Nature World</a>
+
+</div>
+
+<script>
+
+const plants = [
+{
+    name: "Sunflower",
+    family: "Asteraceae",
+    habitat: "Cultivated fields and open sunny environments.",
+    adaptation: "Young sunflower heads commonly track the sun during development. This is called heliotropism.",
+    importance: "Provides edible seeds, oil and food resources for pollinators."
+},
+{
+    name: "Neem",
+    family: "Meliaceae",
+    habitat: "Tropical and subtropical regions.",
+    adaptation: "Its leaves and other tissues contain natural compounds that help defend the plant against some herbivores and pests.",
+    importance: "Used traditionally for several purposes and provides shade and habitat."
+},
+{
+    name: "Cactus",
+    family: "Cactaceae",
+    habitat: "Mostly arid and semi-arid environments.",
+    adaptation: "Leaves are modified into spines in many cacti. Thick green stems store water and perform photosynthesis.",
+    importance: "Supports desert food webs and provides shelter and resources for wildlife."
+},
+{
+    name: "Rice",
+    family: "Poaceae",
+    habitat: "Agricultural fields, often flooded or water-managed fields.",
+    adaptation: "Many rice varieties tolerate waterlogged soil and have air spaces that help transport oxygen within the plant.",
+    importance: "One of the major staple food crops for human populations."
+},
+{
+    name: "Coconut",
+    family: "Arecaceae",
+    habitat: "Commonly cultivated in tropical coastal and inland regions.",
+    adaptation: "The fibrous outer fruit layer helps the fruit float and disperse through water.",
+    importance: "Provides food, oil, fibre and materials."
+},
+{
+    name: "Lotus",
+    family: "Nelumbonaceae",
+    habitat: "Ponds, lakes and shallow freshwater environments.",
+    adaptation: "Broad floating leaves and long stems help it survive in aquatic habitats.",
+    importance: "Provides habitat and contributes to freshwater ecosystem diversity."
+}
+];
+
+function showDetails(index) {
+    const p = plants[index];
+    const box = document.getElementById("details");
+
+    box.style.display = "block";
+    box.innerHTML = `
+        <h2>${p.name}</h2>
+        <p><b>Scientific name:</b> ${document.querySelectorAll(".scientific")[index].textContent}</p>
+        <p><b>Family:</b> ${p.family}</p>
+        <p><b>Habitat:</b> ${p.habitat}</p>
+        <p><b>Adaptation:</b> ${p.adaptation}</p>
+        <p><b>Ecological and human importance:</b> ${p.importance}</p>
+    `;
+
+    box.scrollIntoView({behavior: "smooth", block: "nearest"});
+}
+
+function searchPlants() {
+    const value = document.getElementById("search").value.toLowerCase();
+    const cards = document.querySelectorAll(".plant-card");
+
+    cards.forEach(card => {
+        card.style.display = card.textContent.toLowerCase().includes(value)
+            ? "block" : "none";
+    });
+}
+
+const questions = [
+{
+    q: "Which plant family includes sunflower?",
+    options: ["Poaceae", "Asteraceae", "Fabaceae", "Rosaceae"],
+    correct: 1,
+    explanation: "Sunflower belongs to Asteraceae, also known as the daisy family."
+},
+{
+    q: "Which adaptation helps many cacti survive dry environments?",
+    options: ["Large thin leaves", "Water-storing stems", "Floating roots", "Soft petals"],
+    correct: 1,
+    explanation: "Many cacti store water in thick stems and have spines instead of ordinary leaves."
+},
+{
+    q: "What is the scientific name of rice?",
+    options: ["Cocos nucifera", "Oryza sativa", "Nelumbo nucifera", "Helianthus annuus"],
+    correct: 1,
+    explanation: "Oryza sativa is the scientific name of commonly cultivated Asian rice."
+},
+{
+    q: "Which plant is adapted to freshwater aquatic habitats?",
+    options: ["Cactus", "Neem", "Lotus", "Sunflower"],
+    correct: 2,
+    explanation: "Lotus is an aquatic plant adapted to freshwater habitats."
+},
+{
+    q: "Which plant family does coconut belong to?",
+    options: ["Arecaceae", "Meliaceae", "Cactaceae", "Asteraceae"],
+    correct: 0,
+    explanation: "Coconut belongs to Arecaceae, the palm family."
+}
+];
+
+let current = 0;
+let score = 0;
+let answered = false;
+
+function loadQuestion() {
+    const q = questions[current];
+
+    document.getElementById("questionNumber").textContent =
+        "Question " + (current + 1) + " of " + questions.length;
+
+    document.getElementById("question").textContent = q.q;
+    document.getElementById("feedback").textContent = "";
+    document.getElementById("nextBtn").style.display = "none";
+
+    const area = document.getElementById("options");
+    area.innerHTML = "";
+
+    q.options.forEach((option, index) => {
+        const btn = document.createElement("button");
+        btn.className = "option";
+        btn.textContent = String.fromCharCode(65 + index) + ". " + option;
+        btn.onclick = () => checkAnswer(index);
+        area.appendChild(btn);
+    });
+
+    answered = false;
+}
+
+function checkAnswer(selected) {
+    if (answered) return;
+    answered = true;
+
+    const q = questions[current];
+    const buttons = document.querySelectorAll(".option");
+    buttons.forEach(btn => btn.disabled = true);
+
+    const feedback = document.getElementById("feedback");
+
+    if (selected === q.correct) {
+        score += 10;
+        feedback.textContent = "✓ Correct! " + q.explanation;
+        feedback.style.color = "#267b45";
+        buttons[selected].style.background = "#e3f3e5";
+    } else {
+        feedback.textContent = "✗ Incorrect. " + q.explanation;
+        feedback.style.color = "#b34c40";
+        buttons[q.correct].style.background = "#e3f3e5";
+    }
+
+    document.getElementById("score").textContent =
+        "Score: " + score + " / 50";
+
+    document.getElementById("nextBtn").style.display = "inline-block";
+}
+
+function nextQuestion() {
+    current++;
+
+    if (current < questions.length) {
+        loadQuestion();
+    } else {
+        document.querySelector(".challenge").innerHTML = `
+            <h2>🏆 Challenge Completed!</h2>
+            <h1 style="color:#315b3b; margin:15px 0;">${score} / 50</h1>
+            <p>You have completed the Plant Identification Challenge.</p>
+            <button onclick="restartQuiz()" style="background:#315d3d;color:white;padding:12px;border:0;border-radius:8px;margin-top:15px;cursor:pointer;">Try Again</button>
+        `;
+    }
+}
+
+function restartQuiz() {
+    current = 0;
+    score = 0;
+
+    document.querySelector(".challenge").innerHTML = `
+        <h2 class="section-title">🔬 Plant Identification Challenge</h2>
+        <p>Test your botanical knowledge with these scientific questions.</p>
+        <p id="questionNumber"></p>
+        <div class="question" id="question"></div>
+        <div id="options"></div>
+        <p id="feedback"></p>
+        <button id="nextBtn" onclick="nextQuestion()" style="display:none;">Next Question →</button>
+        <p id="score">Score: 0 / 50</p>
+    `;
+
+    loadQuestion();
+}
+
+loadQuestion();
+
+</script>
+
+</body>
+</html>

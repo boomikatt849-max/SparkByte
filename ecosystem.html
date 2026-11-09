@@ -1,0 +1,247 @@
+
+<!DOCTYPE html>
+<html lang="en">
+<head>
+<meta charset="UTF-8">
+<meta name="viewport" content="width=device-width, initial-scale=1.0">
+<title>Ecosystem Simulator | Nature World</title>
+<style>
+*{box-sizing:border-box;margin:0;padding:0}
+body{font-family:Arial,sans-serif;background:#f3f6ef;color:#263b2d;line-height:1.6}
+header{background:#173f32;color:white;padding:32px 8%;text-align:center}
+header h1{font-size:32px;margin-bottom:8px}
+header p{color:#d9e9dc}
+main{max-width:1100px;margin:30px auto;padding:0 18px}
+section{background:white;padding:25px;border-radius:14px;margin-bottom:22px;box-shadow:0 3px 14px #193d2410}
+h2{color:#23563e;margin-bottom:12px}
+h3{color:#315b42;margin-bottom:8px}
+p{margin-bottom:10px}
+.ecosystems,.roles,.impacts{display:grid;grid-template-columns:repeat(auto-fit,minmax(190px,1fr));gap:14px;margin-top:15px}
+.item{background:#edf4e9;padding:16px;border-radius:10px;border:1px solid #dce8d7}
+.item button{margin-top:10px}
+button{background:#286344;color:white;border:0;padding:10px 16px;border-radius:7px;cursor:pointer;font-weight:bold}
+button:hover{background:#173f32}
+button:disabled{opacity:.5;cursor:not-allowed}
+.result{background:#e5f1e4;padding:14px;border-radius:9px;margin-top:15px;display:none}
+.stat{font-size:25px;font-weight:bold;color:#286344}
+select{padding:10px;border:1px solid #aabca9;border-radius:7px;margin:6px 0;width:100%;max-width:300px}
+.question{padding:15px;background:#f3f6ef;border-radius:9px;margin:14px 0}
+.option{display:block;width:100%;text-align:left;margin:8px 0;background:#e7efe4;color:#263b2d}
+.option:hover{background:#d5e6d1}
+.feedback{font-weight:bold;margin-top:10px}
+footer{text-align:center;padding:20px;color:#65786b}
+</style>
+</head>
+<body>
+
+<header>
+<h1>Ecosystem Simulator</h1>
+<p>Explore ecological relationships, population changes and environmental impacts.</p>
+</header>
+
+<main>
+
+<section>
+<h2>1. Ecosystem Explorer</h2>
+<p>An ecosystem is a community of living organisms interacting with one another and with their physical environment.</p>
+<div class="ecosystems">
+<div class="item">
+<h3>🌳 Forest Ecosystem</h3>
+<p>Contains trees, animals, fungi and microorganisms. Trees provide food and shelter.</p>
+<button onclick="showEco('forest')">Explore</button>
+</div>
+<div class="item">
+<h3>🌾 Grassland Ecosystem</h3>
+<p>Dominated by grasses, grazing animals and predators. Rainfall is usually seasonal.</p>
+<button onclick="showEco('grassland')">Explore</button>
+</div>
+<div class="item">
+<h3>🏜️ Desert Ecosystem</h3>
+<p>Receives very little rainfall. Organisms have adaptations to conserve water.</p>
+<button onclick="showEco('desert')">Explore</button>
+</div>
+<div class="item">
+<h3>🌊 Aquatic Ecosystem</h3>
+<p>Includes freshwater and marine environments with fish, algae and aquatic plants.</p>
+<button onclick="showEco('aquatic')">Explore</button>
+</div>
+</div>
+<div class="result" id="ecoResult"></div>
+</section>
+
+<section>
+<h2>2. Food Web Simulator</h2>
+<p>A food web shows how energy moves between organisms in an ecosystem.</p>
+<div class="roles">
+<div class="item"><h3>🌱 Producers</h3><p>Plants and algae make their own food using sunlight.</p></div>
+<div class="item"><h3>🐇 Primary Consumers</h3><p>Herbivores obtain energy by eating producers.</p></div>
+<div class="item"><h3>🐍 Secondary Consumers</h3><p>These organisms feed on primary consumers.</p></div>
+<div class="item"><h3>🍄 Decomposers</h3><p>Fungi and bacteria break down dead organic matter and recycle nutrients.</p></div>
+</div>
+<h3 style="margin-top:20px">Build a simple food chain</h3>
+<p>Select an organism at each level.</p>
+<label>Producer</label>
+<select id="producer"><option value="">Select producer</option><option>Grass</option><option>Algae</option><option>Leaves</option></select>
+<label>Primary consumer</label>
+<select id="primary"><option value="">Select primary consumer</option><option>Grasshopper</option><option>Rabbit</option><option>Zooplankton</option></select>
+<label>Secondary consumer</label>
+<select id="secondary"><option value="">Select secondary consumer</option><option>Frog</option><option>Snake</option><option>Small fish</option></select>
+<button onclick="buildChain()">Build Food Chain</button>
+<div class="result" id="chainResult"></div>
+</section>
+
+<section>
+<h2>3. Population Dynamics</h2>
+<p>Population size changes due to births, deaths, immigration and emigration.</p>
+<p>Starting population: <span class="stat">100</span> rabbits</p>
+<label>Births during one period</label>
+<input type="number" id="births" value="20" min="0" max="1000" style="padding:9px;width:100%;max-width:300px">
+<br><br>
+<label>Deaths during one period</label>
+<input type="number" id="deaths" value="10" min="0" max="1000" style="padding:9px;width:100%;max-width:300px">
+<br><br>
+<label>Net migration (+ means entering, - means leaving)</label>
+<input type="number" id="migration" value="0" min="-1000" max="1000" style="padding:9px;width:100%;max-width:300px">
+<br><br>
+<button onclick="calculatePopulation()">Calculate Population</button>
+<div class="result" id="populationResult"></div>
+<p style="margin-top:12px;font-size:13px;color:#68796c">This is a simplified model. It does not include resource limits, disease or other ecological factors.</p>
+</section>
+
+<section>
+<h2>4. Environmental Impact Lab</h2>
+<p>Explore how environmental changes can affect ecosystems.</p>
+<div class="impacts">
+<div class="item">
+<h3>🌡️ Rising Temperature</h3>
+<p>Can change habitats, breeding seasons and species distribution.</p>
+<button onclick="showImpact('temperature')">Study Impact</button>
+</div>
+<div class="item">
+<h3>🌲 Deforestation</h3>
+<p>Reduces habitats, affects biodiversity and can increase soil erosion.</p>
+<button onclick="showImpact('forest')">Study Impact</button>
+</div>
+<div class="item">
+<h3>💧 Water Pollution</h3>
+<p>Can reduce water quality and harm aquatic organisms.</p>
+<button onclick="showImpact('water')">Study Impact</button>
+</div>
+</div>
+<div class="result" id="impactResult"></div>
+</section>
+
+<section>
+<h2>5. Ecosystem Knowledge Challenge</h2>
+<p>Test your understanding of ecosystem science. There are 5 questions.</p>
+<div id="quizArea"></div>
+<div id="quizResult" class="result"></div>
+</section>
+
+</main>
+
+<footer>Nature World | SparkByte Learning Platform</footer>
+
+<script>
+const ecoData={
+forest:"Forest ecosystems contain trees, shrubs, animals, fungi and microorganisms. They store carbon, regulate climate and provide habitats for many species.",
+grassland:"Grasslands support grasses, grazing herbivores and predators. Their organisms are adapted to seasonal rainfall, fire and grazing.",
+desert:"Desert organisms survive with limited water. Some plants store water, while many animals avoid the hottest part of the day.",
+aquatic:"Aquatic ecosystems include ponds, rivers, lakes and oceans. Water conditions such as temperature, salinity and oxygen affect the organisms living there."
+};
+
+function showEco(type){
+const box=document.getElementById("ecoResult");
+box.style.display="block";
+box.textContent=ecoData[type];
+}
+
+function buildChain(){
+const p=document.getElementById("producer").value;
+const a=document.getElementById("primary").value;
+const b=document.getElementById("secondary").value;
+const box=document.getElementById("chainResult");
+box.style.display="block";
+if(!p||!a||!b){
+box.textContent="Please select all three organisms.";
+return;
+}
+box.innerHTML="<strong>Your selected chain:</strong><br>"+p+" → "+a+" → "+b+"<br><br>Energy moves from the producer to the consumers. In a real ecosystem, food webs contain many connected food chains.";
+}
+
+function calculatePopulation(){
+const births=Number(document.getElementById("births").value);
+const deaths=Number(document.getElementById("deaths").value);
+const migration=Number(document.getElementById("migration").value);
+const box=document.getElementById("populationResult");
+if(!Number.isFinite(births)||!Number.isFinite(deaths)||!Number.isFinite(migration)||births<0||deaths<0||births>1000||deaths>1000||migration < -1000||migration>1000){
+box.style.display="block";
+box.textContent="Enter valid values within the displayed limits.";
+return;
+}
+const total=100+births-deaths+migration;
+box.style.display="block";
+box.innerHTML="<strong>New population: "+total+" rabbits</strong><br>"+(total>100?"The population increased.":total<100?"The population decreased.":"The population remained the same.")+"<br>Calculation: 100 + "+births+" - "+deaths+" + ("+migration+") = "+total;
+}
+
+const impacts={
+temperature:"Higher temperatures can shift suitable habitats, affect water availability and place stress on species that cannot adapt quickly.",
+forest:"Deforestation can fragment habitats, reduce biodiversity, disturb the water cycle and release stored carbon.",
+water:"Pollutants can damage aquatic habitats, reduce dissolved oxygen and affect the health and survival of aquatic organisms."
+};
+
+function showImpact(type){
+const box=document.getElementById("impactResult");
+box.style.display="block";
+box.textContent=impacts[type];
+}
+
+const questions=[
+{q:"Which organisms are known as producers?",o:["Animals","Green plants","Fungi","Carnivores"],a:1,e:"Green plants produce food using sunlight through photosynthesis."},
+{q:"What is the main role of decomposers?",o:["Produce sunlight","Hunt predators","Recycle nutrients","Increase rainfall"],a:2,e:"Decomposers break down dead matter and return nutrients to the environment."},
+{q:"Which is an aquatic ecosystem?",o:["Desert","Grassland","Ocean","Mountain"],a:2,e:"Oceans are marine aquatic ecosystems."},
+{q:"What can deforestation cause?",o:["Habitat loss","More forest cover","No environmental change","More biodiversity in every case"],a:0,e:"Deforestation destroys or fragments habitats and can reduce biodiversity."},
+{q:"Which factor can increase a population?",o:["Deaths","Births","Emigration","Habitat destruction"],a:1,e:"Births add new individuals to a population."}
+];
+
+let current=0,score=0,answered=false;
+function loadQuestion(){
+answered=false;
+const q=questions[current];
+document.getElementById("quizArea").innerHTML=
+"<p><strong>Question "+(current+1)+" of "+questions.length+"</strong></p>"+
+"<h3>"+q.q+"</h3>"+
+q.o.map((option,i)=>'<button class="option" onclick="answerQuestion('+i+')">'+option+'</button>').join("")+
+'<p id="feedback" class="feedback"></p>'+
+'<button id="nextBtn" onclick="nextQuestion()" style="display:none;margin-top:12px">Next Question →</button>';
+}
+function answerQuestion(choice){
+if(answered)return;
+answered=true;
+const q=questions[current];
+const correct=choice===q.a;
+if(correct)score+=10;
+document.getElementById("feedback").textContent=(correct?"Correct! ":"Not quite. ")+q.e;
+document.getElementById("nextBtn").style.display="inline-block";
+document.querySelectorAll(".option").forEach((btn,i)=>{
+btn.disabled=true;
+if(i===q.a)btn.style.background="#cce6c8";
+});
+}
+function nextQuestion(){
+current++;
+if(current<questions.length){loadQuestion();return;}
+document.getElementById("quizArea").innerHTML="";
+const box=document.getElementById("quizResult");
+box.style.display="block";
+box.innerHTML="<h3>Challenge Completed!</h3><p class='stat'>"+score+" / 50</p><p>"+(score>=40?"Excellent understanding of ecosystems!":score>=20?"Good effort! Review the explanations and try again.":"Keep learning and give it another try!")+"</p><button onclick='restartQuiz()'>Try Again</button>";
+}
+function restartQuiz(){
+current=0;score=0;
+document.getElementById("quizResult").style.display="none";
+loadQuestion();
+}
+loadQuestion();
+</script>
+</body>
+</html>
