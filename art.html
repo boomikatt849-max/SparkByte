@@ -4,504 +4,806 @@
 <head>
 <meta charset="UTF-8">
 <meta name="viewport" content="width=device-width, initial-scale=1.0">
-<title>SparkByte | Interactive Art World</title>
+<title>SparkByte | Art World</title>
+
 <style>
 *{box-sizing:border-box;margin:0;padding:0}
-body{font-family:Arial,sans-serif;background:#f5f4f0;color:#26342d}
-header{background:#20362b;color:white;padding:25px 7%;display:flex;justify-content:space-between;align-items:center;gap:15px;flex-wrap:wrap}
-header h1{font-size:25px;letter-spacing:1px}
-header p{font-size:13px;color:#c7d6cb;margin-top:6px}
-a.back{color:white;text-decoration:none;border:1px solid #91a395;padding:10px 15px;border-radius:7px}
-.hero{padding:38px 7% 25px}
-.hero small{color:#66866e;font-weight:bold;letter-spacing:2px}
-.hero h2{font-size:34px;margin:12px 0}
-.hero p{color:#6b776f;line-height:1.7;max-width:700px}
-.stats{display:flex;gap:12px;flex-wrap:wrap;margin-top:20px}
-.stat{background:white;padding:14px 20px;border:1px solid #e4e7e0;border-radius:9px;min-width:125px}
-.stat strong{display:block;color:#426b4e;font-size:22px}
+body{font-family:Arial,sans-serif;background:#f5f5f0;color:#26382d}
+header{background:#20392c;color:white;padding:23px 7%;display:flex;justify-content:space-between;align-items:center;gap:15px;flex-wrap:wrap}
+header h1{font-size:25px;letter-spacing:2px}
+header p{font-size:13px;color:#cbd9ce;margin-top:6px}
+.back{color:white;text-decoration:none;border:1px solid #91a395;padding:10px 15px;border-radius:7px}
+.hero{padding:42px 7% 28px}
+.hero small{color:#64836b;font-weight:bold;letter-spacing:3px}
+.hero h2{font-size:38px;margin:13px 0}
+.hero p{color:#69766d;line-height:1.7;max-width:720px}
+.stats{display:flex;gap:12px;flex-wrap:wrap;margin-top:22px}
+.stat{background:white;padding:14px 20px;border:1px solid #e3e8e0;border-radius:10px;min-width:125px}
+.stat strong{display:block;color:#426b4e;font-size:23px}
 .stat span{font-size:12px;color:#78827b}
 .section{padding:20px 7%}
-.section h2{font-size:23px;margin-bottom:7px}
-.section>p{color:#7a837c;font-size:14px}
-.games{display:grid;grid-template-columns:repeat(auto-fit,minmax(220px,1fr));gap:17px;padding:15px 7% 35px}
-.card{background:white;border:1px solid #e2e6df;border-radius:12px;padding:20px;min-height:210px;display:flex;flex-direction:column}
-.card .num{font-size:12px;color:#829386;font-weight:bold}
-.card .symbol{font-size:34px;margin:13px 0}
-.card h3{font-size:18px;margin-bottom:9px}
-.card p{font-size:13px;color:#758078;line-height:1.6;flex:1}
+.section h2{font-size:24px;margin-bottom:8px}
+.section p{color:#7a837c;font-size:14px}
+.games{display:grid;grid-template-columns:repeat(auto-fit,minmax(230px,1fr));gap:18px;padding:15px 7% 35px}
+.card{background:white;border:1px solid #e2e6df;border-radius:13px;padding:22px;min-height:225px;display:flex;flex-direction:column;transition:.25s}
+.card:hover{transform:translateY(-5px);box-shadow:0 10px 25px #20392c12}
+.num{font-size:12px;color:#829386;font-weight:bold;letter-spacing:1px}
+.symbol{font-size:35px;margin:15px 0}
+.card h3{font-size:18px;margin-bottom:10px}
+.card p{font-size:13px;color:#758078;line-height:1.7;flex:1}
 button{cursor:pointer;border:0;border-radius:7px;padding:11px 15px;font-weight:bold}
 .primary{background:#365d43;color:white;margin-top:14px}
 .primary:hover{background:#254431}
-.workspace{display:none;background:white;border:1px solid #e1e6df;border-radius:13px;margin:0 7% 35px;padding:24px}
+.secondary{background:#edf2ec;color:#365d43}
+.workspace{display:none;background:white;border:1px solid #e1e6df;border-radius:14px;margin:0 7% 35px;padding:25px}
 .workspace.active{display:block}
-.workspace h2{margin-bottom:8px}
-.desc{color:#758078;line-height:1.6;font-size:14px;margin-bottom:18px}
+.workspace h2{margin-bottom:9px}
+.desc{color:#758078;line-height:1.7;font-size:14px;margin-bottom:18px}
 .close{float:right;background:#edf0eb;color:#526255}
-label{font-weight:bold;font-size:13px;display:block;margin:12px 0 7px}
-select,input,textarea{padding:10px;border:1px solid #d7ded7;border-radius:7px;font:inherit}
+label{font-weight:bold;font-size:13px;display:block;margin:13px 0 7px}
+select,input,textarea{padding:10px;border:1px solid #d7ded7;border-radius:7px;font:inherit;max-width:100%}
 input[type=color]{width:55px;height:42px;padding:3px}
-textarea{width:100%;min-height:85px}
-canvas{display:block;max-width:100%;border:1px solid #dce1db;border-radius:8px;background:white;touch-action:none;margin-top:13px}
+input[type=range]{width:180px;accent-color:#365d43}
+input[type=file]{width:100%;font-size:13px}
+textarea{width:100%;min-height:75px}
 .row{display:flex;gap:12px;align-items:center;flex-wrap:wrap}
-.info{background:#f0f4ef;padding:13px;border-radius:8px;margin-top:13px;color:#586b5d;font-size:13px;line-height:1.6}
-.result{margin-top:12px;color:#376b46;font-weight:bold;font-size:14px}
+.info{background:#f0f4ef;padding:14px;border-radius:8px;margin-top:14px;color:#586b5d;font-size:13px;line-height:1.7}
+.result{margin-top:13px;color:#376b46;font-weight:bold;font-size:14px}
 .options{display:flex;gap:10px;flex-wrap:wrap;margin:15px 0}
-.options button{border:1px solid #dce2da;background:#f7f8f5;color:#34483a}
-.options button:hover{background:#e7efe7}
-.animal{width:100%;max-width:390px;border:1px solid #e4e8e2;border-radius:10px;background:#f8f8f4;padding:12px}
-.animal svg{width:100%;height:auto;display:block}
-.shades{display:grid;grid-template-columns:repeat(5,minmax(40px,1fr));gap:8px;margin:15px 0}
-.shade{height:55px;border:2px solid #fff;outline:1px solid #ddd;border-radius:8px;cursor:pointer}
-.shade:focus{outline:3px solid #333}
+canvas{display:block;width:100%;max-width:650px;height:auto;border:1px solid #dce1db;border-radius:8px;background:white;margin-top:13px}
+.puzzle{display:grid;grid-template-columns:repeat(3,1fr);gap:4px;width:min(100%,420px);aspect-ratio:1;margin:18px 0}
+.tile{border:2px solid white;border-radius:5px;min-width:0;aspect-ratio:1;background-size:300% 300%;cursor:pointer;padding:0}
+.tile.selected{outline:4px solid #e4a83d;outline-offset:-4px;transform:scale(.96)}
+.tile:focus-visible{outline:3px solid #365d43}
+.preview{width:100%;max-width:300px;border-radius:10px;margin-top:10px}
+.controls{display:grid;grid-template-columns:repeat(auto-fit,minmax(170px,1fr));gap:12px}
+.controls input,.controls select{width:100%}
+.design-area{display:grid;grid-template-columns:repeat(auto-fit,minmax(250px,1fr));gap:20px;align-items:start}
+.design-panel{background:#f7f8f5;padding:16px;border:1px solid #e4e8e2;border-radius:10px}
+.design-panel input,.design-panel select{width:100%}
 footer{text-align:center;padding:25px;color:#89928a;font-size:13px}
-@media(max-width:600px){.hero h2{font-size:27px}.workspace{margin:0 3% 25px;padding:16px}.games{padding-left:4%;padding-right:4%}}
-
-@media (max-width: 768px) {
-    .container {
-        width: 94%;
-        padding: 12px;
-    }
-
-    .grid,
-    .cards,
-    .modules {
-        grid-template-columns: repeat(2, minmax(0, 1fr));
-        gap: 12px;
-    }
-
-    h1 {
-        font-size: 28px;
-    }
-
-    canvas,
-    svg {
-        max-width: 100%;
-        height: auto;
-    }
-
-    button {
-        max-width: 100%;
-    }
-}
-
-@media (max-width: 480px) {
-    .grid,
-    .cards,
-    .modules {
-        grid-template-columns: 1fr;
-    }
-
-    body {
-        font-size: 14px;
-    }
-
-    h1 {
-        font-size: 24px;
-    }
-
-    input,
-    select {
-        max-width: 100%;
-        box-sizing: border-box;
-    }
+@media(max-width:600px){
+ .hero h2{font-size:29px}
+ .workspace{margin:0 3% 25px;padding:16px}
+ .games{padding-left:4%;padding-right:4%}
+ header{padding:20px 5%}
+ header h1{font-size:20px}
 }
 </style>
 </head>
+
 <body>
 
 <header>
  <div>
   <h1>SPARKBYTE / ART WORLD</h1>
-  <p>Interactive Art · Colour · Drawing · Creative Games</p>
+  <p>Creative Studio · Design · Visual Arts · Digital Art</p>
  </div>
  <a class="back" href="index.html">← Dashboard</a>
 </header>
 
 <section class="hero">
  <small>INTERACTIVE CREATIVE STUDIO</small>
- <h2>Play. Draw. Create.</h2>
- <p>Explore animal drawing, digital colouring, shade recognition, colour matching and creative art games. Learn through hands-on visual challenges.</p>
+ <h2>Think. Design. Create.</h2>
+ <p>Explore visual design, image reconstruction, brand identity, interface design and digital art. Build your creative skills through practical interactive activities.</p>
  <div class="stats">
-  <div class="stat"><strong>05</strong><span>Art Games</span></div>
+  <div class="stat"><strong>05</strong><span>Creative Studios</span></div>
   <div class="stat"><strong id="score">0</strong><span>Total Points</span></div>
-  <div class="stat"><strong id="played">0</strong><span>Games Explored</span></div>
+  <div class="stat"><strong id="played">0</strong><span>Studios Explored</span></div>
  </div>
 </section>
 
 <section class="section">
- <h2>Creative Game Collection</h2>
- <p>Select a game to enter its interactive workspace.</p>
+ <h2>Creative Studio Collection</h2>
+ <p>Choose a studio and start creating your own artwork.</p>
 </section>
 
 <section class="games">
+
  <article class="card">
-  <span class="num">GAME 01</span><div class="symbol">✏️</div>
-  <h3>Animal Drawing Studio</h3>
-  <p>Observe panda and lion references. Draw them using your own digital canvas.</p>
-  <button class="primary" onclick="openGame('drawing')">Start Drawing →</button>
+  <span class="num">STUDIO 01</span>
+  <div class="symbol">🧩</div>
+  <h3>Picture Shuffle Challenge</h3>
+  <p>Reconstruct wildlife photographs by arranging shuffled image tiles into the correct order.</p>
+  <button class="primary" onclick="openGame('shuffle')">Explore Studio →</button>
  </article>
+
  <article class="card">
-  <span class="num">GAME 02</span><div class="symbol">🎨</div>
-  <h3>Colour the Picture</h3>
-  <p>Fill different areas of animal pictures with colours. Complete the artwork.</p>
-  <button class="primary" onclick="openGame('colouring')">Start Colouring →</button>
+  <span class="num">STUDIO 02</span>
+  <div class="symbol">◈</div>
+  <h3>Logo & Brand Identity Studio</h3>
+  <p>Create a visual identity with a brand name, logo symbol, typography and professional colours.</p>
+  <button class="primary" onclick="openGame('logo')">Create Brand →</button>
  </article>
+
  <article class="card">
-  <span class="num">GAME 03</span><div class="symbol">🟩</div>
-  <h3>Shade Detective</h3>
-  <p>Identify the exact shade from a group of similar colours. Test your observation.</p>
-  <button class="primary" onclick="openGame('shade')">Find the Shade →</button>
+  <span class="num">STUDIO 03</span>
+  <div class="symbol">▣</div>
+  <h3>UI/UX Interface Design Lab</h3>
+  <p>Design a mobile app interface and explore screen layouts, navigation and visual hierarchy.</p>
+  <button class="primary" onclick="openGame('uiux')">Design Interface →</button>
  </article>
+
  <article class="card">
-  <span class="num">GAME 04</span><div class="symbol">🌈</div>
-  <h3>Colour Master</h3>
-  <p>Match colours, understand colour combinations and solve visual palette challenges.</p>
-  <button class="primary" onclick="openGame('master')">Play Challenge →</button>
+  <span class="num">STUDIO 04</span>
+  <div class="symbol">▤</div>
+  <h3>Professional Poster Design</h3>
+  <p>Design event posters using typography, backgrounds, colours and your own uploaded images.</p>
+  <button class="primary" onclick="openGame('poster')">Design Poster →</button>
  </article>
+
  <article class="card">
-  <span class="num">GAME 05</span><div class="symbol">🧩</div>
-  <h3>Creative Art Games</h3>
-  <p>Play colour memory, pixel patterns and missing-colour puzzles.</p>
-  <button class="primary" onclick="openGame('creative')">Play Art Games →</button>
+  <span class="num">STUDIO 05</span>
+  <div class="symbol">✦</div>
+  <h3>Digital Art Experiments</h3>
+  <p>Upload an image and experiment with visual effects, filters and creative overlays.</p>
+  <button class="primary" onclick="openGame('digital')">Start Experiment →</button>
  </article>
+
 </section>
 
-<!-- DRAWING GAME -->
-<section class="workspace" id="drawing">
+<!-- STUDIO 01: PICTURE SHUFFLE -->
+
+<section class="workspace" id="shuffle">
  <button class="close" onclick="closeGames()">Close ✕</button>
- <h2>Animal Drawing Studio</h2>
- <p class="desc">Choose an animal reference. Observe its shapes and draw your own version on the canvas.</p>
- <label>Choose reference</label>
- <select id="animalChoice" onchange="showAnimal()">
-  <option value="panda">Panda</option>
-  <option value="lion">Lion</option>
- </select>
- <div class="animal" id="animalReference"></div>
- <div class="info">Drawing task: Observe the outline, head shape, ears, eyes and body proportions. Try to recreate the animal on your canvas.</div>
+ <h2>Picture Shuffle Challenge</h2>
+ <p class="desc">Reconstruct the photograph by selecting two tiles and swapping their positions.</p>
+
  <div class="row">
-  <div><label>Brush colour</label><input type="color" id="drawColor" value="#222222"></div>
-  <div><label>Brush size</label><input type="range" id="drawSize" min="1" max="30" value="5"></div>
-  <div><label>Tool</label><select id="drawTool"><option value="brush">Brush</option><option value="eraser">Eraser</option></select></div>
+  <div>
+   <label>Select photograph</label>
+   <select id="animalSelect" onchange="newPuzzle()">
+    <option value="panda">Panda</option>
+    <option value="lion">Lion</option>
+    <option value="tiger">Tiger</option>
+    <option value="elephant">Elephant</option>
+    <option value="fox">Fox</option>
+    <option value="peacock">Peacock</option>
+    <option value="snowleopard">Snow Leopard</option>
+   </select>
+  </div>
+  <div>
+   <label>Difficulty</label>
+   <select id="puzzleLevel" onchange="newPuzzle()">
+    <option value="3">Easy – 3 × 3</option>
+    <option value="4">Advanced – 4 × 4</option>
+   </select>
+  </div>
  </div>
- <canvas id="drawBoard" width="700" height="380"></canvas>
+
+ <div class="info">Select one tile and then another tile to exchange their positions. On mobile, simply tap the tiles. Arrange all tiles to complete the photograph.</div>
+
+ <div class="puzzle" id="puzzleBoard"></div>
+
  <div class="row">
-  <button class="primary" onclick="clearDraw()">Clear</button>
-  <button class="primary" onclick="downloadCanvas('drawBoard','animal-drawing.png')">Download Artwork</button>
+  <button class="primary" onclick="newPuzzle()">Shuffle Again</button>
+  <button class="secondary" onclick="showPuzzleImage()">Show Preview</button>
+ </div>
+
+ <p class="result" id="puzzleResult">Arrange the tiles to complete the picture.</p>
+ <div id="puzzlePreview" style="display:none;margin-top:15px">
+  <p class="desc">Reference photograph</p>
+  <img id="previewImage" class="preview" alt="Puzzle reference">
  </div>
 </section>
 
-<!-- COLOURING GAME -->
-<section class="workspace" id="colouring">
+<!-- STUDIO 02: LOGO DESIGN -->
+
+<section class="workspace" id="logo">
  <button class="close" onclick="closeGames()">Close ✕</button>
- <h2>Colour the Picture</h2>
- <p class="desc">Select an animal, choose a colour and click the different sections to fill the picture.</p>
- <label>Choose picture</label>
- <select id="colourAnimal" onchange="makeColourPicture()">
-  <option value="panda">Panda</option>
-  <option value="lion">Lion</option>
- </select>
- <label>Choose colour</label>
- <div class="options" id="colourOptions">
-  <button style="background:#222;color:white" onclick="setFill('#222222')">Black</button>
-  <button style="background:#e9c46a" onclick="setFill('#e9c46a')">Yellow</button>
-  <button style="background:#e76f51;color:white" onclick="setFill('#e76f51')">Orange</button>
-  <button style="background:#72a875;color:white" onclick="setFill('#72a875')">Green</button>
-  <button style="background:#f2a6bd" onclick="setFill('#f2a6bd')">Pink</button>
-  <button style="background:#fff;border:1px solid #ccc" onclick="setFill('#ffffff')">White</button>
+ <h2>Logo & Brand Identity Studio</h2>
+ <p class="desc">Create a simple brand identity. Customize the brand name, tagline, logo symbol, typography and colours.</p>
+
+ <div class="design-area">
+  <div class="design-panel">
+   <label>Brand name</label>
+   <input id="brandName" value="NOVA STUDIO" oninput="drawLogo()">
+
+   <label>Tagline</label>
+   <input id="brandTagline" value="CREATE YOUR VISION" oninput="drawLogo()">
+
+   <label>Logo symbol</label>
+   <select id="brandSymbol" onchange="drawLogo()">
+    <option value="circle">Circle</option>
+    <option value="diamond">Diamond</option>
+    <option value="star">Star</option>
+    <option value="square">Square</option>
+    <option value="leaf">Leaf</option>
+   </select>
+
+   <label>Brand colour</label>
+   <input type="color" id="brandColor" value="#365d43" oninput="drawLogo()">
+
+   <label>Background colour</label>
+   <input type="color" id="brandBg" value="#f5f5f0" oninput="drawLogo()">
+
+   <label>Font style</label>
+   <select id="brandFont" onchange="drawLogo()">
+    <option value="Arial">Arial</option>
+    <option value="Georgia">Georgia</option>
+    <option value="Verdana">Verdana</option>
+    <option value="Trebuchet MS">Trebuchet MS</option>
+   </select>
+
+   <button class="primary" onclick="drawLogo()">Update Logo</button>
+   <button class="secondary" onclick="downloadCanvas('logoCanvas','brand-logo.png')">Download Logo</button>
+  </div>
+
+  <div>
+   <p class="desc">Your brand preview</p>
+   <canvas id="logoCanvas" width="700" height="420"></canvas>
+   <div class="info">Design tip: A good logo should be simple, memorable and readable at different sizes.</div>
+  </div>
  </div>
- <div class="animal" id="colourPicture"></div>
+</section>
+
+<!-- STUDIO 03: UI UX DESIGN -->
+
+<section class="workspace" id="uiux">
+ <button class="close" onclick="closeGames()">Close ✕</button>
+ <h2>UI/UX Interface Design Lab</h2>
+ <p class="desc">Build a basic mobile application screen. Change the app name, heading, button label and theme colour to experiment with interface design.</p>
+
+ <div class="design-area">
+  <div class="design-panel">
+   <label>Application name</label>
+   <input id="appName" value="STUDY SPACE" oninput="drawUI()">
+
+   <label>Screen heading</label>
+   <input id="appHeading" value="Welcome back!" oninput="drawUI()">
+
+   <label>Description</label>
+   <textarea id="appDescription" oninput="drawUI()">Continue learning and explore new ideas every day.</textarea>
+
+   <label>Button text</label>
+   <input id="appButton" value="Explore Courses" oninput="drawUI()">
+
+   <label>Theme colour</label>
+   <input type="color" id="appColor" value="#365d43" oninput="drawUI()">
+
+   <label>Background colour</label>
+   <input type="color" id="appBackground" value="#f2f5ef" oninput="drawUI()">
+
+   <button class="primary" onclick="drawUI()">Update Interface</button>
+   <button class="secondary" onclick="downloadCanvas('uiCanvas','ui-interface.png')">Download Screen</button>
+  </div>
+
+  <div>
+   <p class="desc">Mobile screen preview</p>
+   <canvas id="uiCanvas" width="420" height="720"></canvas>
+   <div class="info">UI means User Interface – the visual elements of an application. UX means User Experience – how easy and comfortable it is to use.</div>
+  </div>
+ </div>
+</section>
+
+<!-- STUDIO 04: POSTER DESIGN -->
+
+<section class="workspace" id="poster">
+ <button class="close" onclick="closeGames()">Close ✕</button>
+ <h2>Professional Poster Design Studio</h2>
+ <p class="desc">Create an event poster. Customize the text, background and image, then export your design.</p>
+
+ <div class="controls">
+  <div>
+   <label>Main heading</label>
+   <input id="posterTitle" value="CREATIVE MINDS" oninput="drawPoster()">
+  </div>
+  <div>
+   <label>Subtitle</label>
+   <input id="posterSubtitle" value="DESIGN • CREATE • INSPIRE" oninput="drawPoster()">
+  </div>
+  <div>
+   <label>Footer text</label>
+   <input id="posterFooter" value="ART & DESIGN EXHIBITION" oninput="drawPoster()">
+  </div>
+  <div>
+   <label>Background colour</label>
+   <input type="color" id="posterBg" value="#20392c" oninput="drawPoster()">
+  </div>
+  <div>
+   <label>Text colour</label>
+   <input type="color" id="posterText" value="#ffffff" oninput="drawPoster()">
+  </div>
+  <div>
+   <label>Font style</label>
+   <select id="posterFont" onchange="drawPoster()">
+    <option value="Arial">Arial</option>
+    <option value="Georgia">Georgia</option>
+    <option value="Trebuchet MS">Trebuchet MS</option>
+    <option value="Verdana">Verdana</option>
+   </select>
+  </div>
+ </div>
+
+ <label>Upload poster image (optional)</label>
+ <input type="file" id="posterImageInput" accept="image/*">
+
+ <canvas id="posterCanvas" width="600" height="750"></canvas>
+
  <div class="row">
-  <button class="primary" onclick="resetColour()">Reset Picture</button>
-  <button class="primary" onclick="colourScore()">Check Colouring</button>
+  <button class="primary" onclick="drawPoster()">Update Poster</button>
+  <button class="secondary" onclick="downloadCanvas('posterCanvas','my-poster.png')">Download Poster</button>
  </div>
- <p class="result" id="colourResult"></p>
- <div class="info">Try your own colour combinations. The aim is to explore colour choices, not just copy a fixed answer.</div>
 </section>
 
-<!-- SHADE GAME -->
-<section class="workspace" id="shade">
+<!-- STUDIO 05: DIGITAL ART -->
+
+<section class="workspace" id="digital">
  <button class="close" onclick="closeGames()">Close ✕</button>
- <h2>Shade Detective</h2>
- <p class="desc">Look carefully at the target colour. Select the exact matching shade from the options.</p>
- <div class="info">TARGET SHADE</div>
- <div id="targetShade" style="height:95px;border-radius:10px;margin-top:12px;border:1px solid #ddd"></div>
- <p id="shadeQuestion" style="margin-top:15px;font-weight:bold">Find the exact shade.</p>
- <div class="shades" id="shadeOptions"></div>
- <p class="result" id="shadeResult"></p>
- <button class="primary" onclick="newShade()">Next Shade →</button>
+ <h2>Digital Art Experiments</h2>
+ <p class="desc">Upload your own photograph and experiment with creative visual effects.</p>
+
+ <label>Upload an image</label>
+ <input type="file" id="digitalImageInput" accept="image/*">
+
+ <div class="row">
+  <div>
+   <label>Visual effect</label>
+   <select id="filterType" onchange="applyDigitalEffect()">
+    <option value="none">Original</option>
+    <option value="grayscale(100%)">Grayscale</option>
+    <option value="sepia(100%)">Sepia</option>
+    <option value="contrast(160%)">High Contrast</option>
+    <option value="saturate(180%)">Vibrant Colour</option>
+    <option value="hue-rotate(90deg)">Colour Shift</option>
+    <option value="invert(100%)">Negative</option>
+   </select>
+  </div>
+  <div>
+   <label>Brightness</label>
+   <input type="range" id="brightness" min="50" max="150" value="100" oninput="applyDigitalEffect()">
+  </div>
+  <div>
+   <label>Contrast</label>
+   <input type="range" id="contrast" min="50" max="200" value="100" oninput="applyDigitalEffect()">
+  </div>
+ </div>
+
+ <canvas id="digitalCanvas" width="800" height="500"></canvas>
+
+ <div class="row">
+  <button class="primary" onclick="resetDigital()">Reset Image</button>
+  <button class="secondary" onclick="downloadCanvas('digitalCanvas','digital-experiment.png')">Download Artwork</button>
+ </div>
+
+ <div class="info">Experiment with different effects and observe how brightness, contrast and colour changes influence the final visual result.</div>
 </section>
 
-<!-- COLOUR MASTER -->
-<section class="workspace" id="master">
- <button class="close" onclick="closeGames()">Close ✕</button>
- <h2>Colour Master Challenge</h2>
- <p class="desc">Test your understanding of colour theory and visual combinations.</p>
- <div class="info" id="masterQuestion"></div>
- <div class="options" id="masterOptions"></div>
- <p class="result" id="masterResult"></p>
- <button class="primary" onclick="nextMaster()">Next Challenge →</button>
-</section>
-
-<!-- CREATIVE GAMES -->
-<section class="workspace" id="creative">
- <button class="close" onclick="closeGames()">Close ✕</button>
- <h2>Creative Art Games</h2>
- <p class="desc">Choose a mini game and test your visual creativity.</p>
- <label>Choose game</label>
- <select id="miniGame" onchange="startMini()">
-  <option value="memory">Colour Memory</option>
-  <option value="missing">Missing Colour</option>
-  <option value="pixel">Pixel Pattern</option>
- </select>
- <div id="miniArea"></div>
- <p class="result" id="miniResult"></p>
-</section>
-
-<footer>SPARKBYTE · Interactive Art World · Learn through creativity</footer>
+<footer>
+ SparkByte Art World · Explore Creativity Through Technology
+</footer>
 
 <script>
-let totalScore=0,played=new Set();
-function points(n){
- totalScore+=n;
- document.getElementById("score").textContent=totalScore;
+
+/* COMMON FUNCTIONS */
+
+let totalPoints=0;
+let explored=new Set();
+
+function points(value){
+ totalPoints+=value;
+ document.getElementById("score").textContent=totalPoints;
 }
+
 function openGame(id){
- closeGames();
- document.getElementById(id).classList.add("active");
- document.getElementById(id).scrollIntoView({behavior:"smooth"});
- played.add(id);
- document.getElementById("played").textContent=played.size;
+ document.querySelectorAll(".workspace").forEach(w=>w.classList.remove("active"));
+ const target=document.getElementById(id);
+ if(!target)return;
+ target.classList.add("active");
+ explored.add(id);
+ document.getElementById("played").textContent=explored.size;
+ target.scrollIntoView({behavior:"smooth",block:"start"});
 }
+
 function closeGames(){
- document.querySelectorAll(".workspace").forEach(x=>x.classList.remove("active"));
+ document.querySelectorAll(".workspace").forEach(w=>w.classList.remove("active"));
+ document.querySelector(".section").scrollIntoView({behavior:"smooth"});
 }
 
-// Animal SVG references
-function animalSVG(animal,colourMode=false){
- if(animal==="panda"){
- return `<svg viewBox="0 0 300 270" aria-label="Panda illustration">
- <rect width="300" height="270" fill="#f5f5ef"/>
- <g stroke="#252525" stroke-width="5" stroke-linejoin="round">
- <ellipse data-part="body" cx="150" cy="202" rx="75" ry="52" fill="#fff"/>
- <circle data-part="ear" cx="91" cy="72" r="27" fill="#252525"/>
- <circle data-part="ear" cx="209" cy="72" r="27" fill="#252525"/>
- <circle data-part="face" cx="150" cy="115" r="83" fill="#fff"/>
- <ellipse data-part="patch" cx="119" cy="111" rx="17" ry="24" transform="rotate(25 119 111)" fill="#252525"/>
- <ellipse data-part="patch" cx="181" cy="111" rx="17" ry="24" transform="rotate(-25 181 111)" fill="#252525"/>
- <circle cx="119" cy="112" r="5" fill="#fff"/>
- <circle cx="181" cy="112" r="5" fill="#fff"/>
- <ellipse data-part="nose" cx="150" cy="143" rx="12" ry="8" fill="#252525"/>
- <path d="M150 151 Q139 168 126 157 M150 151 Q161 168 174 157" fill="none"/>
- <ellipse data-part="arm" cx="87" cy="194" rx="23" ry="40" transform="rotate(25 87 194)" fill="#252525"/>
- <ellipse data-part="arm" cx="213" cy="194" rx="23" ry="40" transform="rotate(-25 213 194)" fill="#252525"/>
- </g></svg>`;
- }
- return `<svg viewBox="0 0 300 270" aria-label="Lion illustration">
- <rect width="300" height="270" fill="#f5f5ef"/>
- <g stroke="#654b2b" stroke-width="5" stroke-linejoin="round">
- <circle data-part="mane" cx="150" cy="125" r="105" fill="#d68c36"/>
- <circle data-part="face" cx="150" cy="123" r="67" fill="#f2c77d"/>
- <circle data-part="ear" cx="98" cy="75" r="19" fill="#f2c77d"/>
- <circle data-part="ear" cx="202" cy="75" r="19" fill="#f2c77d"/>
- <ellipse cx="125" cy="116" rx="8" ry="11" fill="#493c2c"/>
- <ellipse cx="175" cy="116" rx="8" ry="11" fill="#493c2c"/>
- <ellipse data-part="nose" cx="150" cy="143" rx="13" ry="9" fill="#704b37"/>
- <path d="M150 152 Q140 166 128 158 M150 152 Q160 166 172 158" fill="none"/>
- <ellipse data-part="body" cx="150" cy="231" rx="65" ry="30" fill="#e8bb76"/>
- </g></svg>`;
-}
-function showAnimal(){
- document.getElementById("animalReference").innerHTML=animalSVG(document.getElementById("animalChoice").value);
-}
-showAnimal();
-
-// Drawing canvas
-const drawBoard=document.getElementById("drawBoard"),dctx=drawBoard.getContext("2d");
-dctx.fillStyle="#fff";dctx.fillRect(0,0,700,380);
-let isDrawing=false;
-function pos(e,c){
- const r=c.getBoundingClientRect();
- return {x:(e.clientX-r.left)*c.width/r.width,y:(e.clientY-r.top)*c.height/r.height};
-}
-drawBoard.addEventListener("pointerdown",e=>{
- isDrawing=true;drawBoard.setPointerCapture(e.pointerId);
- let p=pos(e,drawBoard);dctx.beginPath();dctx.moveTo(p.x,p.y);dctx.lineTo(p.x+.1,p.y+.1);strokeDraw();
-});
-drawBoard.addEventListener("pointermove",e=>{
- if(!isDrawing)return;
- let p=pos(e,drawBoard);dctx.lineTo(p.x,p.y);strokeDraw();
-});
-function strokeDraw(){
- dctx.strokeStyle=document.getElementById("drawTool").value==="eraser"?"white":document.getElementById("drawColor").value;
- dctx.lineWidth=document.getElementById("drawSize").value;
- dctx.lineCap="round";dctx.lineJoin="round";dctx.stroke();
-}
-function endDraw(){isDrawing=false;dctx.beginPath()}
-drawBoard.addEventListener("pointerup",endDraw);
-drawBoard.addEventListener("pointercancel",endDraw);
-function clearDraw(){dctx.clearRect(0,0,700,380);dctx.fillStyle="#fff";dctx.fillRect(0,0,700,380)}
 function downloadCanvas(id,name){
- const c=document.getElementById(id),a=document.createElement("a");
- a.download=name;a.href=c.toDataURL("image/png");a.click();
+ const canvas=document.getElementById(id);
+ const link=document.createElement("a");
+ link.download=name;
+ link.href=canvas.toDataURL("image/png");
+ link.click();
 }
 
-// Colouring picture
-let selectedFill="#222222";
-function setFill(c){selectedFill=c}
-function makeColourPicture(){
- const box=document.getElementById("colourPicture");
- box.innerHTML=animalSVG(document.getElementById("colourAnimal").value,true);
- box.querySelectorAll("[data-part]").forEach(part=>{
-  part.style.cursor="pointer";
-  part.addEventListener("click",()=>{part.setAttribute("fill",selectedFill);part.dataset.coloured="yes"});
+/* STUDIO 01: PICTURE SHUFFLE */
+
+const animalImages={
+ panda:"https://images.unsplash.com/photo-1564349683136-77e08dba1ef7?w=900&auto=format&fit=crop",
+ lion:"https://images.unsplash.com/photo-1546182990-dffeafbe841d?w=900&auto=format&fit=crop",
+ tiger:"https://images.unsplash.com/photo-1561731216-c3a4d99437d5?w=900&auto=format&fit=crop",
+ elephant:"https://images.unsplash.com/photo-1557050543-4d5f4e07ef46?w=900&auto=format&fit=crop",
+ fox:"https://images.unsplash.com/photo-1474511320723-9a56873867b5?w=900&auto=format&fit=crop",
+ peacock:"https://images.unsplash.com/photo-1552728089-57bdde30beb3?w=900&auto=format&fit=crop",
+ snowleopard:"https://images.unsplash.com/photo-1549366021-9f761d450615?w=900&auto=format&fit=crop"
+};
+
+let puzzleTiles=[];
+let selectedTile=null;
+let puzzleSize=3;
+let puzzleImage=animalImages.panda;
+let puzzleSolved=false;
+
+function newPuzzle(){
+ const animal=document.getElementById("animalSelect").value;
+ puzzleImage=animalImages[animal];
+ puzzleSize=Number(document.getElementById("puzzleLevel").value);
+ selectedTile=null;
+ puzzleSolved=false;
+
+ const total=puzzleSize*puzzleSize;
+ puzzleTiles=Array.from({length:total},(_,i)=>i);
+
+ do{
+  puzzleTiles.sort(()=>Math.random()-.5);
+ }while(puzzleTiles.every((v,i)=>v===i));
+
+ document.getElementById("puzzlePreview").style.display="none";
+ renderPuzzle();
+ document.getElementById("puzzleResult").textContent="Select two tiles to swap their positions.";
+}
+
+function renderPuzzle(){
+ const board=document.getElementById("puzzleBoard");
+ board.style.gridTemplateColumns=`repeat(${puzzleSize},1fr)`;
+ board.innerHTML="";
+
+ puzzleTiles.forEach((imageIndex,position)=>{
+  const tile=document.createElement("button");
+  tile.className="tile";
+  tile.style.backgroundImage=`url("${puzzleImage}")`;
+
+  const row=Math.floor(imageIndex/puzzleSize);
+  const col=imageIndex%puzzleSize;
+  const percent=puzzleSize===1?0:100/(puzzleSize-1);
+
+  tile.style.backgroundSize=`${puzzleSize*100}% ${puzzleSize*100}%`;
+  tile.style.backgroundPosition=`${col*percent}% ${row*percent}%`;
+  tile.setAttribute("aria-label",`Tile ${position+1}`);
+
+  if(selectedTile===position)tile.classList.add("selected");
+
+  tile.onclick=()=>selectPuzzleTile(position);
+  board.appendChild(tile);
  });
- document.getElementById("colourResult").textContent="";
 }
-function resetColour(){makeColourPicture()}
-function colourScore(){
- const parts=document.querySelectorAll("#colourPicture [data-part]");
- let count=0;parts.forEach(p=>{if(p.dataset.coloured==="yes")count++});
- if(count===0){document.getElementById("colourResult").textContent="Choose a colour and fill some parts first.";return}
- document.getElementById("colourResult").textContent="Great! You coloured "+count+" picture sections. Keep experimenting!";
- points(count*2);
-}
-makeColourPicture();
 
-// Shade Detective
-let currentShade="",shadeAnswered=false;
-function newShade(){
- const base=Math.floor(Math.random()*360);
- const saturation=45+Math.floor(Math.random()*35);
- const light=35+Math.floor(Math.random()*30);
- currentShade=`hsl(${base}, ${saturation}%, ${light}%)`;
- document.getElementById("targetShade").style.background=currentShade;
- const options=[currentShade];
- while(options.length<5){
-  const hue=(base+Math.floor(Math.random()*75)-37+360)%360;
-  const l=Math.max(15,Math.min(85,light+Math.floor(Math.random()*36)-18));
-  const s=Math.max(20,Math.min(90,saturation+Math.floor(Math.random()*35)-17));
-  options.push(`hsl(${hue}, ${s}%, ${l}%)`);
+function selectPuzzleTile(position){
+ if(puzzleSolved)return;
+
+ if(selectedTile===null){
+  selectedTile=position;
+ }else if(selectedTile===position){
+  selectedTile=null;
+ }else{
+  [puzzleTiles[selectedTile],puzzleTiles[position]]=
+  [puzzleTiles[position],puzzleTiles[selectedTile]];
+  selectedTile=null;
+  checkPuzzle();
  }
- options.sort(()=>Math.random()-.5);
- const area=document.getElementById("shadeOptions");
- area.innerHTML="";
- shadeAnswered=false;
- options.forEach(c=>{
-  const b=document.createElement("button");
-  b.className="shade";b.style.background=c;b.setAttribute("aria-label","Choose this shade");
-  b.onclick=()=>{
-   if(shadeAnswered)return;
-   shadeAnswered=true;
-   if(c===currentShade){
-    document.getElementById("shadeResult").textContent="Correct! You found the exact shade. +10 points";
-    points(10);
-   }else{
-    document.getElementById("shadeResult").textContent="Not quite! Look carefully at the target and try the next round.";
-   }
-  };
-  area.appendChild(b);
+
+ renderPuzzle();
+}
+
+function checkPuzzle(){
+ const solved=puzzleTiles.every((v,i)=>v===i);
+ if(solved){
+  puzzleSolved=true;
+  document.getElementById("puzzleResult").textContent="Excellent! Photograph reconstructed successfully. +20 points";
+  points(20);
+ }else{
+  document.getElementById("puzzleResult").textContent="Good progress! Keep arranging the tiles.";
+ }
+}
+
+function showPuzzleImage(){
+ const preview=document.getElementById("puzzlePreview");
+ document.getElementById("previewImage").src=puzzleImage;
+ preview.style.display=preview.style.display==="none"?"block":"none";
+}
+
+/* STUDIO 02: LOGO & BRAND IDENTITY */
+
+const logoCanvas=document.getElementById("logoCanvas");
+const logoCtx=logoCanvas.getContext("2d");
+
+function drawLogo(){
+ const ctx=logoCtx;
+ const color=document.getElementById("brandColor").value;
+ const bg=document.getElementById("brandBg").value;
+ const font=document.getElementById("brandFont").value;
+ const name=document.getElementById("brandName").value.toUpperCase();
+ const tagline=document.getElementById("brandTagline").value.toUpperCase();
+ const symbol=document.getElementById("brandSymbol").value;
+
+ ctx.clearRect(0,0,700,420);
+ ctx.fillStyle=bg;
+ ctx.fillRect(0,0,700,420);
+
+ ctx.fillStyle=color;
+ ctx.strokeStyle=color;
+ ctx.lineWidth=7;
+ ctx.save();
+ ctx.translate(350,135);
+
+ if(symbol==="circle"){
+  ctx.beginPath();ctx.arc(0,0,42,0,Math.PI*2);ctx.fill();
+ }else if(symbol==="diamond"){
+  ctx.rotate(Math.PI/4);ctx.fillRect(-32,-32,64,64);
+ }else if(symbol==="square"){
+  ctx.fillRect(-38,-38,76,76);
+ }else if(symbol==="star"){
+  drawStar(ctx,0,0,5,45,20);ctx.fill();
+ }else{
+  ctx.beginPath();
+  ctx.ellipse(0,0,25,48,-.6,0,Math.PI*2);
+  ctx.fill();
+  ctx.strokeStyle=bg;
+  ctx.lineWidth=3;
+  ctx.beginPath();ctx.moveTo(-18,35);ctx.lineTo(18,-35);ctx.stroke();
+ }
+ ctx.restore();
+
+ ctx.textAlign="center";
+ ctx.fillStyle=color;
+ ctx.font=`bold 38px "${font}"`;
+ ctx.fillText(name.slice(0,28),350,260);
+ ctx.font=`17px "${font}"`;
+ ctx.fillText(tagline.slice(0,45),350,305);
+ ctx.globalAlpha=.5;
+ ctx.font="12px Arial";
+ ctx.fillText("BRAND IDENTITY CONCEPT",350,365);
+ ctx.globalAlpha=1;
+}
+
+function drawStar(ctx,cx,cy,points,outer,inner){
+ ctx.beginPath();
+ for(let i=0;i<points*2;i++){
+  const angle=(Math.PI*i/points)-Math.PI/2;
+  const radius=i%2===0?outer:inner;
+  const x=cx+Math.cos(angle)*radius;
+  const y=cy+Math.sin(angle)*radius;
+  if(i===0)ctx.moveTo(x,y);else ctx.lineTo(x,y);
+ }
+ ctx.closePath();
+}
+
+drawLogo();
+
+/* STUDIO 03: UI UX INTERFACE DESIGN */
+
+const uiCanvas=document.getElementById("uiCanvas");
+const uiCtx=uiCanvas.getContext("2d");
+
+function drawUI(){
+ const ctx=uiCtx;
+ const color=document.getElementById("appColor").value;
+ const bg=document.getElementById("appBackground").value;
+ const app=document.getElementById("appName").value;
+ const heading=document.getElementById("appHeading").value;
+ const description=document.getElementById("appDescription").value;
+ const buttonText=document.getElementById("appButton").value;
+
+ ctx.clearRect(0,0,420,720);
+ ctx.fillStyle=bg;
+ ctx.fillRect(0,0,420,720);
+
+ ctx.fillStyle=color;
+ ctx.fillRect(0,0,420,75);
+
+ ctx.fillStyle="#ffffff";
+ ctx.font="bold 21px Arial";
+ ctx.textAlign="left";
+ ctx.fillText(app.slice(0,24).toUpperCase(),25,45);
+
+ ctx.fillStyle=color;
+ ctx.beginPath();
+ ctx.arc(365,120,28,0,Math.PI*2);
+ ctx.fill();
+
+ ctx.fillStyle="#ffffff";
+ ctx.font="bold 18px Arial";
+ ctx.textAlign="center";
+ ctx.fillText("S",365,126);
+
+ ctx.textAlign="left";
+ ctx.fillStyle="#26382d";
+ ctx.font="bold 29px Arial";
+ ctx.fillText(heading.slice(0,25),25,205);
+
+ ctx.fillStyle="#69766d";
+ ctx.font="16px Arial";
+ const words=description.split(" ");
+ let line="",y=245;
+ words.forEach(word=>{
+  const test=line+word+" ";
+  if(ctx.measureText(test).width>350){
+   ctx.fillText(line,25,y);line=word+" ";y+=25;
+  }else line=test;
  });
- document.getElementById("shadeResult").textContent="";
-}
-newShade();
+ if(line)ctx.fillText(line,25,y);
 
-// Colour Master questions
-const masterQuestions=[
- {q:"Which pair creates a complementary colour combination?",a:["Red and green","Red and orange","Blue and green"],correct:0},
- {q:"Which colours are traditional primary colours in painting?",a:["Red, yellow and blue","Green, purple and orange","Pink, brown and grey"],correct:0},
- {q:"What is a gradient?",a:["A gradual transition between colours","A black outline","A repeated shape"],correct:0},
- {q:"Which colour is commonly associated with a warm palette?",a:["Orange","Blue","Violet"],correct:0},
- {q:"What does contrast help a designer achieve?",a:["Make important elements stand out","Remove all colours","Make every object identical"],correct:0}
-];
-let masterIndex=0,masterDone=false;
-function nextMaster(){
- masterDone=false;
- const q=masterQuestions[masterIndex%masterQuestions.length];
- document.getElementById("masterQuestion").textContent="Challenge "+(masterIndex+1)+": "+q.q;
- const area=document.getElementById("masterOptions");area.innerHTML="";
- q.a.forEach((answer,i)=>{
-  const b=document.createElement("button");b.textContent=answer;
-  b.onclick=()=>{
-   if(masterDone)return;masterDone=true;
-   if(i===q.correct){
-    document.getElementById("masterResult").textContent="Correct answer! +10 points";
-    points(10);
-   }else{
-    document.getElementById("masterResult").textContent="Good try! Correct answer: "+q.a[q.correct];
-   }
-  };
-  area.appendChild(b);
- });
- document.getElementById("masterResult").textContent="";
- masterIndex++;
-}
-nextMaster();
+ ctx.fillStyle="#ffffff";
+ ctx.fillRect(25,340,370,145);
+ ctx.fillStyle=color;
+ ctx.font="bold 19px Arial";
+ ctx.fillText("Your Learning Space",45,385);
+ ctx.fillStyle="#7a837c";
+ ctx.font="14px Arial";
+ ctx.fillText("Discover something new today.",45,415);
+ ctx.fillText("Explore your interests and skills.",45,440);
 
-// Creative mini games
-function startMini(){
- const type=document.getElementById("miniGame").value;
- const area=document.getElementById("miniArea");
- document.getElementById("miniResult").textContent="";
- if(type==="memory"){
-  const colours=["#e76f51","#457b9d","#e9c46a","#72a875"];
-  const target=colours[Math.floor(Math.random()*colours.length)];
-  area.innerHTML=`<p style="margin-top:15px">Remember this colour for a moment, then select it below.</p><div id="memoryTarget" style="height:70px;background:${target};border-radius:8px;margin:12px 0"></div><button class="primary" id="hideMemory">Hide & Play</button><div class="options" id="memoryOptions" style="display:none"></div>`;
-  document.getElementById("hideMemory").onclick=()=>{
-   document.getElementById("memoryTarget").style.visibility="hidden";
-   document.getElementById("memoryOptions").style.display="flex";
-   colours.slice().sort(()=>Math.random()-.5).forEach(c=>{
-    const b=document.createElement("button");b.style.background=c;b.style.width="65px";b.style.height="55px";
-    b.onclick=()=>{
-     if(c===target){document.getElementById("miniResult").textContent="Excellent memory! +10 points";points(10)}
-     else document.getElementById("miniResult").textContent="Good try! Remember the colour and play again.";
-    };
-    document.getElementById("memoryOptions").appendChild(b);
-   });
-  };
- }
- if(type==="missing"){
-  const sets=[
-   {colours:["#e76f51","#e76f51","#ffffff","#e76f51"],answer:2},
-   {colours:["#457b9d","#ffffff","#457b9d","#457b9d"],answer:1},
-   {colours:["#e9c46a","#e9c46a","#e9c46a","#ffffff"],answer:3}
-  ];
-  const s=sets[Math.floor(Math.random()*sets.length)];
-  area.innerHTML='<p style="margin-top:15px">Find the missing colour in this pattern.</p><div class="options" id="missingPattern"></div><div class="options" id="missingChoices"></div>';
-  s.colours.forEach(c=>{
-   const d=document.createElement("div");d.style.cssText="width:55px;height:55px;border-radius:8px;border:1px solid #bbb;background:"+c;
-   document.getElementById("missingPattern").appendChild(d);
-  });
-  ["#e76f51","#457b9d","#e9c46a"].forEach((c,i)=>{
-   const b=document.createElement("button");b.style.cssText="width:55px;height:45px;background:"+c;
-   b.onclick=()=>{
-    const correct=["#e76f51","#457b9d","#e9c46a"][s.answer===2?0:s.answer===1?1:2];
-    if(c===correct){document.getElementById("miniResult").textContent="Pattern completed! +10 points";points(10)}
-    else document.getElementById("miniResult").textContent="Try another colour.";
-   };
-   document.getElementById("missingChoices").appendChild(b);
-  });
- }
- if(type==="pixel"){
-  area.innerHTML='<p style="margin-top:15px">Create a small pixel design using the grid. Choose a colour and paint!</p><input type="color" id="miniPixelColor" value="#365d43"><canvas id="miniPixel" width="240" height="240" style="image-rendering:pixelated"></canvas><button class="primary" id="clearMini">Clear Design</button>';
-  const c=document.getElementById("miniPixel"),ctx=c.getContext("2d"),n=12,cell=20;
-  let grid=Array.from({length:n},()=>Array(n).fill("#fff"));
-  function render(){
-   grid.forEach((row,y)=>row.forEach((col,x)=>{
-    ctx.fillStyle=col;ctx.fillRect(x*cell,y*cell,cell,cell);
-    ctx.strokeStyle="#ddd";ctx.strokeRect(x*cell,y*cell,cell,cell);
-   }));
-  }
-  render();
-  c.onclick=e=>{
-   const r=c.getBoundingClientRect(),x=Math.floor((e.clientX-r.left)/r.width*n),y=Math.floor((e.clientY-r.top)/r.height*n);
-   grid[y][x]=document.getElementById("miniPixelColor").value;render();
-  };
-  document.getElementById("clearMini").onclick=()=>{
-   grid=Array.from({length:n},()=>Array(n).fill("#fff"));render();
-  };
- }
+ ctx.fillStyle=color;
+ roundRect(ctx,25,530,370,58,12);
+ ctx.fillStyle="#ffffff";
+ ctx.textAlign="center";
+ ctx.font="bold 17px Arial";
+ ctx.fillText(buttonText.slice(0,30),210,565);
+
+ ctx.textAlign="center";
+ ctx.fillStyle="#758078";
+ ctx.font="13px Arial";
+ ctx.fillText("HOME        EXPLORE        PROFILE",210,660);
 }
-startMini();
+
+function roundRect(ctx,x,y,w,h,r){
+ ctx.beginPath();
+ ctx.roundRect(x,y,w,h,r);
+ ctx.fill();
+}
+
+drawUI();
+
+/* STUDIO 04: POSTER DESIGN */
+
+const posterCanvas=document.getElementById("posterCanvas");
+const posterCtx=posterCanvas.getContext("2d");
+let posterImage=null;
+
+function drawPoster(){
+ const ctx=posterCtx;
+ const bg=document.getElementById("posterBg").value;
+ const textColor=document.getElementById("posterText").value;
+ const font=document.getElementById("posterFont").value;
+
+ ctx.clearRect(0,0,600,750);
+ ctx.fillStyle=bg;
+ ctx.fillRect(0,0,600,750);
+
+ ctx.strokeStyle=textColor;
+ ctx.lineWidth=3;
+ ctx.strokeRect(25,25,550,700);
+
+ ctx.globalAlpha=.15;
+ ctx.beginPath();
+ ctx.arc(480,150,110,0,Math.PI*2);
+ ctx.fillStyle=textColor;
+ ctx.fill();
+ ctx.globalAlpha=1;
+
+ ctx.textAlign="center";
+ ctx.fillStyle=textColor;
+ ctx.font=`bold 43px "${font}"`;
+ ctx.fillText(fitText(ctx,document.getElementById("posterTitle").value,510),300,115);
+
+ ctx.font=`18px "${font}"`;
+ ctx.fillText(fitText(ctx,document.getElementById("posterSubtitle").value,500),300,160);
+
+ if(posterImage){
+  const maxW=450,maxH=390;
+  const ratio=Math.min(maxW/posterImage.width,maxH/posterImage.height);
+  const w=posterImage.width*ratio;
+  const h=posterImage.height*ratio;
+  ctx.drawImage(posterImage,(600-w)/2,210+(390-h)/2,w,h);
+ }else{
+  ctx.font="bold 100px Arial";
+  ctx.fillText("✦",300,390);
+  ctx.font="20px Arial";
+  ctx.fillText("YOUR CREATIVE SPACE",300,450);
+ }
+
+ ctx.font=`bold 20px "${font}"`;
+ ctx.fillText(fitText(ctx,document.getElementById("posterFooter").value,500),300,650);
+ ctx.font="13px Arial";
+ ctx.fillText("SPARKBYTE CREATIVE STUDIO",300,685);
+}
+
+function fitText(ctx,text,maxWidth){
+ let value=text||" ";
+ while(ctx.measureText(value).width>maxWidth && value.length>3){
+  value=value.slice(0,-1);
+ }
+ return value;
+}
+
+document.getElementById("posterImageInput").addEventListener("change",e=>{
+ const file=e.target.files[0];
+ if(!file)return;
+ const reader=new FileReader();
+ reader.onload=event=>{
+  const img=new Image();
+  img.onload=()=>{
+   posterImage=img;
+   drawPoster();
+  };
+  img.src=event.target.result;
+ };
+ reader.readAsDataURL(file);
+});
+
+drawPoster();
+
+/* STUDIO 05: DIGITAL ART EXPERIMENTS */
+
+const digitalCanvas=document.getElementById("digitalCanvas");
+const digitalCtx=digitalCanvas.getContext("2d");
+let digitalImage=null;
+
+function drawDigital(){
+ digitalCtx.fillStyle="#f4f5f1";
+ digitalCtx.fillRect(0,0,digitalCanvas.width,digitalCanvas.height);
+
+ if(!digitalImage){
+  digitalCtx.fillStyle="#52675a";
+  digitalCtx.textAlign="center";
+  digitalCtx.font="24px Arial";
+  digitalCtx.fillText("Upload an image to begin",400,240);
+  return;
+ }
+
+ const maxW=800,maxH=500;
+ const ratio=Math.min(maxW/digitalImage.width,maxH/digitalImage.height);
+ const w=digitalImage.width*ratio;
+ const h=digitalImage.height*ratio;
+
+ digitalCtx.save();
+ digitalCtx.filter=getDigitalFilter();
+ digitalCtx.drawImage(digitalImage,(800-w)/2,(500-h)/2,w,h);
+ digitalCtx.restore();
+}
+
+function getDigitalFilter(){
+ const effect=document.getElementById("filterType").value;
+ const brightness=document.getElementById("brightness").value;
+ const contrast=document.getElementById("contrast").value;
+ const first=effect==="none"?"":effect+" ";
+ return `${first}brightness(${brightness}%) contrast(${contrast}%)`;
+}
+
+function applyDigitalEffect(){
+ drawDigital();
+}
+
+function resetDigital(){
+ document.getElementById("filterType").value="none";
+ document.getElementById("brightness").value=100;
+ document.getElementById("contrast").value=100;
+ drawDigital();
+}
+
+document.getElementById("digitalImageInput").addEventListener("change",e=>{
+ const file=e.target.files[0];
+ if(!file)return;
+ const reader=new FileReader();
+ reader.onload=event=>{
+  const img=new Image();
+  img.onload=()=>{
+   digitalImage=img;
+   drawDigital();
+  };
+  img.src=event.target.result;
+ };
+ reader.readAsDataURL(file);
+});
+
+drawDigital();
+
+/* INITIALIZE PUZZLE */
+
+newPuzzle();
+
 </script>
 </body>
 </html>
